@@ -11,7 +11,7 @@ for the couple to track RSVPs and payments.
 |---|---|---|
 | Framework | Astro 7, `output: 'server'` | Public pages prerender (`export const prerender = true`); RSVP + admin are on-demand |
 | UI islands | React 19 | RSVP form, admin dashboard |
-| Styling | Tailwind 4 | Sectional colour tokens in `src/styles/global.css` (`surface` / `ink` / `rule` / `accent`, resolved per `data-mode`); every section is wrapped in `src/components/site/Section.astro` with a `mode` of linen · burlap · olive · espresso |
+| Styling | Tailwind 4 | Sectional colour tokens as CSS custom properties in `src/styles/global.css` (`surface` / `ink` / `rule` / `accent`, resolved per `data-mode`), mapped to utilities in `tailwind.config.mjs`; every section is wrapped in `src/components/site/Section.astro` with a `mode` of linen · burlap · cinnamon · olive. Espresso is ink, rule and accent only — never a surface |
 | Database | Supabase (`joanique-pieter-2026`, `sduefddcfsurhoyxmfrq`, eu-west-1) | Postgres 17 |
 | Hosting | Vercel (`@astrojs/vercel`) | |
 | Validation | zod 4 | Shared schema in `src/lib/rsvp-schema.ts` |
@@ -44,7 +44,7 @@ Built from the Claude Design project "Pieter & Joanique Final" (5b481801). All p
 | `/rsvp` | Live RSVP form — attending or declining |
 | `POST /api/rsvp` | RSVP submission (server recomputes the accommodation total) |
 
-Design details carried across: the locked five-colour palette (as raw `espresso`/`cinnamon`/`olive`/`burlap`/`linen` utilities, used only inside the token layer), Cormorant Garamond + Jost,
+Design details carried across: the locked five-colour palette (literals live only in the token layer; there are no raw palette utilities), Cormorant Garamond + Jost,
 `cqw` spacing off `.site`, scroll-reveal at 92% of the viewport, and the overlay/bar nav variants.
 The design’s "Design preview only" badge is dropped — this form is live.
 

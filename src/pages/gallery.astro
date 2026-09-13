@@ -70,7 +70,7 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
 <Base title="Gallery — Pieter & Joanique">
   <Nav />
 
-  <!-- HEADING · burlap -->
+  <!-- HEADING · burlap (no image; alternates) -->
   <Section mode="burlap" class="px-[6cqw] py-[6cqw]">
     <div class="mx-auto max-w-[680px]">
       <h1 class="font-display font-medium text-ink text-[clamp(2.2rem,8cqw,3rem)]">Gallery</h1>
@@ -78,8 +78,8 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
     </div>
   </Section>
 
-  <!-- GRID · espresso (engagement imagery); the section surface shows through the 2px gutters -->
-  <Section mode="espresso" class="flex flex-col gap-[2px] py-[5cqw]">
+  <!-- GRID · olive (emerald and charcoal walls dominate the ten frames); the surface shows through the 2px gutters -->
+  <Section mode="olive" class="flex flex-col gap-[2px] py-[5cqw]">
     {
       blocks.map((b) =>
         b.kind === 'band' ? (
@@ -119,17 +119,17 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
     }
   </Section>
 
-  <!-- CREDIT · linen -->
+  <!-- CREDIT · linen (no image; alternates) -->
   <Section mode="linen" class="px-[6cqw] py-[5cqw] text-center">
     <p class="font-body text-[0.8rem] tracking-[0.04em] text-ink">Photography by Bitiah</p>
   </Section>
 
   <Footer />
 
-  <!-- LIGHTBOX · espresso (out of flow) -->
+  <!-- LIGHTBOX · olive (out of flow; the darkest surface) -->
   <Section
     as="div"
-    mode="espresso"
+    mode="olive"
     id="lightbox"
     hidden
     class="fixed inset-0 z-[999] flex items-center justify-center"

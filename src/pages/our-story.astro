@@ -13,37 +13,38 @@ import photo11 from '../assets/photos/photo-11.jpg';
 
 export const prerender = true;
 
-// Every chapter carries engagement imagery, so each is olive or espresso and
-// they alternate. The quote band sits between 02 and 03 and alternates too.
+// Each chapter's mode follows the wall tone of its photograph: white → linen,
+// cream → burlap, emerald / charcoal → olive. Chapter 03 (charcoal) would be
+// olive, but it follows the olive quote band, so it takes burlap instead.
 // `body` is the chapter prose beneath the oversized line. It is optional so a
 // chapter renders cleanly while its copy is still with the couple.
 const chapters: { label: string; oversized: string; body?: string; src: ImageMetadata; mode: Mode; bandAfter: boolean }[] = [
   {
     label: '01 · 25 June 2024',
     oversized: 'There was really no need to slap him with her sleeve. All she had to do was say hi.',
-    src: photo8,
-    mode: 'olive',
+    src: photo8, // cream walls
+    mode: 'burlap',
     bandAfter: false,
   },
   {
     label: '02 · The Coffees',
     oversized: 'Officially, it was just coffee.',
-    src: photo9,
-    mode: 'espresso',
+    src: photo9, // white walls
+    mode: 'linen',
     bandAfter: true,
   },
   {
     label: '03 · The Proposal',
     oversized: 'There was one small problem. Joanique does not like cheese.',
-    src: photo11,
-    mode: 'espresso',
+    src: photo11, // charcoal wall — olive by tone, burlap by adjacency
+    mode: 'burlap',
     bandAfter: false,
   },
   {
     label: '04 · Since Then',
     oversized: 'She outdrove him. He has never been allowed to forget it.',
-    src: photo7,
-    mode: 'olive',
+    src: photo7, // white walls
+    mode: 'linen',
     bandAfter: false,
   },
 ];
@@ -72,6 +73,7 @@ const bandScrim =
           </div>
         </Section>
 
+        {/* QUOTE BAND · olive (photo-10: emerald wall) */}
         {c.bandAfter && (
           <Section mode="olive" data-reveal="lift" class="relative h-[clamp(380px,60cqw,600px)] w-full overflow-hidden">
             <Image src={photo10} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" />
@@ -87,7 +89,8 @@ const bandScrim =
     ))
   }
 
-  <Section mode="linen" data-reveal="lift" class="px-[6cqw] pb-[16cqw] pt-[14cqw] text-center">
+  <!-- CLOSING · burlap (no image; alternates) -->
+  <Section mode="burlap" data-reveal="lift" class="px-[6cqw] pb-[16cqw] pt-[14cqw] text-center">
     <p class="font-display italic text-ink text-[clamp(1.8rem,5cqw,2.6rem)]">Slegs goeie besluite</p>
   </Section>
 

@@ -31,8 +31,8 @@ const navScrim =
 ---
 
 <Base title="Pieter & Joanique — 14 November 2026">
-  <!-- HERO · olive (engagement imagery) -->
-  <Section mode="olive" class="relative m-0 h-[78vh] min-h-[520px] w-full overflow-hidden">
+  <!-- HERO · olive (photo-6) — one of only two olive blocks on the page; the other is the footer -->
+  <Section mode="olive" class="relative m-0 h-[84vh] min-h-[600px] w-full overflow-hidden">
     <Image
       src={hero}
       alt="Pieter and Joanique"
@@ -50,14 +50,21 @@ const navScrim =
         PIETER &amp; JOANIQUE
       </h1>
       <p class="mb-[0.35em] font-body tracking-[0.04em] text-ink text-[clamp(1rem,2.4cqw,1.25rem)]">Saturday, 14 November 2026</p>
-      <p class="whitespace-nowrap font-body tracking-[0.04em] text-ink text-[clamp(0.95rem,2.2cqw,1.15rem)]">
+      <p class="mb-[1.6em] whitespace-nowrap font-body tracking-[0.04em] text-ink text-[clamp(0.95rem,2.2cqw,1.15rem)]">
         Tshikwalo Game Lodge, Dinokeng Game Reserve
       </p>
+      <a
+        href="/rsvp"
+        class="pointer-events-auto mx-auto flex min-h-[64px] w-full max-w-[520px] flex-col items-center justify-center gap-[0.15em] bg-ink px-[1.5em] py-[1em] text-surface transition-opacity hover:opacity-85"
+      >
+        <span class="font-body font-medium uppercase tracking-[0.18em] text-[clamp(1rem,2.6cqw,1.25rem)]">RSVP</span>
+        <span class="font-body text-[0.78rem] tracking-[0.05em]">Kindly respond by 28 September 2026</span>
+      </a>
     </div>
   </Section>
 
-  <!-- WELCOME LETTER · linen -->
-  <Section mode="linen" data-reveal class="px-[6cqw] pb-[6cqw] pt-[9cqw] text-center">
+  <!-- WELCOME LETTER · burlap (no image; alternates) -->
+  <Section mode="burlap" data-reveal class="px-[6cqw] pb-[6cqw] pt-[9cqw] text-center">
     <div class="mx-auto max-w-[640px]">
       <p class="mb-[1.6em] font-display leading-[1.6] text-ink text-[clamp(1.25rem,3.4cqw,1.5rem)]">
         We are truly grateful to have you celebrate our special day with us. Each of you was intentionally invited, and we
@@ -67,8 +74,22 @@ const navScrim =
     </div>
   </Section>
 
-  <!-- GALLERY PREVIEW · espresso (engagement imagery) -->
-  <Section mode="espresso" data-reveal class="px-[6cqw] py-[9cqw]">
+  <!-- QUICK ORIENTATION STRIP · linen (no image; alternates) -->
+  <Section mode="linen" data-reveal>
+    <div class="mx-auto grid max-w-[960px] overflow-hidden" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+      {
+        orientation.map((o) => (
+          <div class="-ml-px -mt-px border-l border-t border-rule px-[5cqw] py-[4.5cqw] text-center">
+            <div class="eyebrow mb-[0.6em]">{o.label}</div>
+            <div class="font-display text-ink text-[clamp(1.1rem,3cqw,1.3rem)]">{o.detail}</div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- GALLERY PREVIEW · burlap (olive is reserved for the hero and footer on this page) -->
+  <Section mode="burlap" data-reveal class="px-[6cqw] py-[9cqw]">
     <div class="eyebrow mb-[5cqw] text-center">A Few Moments So Far</div>
     <div class="mx-auto flex max-w-[960px] flex-wrap items-start justify-center gap-y-[4cqw] gap-x-[3cqw]">
       {
@@ -83,27 +104,13 @@ const navScrim =
       }
     </div>
     <div class="mt-[5cqw] text-center">
-      <a href="/gallery" class="font-body font-medium text-[0.85rem] tracking-[0.08em] text-accent underline-offset-[0.25em] hover:underline"
+      <a href="/gallery" class="font-body font-medium text-[0.85rem] tracking-[0.08em] text-ink underline underline-offset-[0.25em] hover:opacity-75"
         >See the gallery →</a
       >
     </div>
   </Section>
 
-  <!-- QUICK ORIENTATION STRIP · burlap -->
-  <Section mode="burlap" data-reveal>
-    <div class="mx-auto grid max-w-[960px] overflow-hidden" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
-      {
-        orientation.map((o) => (
-          <div class="-ml-px -mt-px border-l border-t border-rule px-[5cqw] py-[4.5cqw] text-center">
-            <div class="eyebrow mb-[0.6em]">{o.label}</div>
-            <div class="font-display text-ink text-[clamp(1.1rem,3cqw,1.3rem)]">{o.detail}</div>
-          </div>
-        ))
-      }
-    </div>
-  </Section>
-
-  <!-- PRIMARY CTA · linen -->
+  <!-- PRIMARY CTA · linen (no image; alternates) -->
   <Section mode="linen" data-reveal class="px-[6cqw] pb-[10cqw] pt-[9cqw]">
     <div class="mx-auto max-w-[640px]">
       <a

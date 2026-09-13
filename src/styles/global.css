@@ -1,63 +1,59 @@
 @import "tailwindcss";
 
+@config "../../tailwind.config.mjs";
+
 /* ---------------------------------------------------------------------------
    TOKEN LAYER — the only place a colour literal may appear.
 
-   Raw palette (the five locked colours) is registered so a literal can be
-   reached in the rare case one is needed: bg-linen, text-espresso, …
-   Semantic tokens (surface / ink / rule / accent) are what every section and
-   component uses. They resolve per mode through the [data-mode] cascade below,
-   so the same utility — bg-surface, text-ink, border-rule, text-accent — paints
-   correctly inside any section.
+   Four sectional modes, each resolving surface / ink / rule / accent. The
+   Tailwind utilities (bg-surface, text-ink, border-rule, text-accent — see
+   tailwind.config.mjs) read these variables, so the same class paints
+   correctly inside any section. Section.astro sets data-mode.
 
-   @theme static: emit every variable even if no utility references it, so the
-   mode blocks can safely point at the raw palette variables.
+   Espresso #302E2C is ink, rule and accent material only — never a surface.
+   The darkest surface on the site is olive.
+
+   Accent and text: on linen, accent (cinnamon) is 5.25:1 and may carry any
+   text. On burlap and olive the accent is 3.63:1 — large text (≥ 24px, or
+   ≥ 18.66px medium) and hairlines only; small text there uses ink. On
+   cinnamon the accent is 2.70:1 — hairlines only. Ink passes 4.5:1 in every
+   mode (linen 15.9, burlap 6.50, cinnamon 5.25, olive 7.05).
    --------------------------------------------------------------------------- */
-@theme static {
-  --color-espresso: #302E2C;
-  --color-cinnamon: #875F45;
-  --color-olive:    #5B5546;
-  --color-burlap:   #BCB3A6;
-  --color-linen:    #F8F7F3;
-
-  /* :root defaults = linen mode */
-  --color-surface: var(--color-linen);
-  --color-ink:     var(--color-espresso);
-  --color-rule:    var(--color-burlap);
-  --color-accent:  var(--color-cinnamon);
-
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Jost', system-ui, sans-serif;
+:root {
+  /* linen — the default */
+  --color-surface: #F8F7F3;
+  --color-ink:     #302E2C;
+  --color-rule:    #BCB3A6;
+  --color-accent:  #875F45;
 }
-
-/* Sectional modes. Accent deviates from the brief in three modes because the
-   specified value fails WCAG 4.5:1 for the small text accent carries
-   (kickers, links, times): burlap→olive 3.58, olive→burlap 3.58,
-   espresso→cinnamon 2.42. Each is swapped for the nearest locked colour that
-   passes; see the Feature 1 report. Ink passes as specified in every mode. */
 [data-mode="linen"] {
-  --color-surface: var(--color-linen);
-  --color-ink:     var(--color-espresso);
-  --color-rule:    var(--color-burlap);
-  --color-accent:  var(--color-cinnamon);
+  --color-surface: #F8F7F3;
+  --color-ink:     #302E2C;
+  --color-rule:    #BCB3A6;
+  --color-accent:  #875F45;
 }
 [data-mode="burlap"] {
-  --color-surface: var(--color-burlap);
-  --color-ink:     var(--color-espresso);
-  --color-rule:    color-mix(in srgb, var(--color-espresso) 20%, transparent);
-  --color-accent:  var(--color-espresso); /* spec: olive — 3.58:1, fails */
+  --color-surface: #BCB3A6;
+  --color-ink:     #302E2C;
+  --color-rule:    rgba(48, 46, 44, 0.20);
+  --color-accent:  #5B5546;
+}
+[data-mode="cinnamon"] {
+  --color-surface: #875F45;
+  --color-ink:     #F8F7F3; /* linen ink — espresso on cinnamon is 2.3:1 */
+  --color-rule:    rgba(248, 247, 243, 0.30);
+  --color-accent:  #BCB3A6;
 }
 [data-mode="olive"] {
-  --color-surface: var(--color-olive);
-  --color-ink:     var(--color-linen);
-  --color-rule:    color-mix(in srgb, var(--color-linen) 25%, transparent);
-  --color-accent:  var(--color-linen); /* spec: burlap — 3.58:1, fails */
+  --color-surface: #5B5546;
+  --color-ink:     #F8F7F3;
+  --color-rule:    rgba(248, 247, 243, 0.25);
+  --color-accent:  #BCB3A6;
 }
-[data-mode="espresso"] {
-  --color-surface: var(--color-espresso);
-  --color-ink:     var(--color-linen);
-  --color-rule:    var(--color-cinnamon);
-  --color-accent:  var(--color-burlap); /* spec: cinnamon — 2.42:1, fails */
+
+@theme static {
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Jost', system-ui, sans-serif;
 }
 
 @layer base {
@@ -67,7 +63,7 @@
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--color-accent); text-decoration: none; }
+  a { color: inherit; text-decoration: none; }
   input, textarea, button { font-family: var(--font-body); }
   input:focus, textarea:focus { outline: none; border-color: var(--color-accent); }
 }
@@ -81,8 +77,10 @@
   font-size: 0.78rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-ink);
 }
+/* On linen the accent clears 4.5:1 at kicker size; nowhere else does. */
+[data-mode="linen"] .eyebrow { color: var(--color-accent); }
 
 @utility nav-link {
   font-family: var(--font-body);

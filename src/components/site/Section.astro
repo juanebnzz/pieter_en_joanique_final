@@ -11,7 +11,8 @@
  */
 import type { HTMLTag, Polymorphic } from 'astro/types';
 
-export type Mode = 'linen' | 'burlap' | 'olive' | 'espresso';
+// Espresso is never a surface; olive is the darkest mode.
+export type Mode = 'linen' | 'burlap' | 'cinnamon' | 'olive';
 
 type Props<Tag extends HTMLTag = 'section'> = Polymorphic<{ as: Tag }> & {
   mode: Mode;

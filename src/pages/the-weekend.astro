@@ -13,15 +13,17 @@ import { BANK_DETAILS, GIFT_DETAILS, PAYMENT_DEADLINE } from '../lib/pricing';
 export const prerender = true;
 
 type Row = { time: string; event: string; ceremony?: boolean };
-// Bands carry engagement imagery (olive / espresso, alternating); each timeline
-// beneath is linen, so no two neighbours share a mode.
+// Every day band photograph has white gallery walls, so bands are linen; the
+// timeline beneath each alternates (burlap / olive / burlap) so no two
+// neighbours share a mode and linen stays under 40% of the page.
 const scrim = (pct: number, height: string) =>
   `height:${height};background:linear-gradient(to top, color-mix(in srgb, var(--color-surface) ${pct}%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);`;
-const days: { title: string; photo: ImageMetadata; mode: Mode; gradient: string; rows: Row[]; note: string | null }[] = [
+const days: { title: string; photo: ImageMetadata; mode: Mode; timelineMode: Mode; gradient: string; rows: Row[]; note: string | null }[] = [
   {
     title: 'Friday · 13 November',
-    photo: fridayPhoto,
-    mode: 'olive',
+    photo: fridayPhoto, // photo-9: white walls
+    mode: 'linen',
+    timelineMode: 'burlap',
     gradient: scrim(90, '65%'),
     rows: [
       { time: '14:00', event: 'Guests arrive' },
@@ -31,8 +33,9 @@ const days: { title: string; photo: ImageMetadata; mode: Mode; gradient: string;
   },
   {
     title: 'Saturday · 14 November',
-    photo: saturdayPhoto,
-    mode: 'espresso',
+    photo: saturdayPhoto, // photo-6: white walls
+    mode: 'linen',
+    timelineMode: 'olive',
     gradient: scrim(95, '70%'),
     rows: [
       { time: '08:00', event: 'Breakfast at the lodge restaurant, for Friday guests' },
@@ -46,8 +49,9 @@ const days: { title: string; photo: ImageMetadata; mode: Mode; gradient: string;
   },
   {
     title: 'Sunday · 15 November',
-    photo: sundayPhoto,
-    mode: 'olive',
+    photo: sundayPhoto, // photo-7: white walls
+    mode: 'linen',
+    timelineMode: 'burlap',
     gradient: scrim(85, '60%'),
     rows: [
       { time: '08:00', event: 'Breakfast for all guests' },
@@ -107,7 +111,7 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
   {
     days.map((d) => (
       <>
-        {/* DAY BAND · olive / espresso (engagement imagery) */}
+        {/* DAY BAND · linen (white walls) */}
         <Section mode={d.mode} class="relative h-[40vh] max-h-[340px] min-h-[220px] w-full overflow-hidden">
           <Image src={d.photo} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" />
           <div class="pointer-events-none absolute bottom-0 left-0 right-0" style={d.gradient} />
@@ -116,12 +120,12 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
           </div>
         </Section>
 
-        {/* DAY TIMELINE · linen */}
-        <Section mode="linen" class="px-[6cqw] pb-[8cqw] pt-[3cqw]">
+        {/* DAY TIMELINE · burlap / olive / burlap (no image; alternates) */}
+        <Section mode={d.timelineMode} class="px-[6cqw] pb-[8cqw] pt-[3cqw]">
           <div class={inner}>
             {d.rows.map((r) => (
               <div class="flex flex-wrap gap-y-[0.3em] gap-x-[1.2em] border-t border-rule py-[0.9em]">
-                <div class="min-w-[9.5em] flex-none whitespace-nowrap font-body font-medium text-[0.9rem] text-accent">{r.time}</div>
+                <div class="min-w-[9.5em] flex-none whitespace-nowrap font-body font-medium text-[0.9rem] text-ink">{r.time}</div>
                 <div class="flex-[1_1_200px] font-display text-ink text-[clamp(1.15rem,2.6cqw,1.35rem)]">
                   {r.event}
                   {r.ceremony && (
@@ -131,7 +135,7 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
                       <a
                         href="/pieter-joanique-ceremony.ics"
                         download="Pieter-Joanique-Ceremony.ics"
-                        class="font-body font-medium text-[0.85rem] tracking-[0.02em] text-accent underline-offset-[0.15em] hover:underline"
+                        class="font-body font-medium text-[0.85rem] tracking-[0.02em] text-ink underline underline-offset-[0.15em] hover:opacity-75"
                       >
                         Add to calendar →
                       </a>
@@ -147,15 +151,15 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     ))
   }
 
-  <!-- THROUGHOUT · burlap -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- THROUGHOUT · olive (no image; alternates) -->
+  <Section mode="olive" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">Throughout The Weekend</div>
       {throughout.map((t) => <div class:list={['border-t border-rule py-[0.9em]', bodyText]}>{t}</div>)}
     </div>
   </Section>
 
-  <!-- STAYING · linen -->
+  <!-- STAYING · linen (no image; alternates) -->
   <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">Staying With Us</div>
@@ -177,7 +181,7 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- COSTS · burlap -->
+  <!-- COSTS · burlap (no image; alternates) -->
   <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">What It Costs</div>
@@ -211,8 +215,8 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- GIFTS · linen — kept apart from the accommodation payment block -->
-  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- GIFTS · olive (no image; alternates) — kept apart from the accommodation payment block -->
+  <Section mode="olive" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">A Gift</div>
       <p class:list={['mb-[1.4em]', bodyText]}>
@@ -232,7 +236,7 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- GOOD TO KNOW · burlap -->
+  <!-- GOOD TO KNOW · burlap (no image; alternates) -->
   <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">Good To Know</div>
@@ -240,7 +244,7 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- WHAT TO WEAR · linen -->
+  <!-- WHAT TO WEAR · linen (no image; alternates) -->
   <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">What To Wear</div>
@@ -251,7 +255,7 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- FINDING US · burlap -->
+  <!-- FINDING US · burlap (no image; alternates) -->
   <Section mode="burlap" data-reveal class="px-[6cqw] pb-[12cqw] pt-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.2em]">Finding Us</div>
@@ -259,7 +263,7 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
         href="https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99"
         target="_blank"
         rel="noopener"
-        class="font-display italic text-accent underline-offset-[0.2em] hover:underline text-[clamp(1.2rem,2.8cqw,1.4rem)]"
+        class="font-display italic text-ink underline underline-offset-[0.2em] hover:opacity-75 text-[clamp(1.2rem,2.8cqw,1.4rem)]"
         >Tshikwalo Game Lodge, Dinokeng Game Reserve →</a
       >
     </div>

@@ -54,6 +54,24 @@
 @theme static {
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Jost', system-ui, sans-serif;
+
+  /* Type scale — a 1.25 (major third) modular scale from 1rem, fluid at the
+     top end so display sizes track the viewport between 390 and 1440px.
+     Use these instead of arbitrary text-[…] sizes. */
+  --text-kicker: 0.8rem;
+  --text-kicker--line-height: 1.4;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+  --text-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.5625rem);
+  --text-lead--line-height: 1.55;
+  --text-title: clamp(1.5625rem, 1.3rem + 1vw, 1.953rem);
+  --text-title--line-height: 1.25;
+  --text-quote: clamp(1.953rem, 1.5rem + 1.6vw, 2.441rem);
+  --text-quote--line-height: 1.2;
+  --text-display: clamp(2.441rem, 1.8rem + 3vw, 3.815rem);
+  --text-display--line-height: 1.05;
 }
 
 @layer base {

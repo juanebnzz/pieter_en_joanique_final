@@ -2,123 +2,134 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Section from '../components/site/Section.astro';
+import Grid from '../components/site/Grid.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 import hero from '../assets/photos/photo-6.jpg';
-import preview1 from '../assets/photos/photo-10.jpg';
-import preview2 from '../assets/photos/photo-12.jpg';
-import preview3 from '../assets/photos/photo-11.jpg';
+import storyPhoto from '../assets/photos/gallery/g-15.jpg';
+import moment1 from '../assets/photos/gallery/g-30.jpg';
+import moment2 from '../assets/photos/gallery/g-19.jpg';
+import moment3 from '../assets/photos/gallery/g-46.jpg';
+import { RSVP_DEADLINE } from '../lib/pricing';
 
 export const prerender = true;
 
-const previews = [
-  { src: preview1, ratio: '3/4', offset: '0', alt: 'Pieter and Joanique' },
-  { src: preview2, ratio: '4/3', offset: '4cqw', alt: 'Pieter and Joanique' },
-  { src: preview3, ratio: '3/4', offset: '2cqw', alt: 'Pieter and Joanique' },
-];
-
+// One ground (linen), hairline rules between sections, and a mode change used
+// as an event: burlap once for the Our Story teaser, olive only for the footer.
 const orientation = [
   { label: 'The Weekend', detail: 'Friday 13 to Sunday 15 November 2026' },
-  { label: 'The Place', detail: 'Tshikwalo Game Lodge' },
+  { label: 'The Place', detail: 'Tshikwalo Game Lodge, Dinokeng Game Reserve' },
   { label: 'RSVP by', detail: '28 September 2026' },
 ];
 
-// Overlays resolve toward the section's own surface colour.
-const heroScrim =
-  'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 0%, transparent) 35%, color-mix(in srgb, var(--color-surface) 55%, transparent) 70%, color-mix(in srgb, var(--color-surface) 85%, transparent) 100%);';
-const navScrim =
-  'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 45%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);';
+const moments = [
+  { src: moment1, alt: 'Pieter and Joanique holding hands in a doorway, framed by white walls with a parquet floor beneath them.' },
+  { src: moment2, alt: 'Black and white photograph of Pieter and Joanique in a close embrace, foreheads almost touching, beside framed prints.' },
+  { src: moment3, alt: 'Pieter dipping Joanique in a dance in front of a teal gallery wall, her heel kicked up behind her.' },
+];
 ---
 
 <Base title="Pieter & Joanique — 14 November 2026">
-  <!-- HERO · olive (photo-6) — one of only two olive blocks on the page; the other is the footer -->
-  <Section mode="olive" class="relative m-0 h-[84vh] min-h-[600px] w-full overflow-hidden">
-    <Image
-      src={hero}
-      alt="Pieter and Joanique"
-      widths={[640, 1024, 1600, 2400]}
-      sizes="100vw"
-      loading="eager"
-      fetchpriority="high"
-      class="absolute inset-0 block h-full w-full object-cover"
-    />
-    <div class="pointer-events-none absolute inset-0" style={heroScrim}></div>
-    <div class="pointer-events-none absolute left-0 right-0 top-0 h-[26cqw] min-h-[120px]" style={navScrim}></div>
-    <Nav variant="overlay" />
-    <div class="pointer-events-none absolute bottom-0 left-0 right-0 px-[6cqw] pb-[6cqw] pt-[8cqw] text-center">
-      <h1 class="mb-[0.5em] font-display font-medium leading-[1.05] tracking-[0.02em] text-ink text-[clamp(2.2rem,9cqw,5rem)]">
-        PIETER &amp; JOANIQUE
-      </h1>
-      <p class="mb-[0.35em] font-body tracking-[0.04em] text-ink text-[clamp(1rem,2.4cqw,1.25rem)]">Saturday, 14 November 2026</p>
-      <p class="mb-[1.6em] whitespace-nowrap font-body tracking-[0.04em] text-ink text-[clamp(0.95rem,2.2cqw,1.15rem)]">
-        Tshikwalo Game Lodge, Dinokeng Game Reserve
-      </p>
-      <a
-        href="/rsvp"
-        class="pointer-events-auto mx-auto flex min-h-[64px] w-full max-w-[520px] flex-col items-center justify-center gap-[0.15em] bg-ink px-[1.5em] py-[1em] text-surface transition-opacity hover:opacity-85"
-      >
-        <span class="font-body font-medium uppercase tracking-[0.18em] text-[clamp(1rem,2.6cqw,1.25rem)]">RSVP</span>
-        <span class="font-body text-[0.78rem] tracking-[0.05em]">Kindly respond by 28 September 2026</span>
-      </a>
-    </div>
-  </Section>
+  <Nav />
 
-  <!-- WELCOME LETTER · burlap (no image; alternates) -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] pb-[6cqw] pt-[9cqw] text-center">
-    <div class="mx-auto max-w-[640px]">
-      <p class="mb-[1.6em] font-display leading-[1.6] text-ink text-[clamp(1.25rem,3.4cqw,1.5rem)]">
-        We are truly grateful to have you celebrate our special day with us. Each of you was intentionally invited, and we
-        look forward to seeing you all. We cannot wait to build lasting memories and have you be part of them.
-      </p>
-      <p class="font-display italic text-ink text-[clamp(1.15rem,3cqw,1.3rem)]">With love, Pieter &amp; Joanique</p>
-    </div>
-  </Section>
-
-  <!-- QUICK ORIENTATION STRIP · linen (no image; alternates) -->
-  <Section mode="linen" data-reveal>
-    <div class="mx-auto grid max-w-[960px] overflow-hidden" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
-      {
-        orientation.map((o) => (
-          <div class="-ml-px -mt-px border-l border-t border-rule px-[5cqw] py-[4.5cqw] text-center">
-            <div class="eyebrow mb-[0.6em]">{o.label}</div>
-            <div class="font-display text-ink text-[clamp(1.1rem,3cqw,1.3rem)]">{o.detail}</div>
-          </div>
-        ))
-      }
-    </div>
-  </Section>
-
-  <!-- GALLERY PREVIEW · burlap (olive is reserved for the hero and footer on this page) -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[9cqw]">
-    <div class="eyebrow mb-[5cqw] text-center">A Few Moments So Far</div>
-    <div class="mx-auto flex max-w-[960px] flex-wrap items-start justify-center gap-y-[4cqw] gap-x-[3cqw]">
-      {
-        previews.map((p) => (
-          <div
-            class="min-w-[200px] max-w-[320px] flex-[1_1_220px] overflow-hidden"
-            style={`margin-top:${p.offset};aspect-ratio:${p.ratio};`}
+  <!-- HERO · linen. Asymmetric split: photo columns 1–7, masthead 8–12; stacked below lg. -->
+  <Section mode="linen" class="pt-5 md:pt-10 lg:pt-0">
+    <Grid class="lg:min-h-[640px] lg:h-[calc(100svh-5.5rem)] lg:max-h-[880px]">
+      <div class="relative aspect-[4/5] overflow-hidden lg:col-span-7 lg:aspect-auto lg:h-full">
+        <Image
+          src={hero}
+          alt="Pieter and Joanique, nose to nose, seated on a bench in a white gallery."
+          widths={[640, 1024, 1600, 2400]}
+          sizes="(min-width: 1024px) 58vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          class="absolute inset-0 h-full w-full object-cover"
+          style="object-position: 50% 42%;"
+        />
+      </div>
+      <div class="flex flex-col justify-center py-10 md:py-14 lg:col-span-5 lg:py-16 lg:pl-8 xl:pl-16">
+        <div class="eyebrow mb-6">Saturday · 14 November 2026</div>
+        <h1 class="mb-5 font-display font-medium text-display text-ink">
+          Pieter <span class="italic font-normal">&amp;</span> Joanique
+        </h1>
+        <p class="mb-10 max-w-[26ch] font-display text-lead text-ink">Tshikwalo Game Lodge, Dinokeng Game Reserve</p>
+        <div class="border-t border-rule pt-8">
+          <a
+            href="/rsvp"
+            class="flex min-h-[64px] w-full max-w-[420px] items-center justify-center bg-ink px-8 font-body font-medium uppercase tracking-[0.18em] text-body text-surface transition-colors hover:bg-accent"
+            >RSVP</a
           >
-            <Image src={p.src} alt={p.alt} widths={[400, 640, 960]} sizes="(min-width: 700px) 320px, 90vw" class="h-full w-full object-cover" />
+          <p class="mt-4 font-body text-small text-ink">Kindly respond by {RSVP_DEADLINE}.</p>
+        </div>
+      </div>
+    </Grid>
+  </Section>
+
+  <!-- A NOTE FROM US · linen, contained editorial: kicker in column 2, body columns 3–9 -->
+  <Section mode="linen" data-reveal class="py-16 md:py-20 lg:py-24">
+    <Grid class="border-t border-rule pt-10 lg:pt-14">
+      <div class="eyebrow mb-6 lg:col-start-2 lg:col-span-1 lg:mb-0">A Note<br class="hidden lg:inline" /> From Us</div>
+      <div class="lg:col-start-3 lg:col-span-7">
+        <p class="mb-8 max-w-[64ch] font-display text-lead text-ink">
+          We are truly grateful to have you celebrate our special day with us. Each of you was intentionally invited, and we
+          look forward to seeing you all. We cannot wait to build lasting memories and have you be part of them.
+        </p>
+        <p class="font-display italic text-title text-ink">With love, Pieter &amp; Joanique</p>
+      </div>
+    </Grid>
+  </Section>
+
+  <!-- ORIENTATION · linen, three columns divided by hairlines -->
+  <Section mode="linen" data-reveal class="pb-16 md:pb-20 lg:pb-24">
+    <Grid class="border-t border-rule">
+      {
+        orientation.map((o, i) => (
+          <div class:list={['py-7 lg:col-span-4 lg:py-10 lg:pr-8', i > 0 && 'border-t border-rule lg:border-t-0 lg:border-l lg:pl-8']}>
+            <div class="eyebrow mb-3">{o.label}</div>
+            <p class="font-display text-title text-ink">{o.detail}</p>
           </div>
         ))
       }
-    </div>
-    <div class="mt-[5cqw] text-center">
-      <a href="/gallery" class="font-body font-medium text-[0.85rem] tracking-[0.08em] text-ink underline underline-offset-[0.25em] hover:opacity-75"
-        >See the gallery →</a
-      >
-    </div>
+    </Grid>
   </Section>
 
-  <!-- PRIMARY CTA · linen (no image; alternates) -->
-  <Section mode="linen" data-reveal class="px-[6cqw] pb-[10cqw] pt-[9cqw]">
-    <div class="mx-auto max-w-[640px]">
-      <a
-        href="/rsvp"
-        class="block min-h-[44px] w-full bg-ink px-[1em] py-[1.1em] text-center font-body font-medium uppercase tracking-[0.1em] text-surface transition-colors hover:bg-accent"
-        >RSVP</a
-      >
-    </div>
+  <!-- OUR STORY TEASER · burlap — the one warm interlude. Mirrors the hero: text 1–5, photo 7–12. -->
+  <Section mode="burlap" data-reveal class="py-16 md:py-20 lg:py-24">
+    <Grid class="gap-y-10">
+      <div class="order-2 lg:order-1 lg:col-span-5 lg:self-center lg:pt-24">
+        <div class="eyebrow mb-6">Our Story</div>
+        <p class="mb-8 max-w-[22ch] font-display italic font-medium text-quote text-ink">Officially, it was just coffee.</p>
+        <a href="/our-story" class="nav-link inline-flex text-ink underline underline-offset-[0.3em] hover:opacity-75">Read our story →</a>
+      </div>
+      <div class="relative order-1 aspect-[4/5] overflow-hidden lg:order-2 lg:col-start-7 lg:col-span-6">
+        <Image
+          src={storyPhoto}
+          alt="Pieter and Joanique smiling at the camera, her hand on his chest, in front of framed artworks on a green gallery wall."
+          widths={[640, 1024, 1600]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
+    </Grid>
+  </Section>
+
+  <!-- A FEW MOMENTS · linen, three equal portraits on one baseline -->
+  <Section mode="linen" data-reveal class="py-16 md:py-20 lg:py-24">
+    <Grid class="gap-y-6">
+      <div class="mb-2 flex items-baseline justify-between lg:col-span-12">
+        <div class="eyebrow">A Few Moments So Far</div>
+        <a href="/gallery" class="nav-link text-ink underline underline-offset-[0.3em] hover:opacity-75">See the gallery →</a>
+      </div>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:col-span-12 lg:gap-6">
+        {
+          moments.map((m) => (
+            <div class="relative aspect-[4/5] overflow-hidden">
+              <Image src={m.src} alt={m.alt} widths={[480, 800, 1200]} sizes="(min-width: 640px) 33vw, 100vw" class="absolute inset-0 h-full w-full object-cover" />
+            </div>
+          ))
+        }
+      </div>
+    </Grid>
   </Section>
 
   <Footer />

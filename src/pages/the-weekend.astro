@@ -13,9 +13,9 @@ import { BANK_DETAILS, GIFT_DETAILS, PAYMENT_DEADLINE } from '../lib/pricing';
 export const prerender = true;
 
 type Row = { time: string; event: string; ceremony?: boolean };
-// Every day band photograph has white gallery walls, so bands are linen; the
-// timeline beneath each alternates (burlap / olive / burlap) so no two
-// neighbours share a mode and linen stays under 40% of the page.
+// Every day band photograph has white gallery walls, so bands are linen, and
+// each timeline beneath sits on burlap. As on the home page, text blocks only
+// ever alternate burlap / linen; olive is reserved for photographs and the footer.
 const scrim = (pct: number, height: string) =>
   `height:${height};background:linear-gradient(to top, color-mix(in srgb, var(--color-surface) ${pct}%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);`;
 const days: { title: string; photo: ImageMetadata; mode: Mode; timelineMode: Mode; gradient: string; rows: Row[]; note: string | null }[] = [
@@ -35,7 +35,7 @@ const days: { title: string; photo: ImageMetadata; mode: Mode; timelineMode: Mod
     title: 'Saturday · 14 November',
     photo: saturdayPhoto, // photo-6: white walls
     mode: 'linen',
-    timelineMode: 'olive',
+    timelineMode: 'burlap',
     gradient: scrim(95, '70%'),
     rows: [
       { time: '08:00', event: 'Breakfast at the lodge restaurant, for Friday guests' },
@@ -78,8 +78,9 @@ const costs = [
   { title: 'Saturday only — R965 per person', detail: 'All wedding events, Saturday accommodation, Sunday breakfast.' },
   { title: 'Children', detail: 'Under 2 free. Ages 2 to 12, R270 per child per night.' },
   {
-    title: 'Conservation fee — R100 per guest',
-    detail: 'Dinokeng Game Reserve charges a conservation fee of R100 per guest entering the reserve. It is added to your accommodation total.',
+    title: 'Conservation fee — R100 per guest, paid at the gate',
+    detail:
+      'Dinokeng Game Reserve charges every guest a R100 conservation fee. You pay it at the reserve gate when you arrive. It is not part of your accommodation payment and does not go to Pieter and Joanique.',
   },
 ];
 
@@ -87,7 +88,7 @@ const goodToKnow = [
   'The venue is reached by a dirt road, suitable for all vehicles. Secure parking is provided.',
   'No outside food or drinks are permitted.',
   'A cash bar and the Tshikwalo "The Roots" restaurant are open all weekend.',
-  'Dinokeng Game Reserve charges a conservation fee of R100 per guest. It is included in your accommodation total.',
+  'Dinokeng Game Reserve charges a R100 conservation fee per guest, paid at the gate on arrival.',
 ];
 
 const inner = 'mx-auto max-w-[680px]';
@@ -102,7 +103,7 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     <div class={inner}>
       <div class="eyebrow mb-[1.2em]">The Invitation</div>
       <p class="font-display leading-[1.65] text-ink text-[clamp(1.2rem,2.8cqw,1.4rem)]">
-        Join us for an all-inclusive weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of
+        Join us for a weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of
         Pieter and Joanique's marriage.
       </p>
     </div>
@@ -151,16 +152,16 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     ))
   }
 
-  <!-- THROUGHOUT · olive (no image; alternates) -->
-  <Section mode="olive" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- THROUGHOUT · linen (no image; alternates) -->
+  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">Throughout The Weekend</div>
       {throughout.map((t) => <div class:list={['border-t border-rule py-[0.9em]', bodyText]}>{t}</div>)}
     </div>
   </Section>
 
-  <!-- STAYING · linen (no image; alternates) -->
-  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- STAYING · burlap (no image; alternates) -->
+  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">Staying With Us</div>
       <p class:list={['mb-[1.4em]', bodyText]}>
@@ -181,8 +182,8 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- COSTS · burlap (no image; alternates) -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- COSTS · linen (no image; alternates) -->
+  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">What It Costs</div>
       {
@@ -215,8 +216,8 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- GIFTS · olive (no image; alternates) — kept apart from the accommodation payment block -->
-  <Section mode="olive" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- GIFTS · burlap (no image; alternates) — kept apart from the accommodation payment block -->
+  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">A Gift</div>
       <p class:list={['mb-[1.4em]', bodyText]}>
@@ -236,16 +237,16 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- GOOD TO KNOW · burlap (no image; alternates) -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- GOOD TO KNOW · linen (no image; alternates) -->
+  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">Good To Know</div>
       {goodToKnow.map((t) => <div class:list={['border-t border-rule py-[0.9em]', bodyText]}>{t}</div>)}
     </div>
   </Section>
 
-  <!-- WHAT TO WEAR · linen (no image; alternates) -->
-  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- WHAT TO WEAR · burlap (no image; alternates) -->
+  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">What To Wear</div>
       <p class={bodyText}>
@@ -255,8 +256,8 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- FINDING US · burlap (no image; alternates) -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] pb-[12cqw] pt-[6cqw]">
+  <!-- FINDING US · linen (no image; alternates) -->
+  <Section mode="linen" data-reveal class="px-[6cqw] pb-[12cqw] pt-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.2em]">Finding Us</div>
       <a

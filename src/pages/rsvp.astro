@@ -14,13 +14,13 @@ export const prerender = true;
 <Base title="RSVP — Pieter & Joanique">
   <Nav />
 
-  <!-- BANNER · burlap (photo-12: white wall → linen by tone, but the nav above is linen) -->
-  <Section mode="burlap" class="max-h-[340px] w-full overflow-hidden" style="aspect-ratio:16/9;">
+  <!-- BANNER · olive (photograph; the surface never shows) -->
+  <Section mode="olive" class="max-h-[340px] w-full overflow-hidden" style="aspect-ratio:16/9;">
     <Image src={banner} alt="" widths={[640, 1024, 1600]} sizes="100vw" loading="eager" class="block h-full w-full object-cover" />
   </Section>
 
-  <!-- HEADING · cinnamon — the one cinnamon block on the site -->
-  <Section mode="cinnamon" class="px-[6cqw] py-[2.4em] text-center">
+  <!-- HEADING · burlap (no image; alternates) -->
+  <Section mode="burlap" class="px-[6cqw] py-[2.4em] text-center">
     <div class="mx-auto max-w-[600px]">
       <h1 class="mb-[0.5em] font-display font-medium text-ink text-[clamp(2.4rem,9cqw,3.2rem)]">RSVP</h1>
       <p class="font-body text-[0.95rem] text-ink">Kindly respond by {RSVP_DEADLINE}</p>
@@ -32,9 +32,10 @@ export const prerender = true;
     <div class="mx-auto max-w-[600px]">
       <noscript>
         <p class="mb-[2em] font-display leading-[1.6] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">
-          The RSVP form needs JavaScript to run. Please enable it, or send your response to Pieter on{' '}
-          <a href="tel:+27837980144" class="text-accent underline underline-offset-[0.2em]">083 798 0144</a>. Prices and banking
-          details are on <a href="/the-weekend#payment" class="text-accent underline underline-offset-[0.2em]">The Weekend</a>.
+          Having trouble with the form? Send your response to Pieter on{' '}
+          <a href="tel:+27837980144" class="text-accent underline underline-offset-[0.2em]">083 798 0144</a> and he will sort it
+          out with you. Prices and banking details are on{' '}
+          <a href="/the-weekend#payment" class="text-accent underline underline-offset-[0.2em]">The Weekend</a>.
         </p>
       </noscript>
       <RsvpForm client:load />

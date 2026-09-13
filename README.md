@@ -11,7 +11,7 @@ for the couple to track RSVPs and payments.
 |---|---|---|
 | Framework | Astro 7, `output: 'server'` | Public pages prerender (`export const prerender = true`); RSVP + admin are on-demand |
 | UI islands | React 19 | RSVP form, admin dashboard |
-| Styling | Tailwind 4 | Sectional colour tokens as CSS custom properties in `src/styles/global.css` (`surface` / `ink` / `rule` / `accent`, resolved per `data-mode`), mapped to utilities in `tailwind.config.mjs`; every section is wrapped in `src/components/site/Section.astro` with a `mode` of linen · burlap · cinnamon · olive. Espresso is ink, rule and accent only — never a surface |
+| Styling | Tailwind 4 | Sectional colour tokens as CSS custom properties in `src/styles/global.css` (`surface` / `ink` / `rule` / `accent`, resolved per `data-mode`), mapped to utilities in `tailwind.config.mjs`; every section is wrapped in `src/components/site/Section.astro` with a `mode` of linen · burlap · olive (cinnamon is defined but currently unused). Text sections alternate burlap / linen; olive is reserved for photograph-backed sections and the footer. Espresso is ink, rule and accent only — never a surface |
 | Database | Supabase (`joanique-pieter-2026`, `sduefddcfsurhoyxmfrq`, eu-west-1) | Postgres 17 |
 | Hosting | Vercel (`@astrojs/vercel`) | |
 | Validation | zod 4 | Shared schema in `src/lib/rsvp-schema.ts` |
@@ -66,8 +66,9 @@ The design’s "Design preview only" badge is dropped — this form is live.
 ## Pricing
 
 `src/lib/pricing.ts` is the single source of truth, used by both the form’s running total and the server:
-R2 100 pp (Fri + Sat) or R965 pp (Sat only), R270 per child per night, plus a R100 per-guest Dinokeng
-conservation fee. The client total is display-only — `/api/rsvp` recomputes it before storing.
+R2 100 pp (Fri + Sat) or R965 pp (Sat only), R270 per child per night. The R100 per-guest Dinokeng
+conservation fee is paid at the reserve gate, not to the couple, so it is never part of a quote. The client
+total is display-only — `/api/rsvp` recomputes it before storing.
 
 ## Data model (`supabase/migrations/`)
 

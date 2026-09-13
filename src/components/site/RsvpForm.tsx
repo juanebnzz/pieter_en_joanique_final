@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { rsvpSchema, type RsvpInput } from '../../lib/rsvp-schema';
 import {
   BANK_DETAILS,
+  CONSERVATION_FEE_LABEL,
   GIFT_DETAILS,
   PAYMENT_DEADLINE,
   STAY_OPTIONS,
@@ -300,6 +301,9 @@ export default function RsvpForm() {
               <span className="font-display font-medium text-[1.15rem] text-ink">Total</span>
               <span className="whitespace-nowrap font-display font-medium text-[1.5rem] text-ink">{formatRand(total.totalCents)}</span>
             </div>
+            <p className="mt-[1em] font-body text-[0.85rem] text-ink">
+              Dinokeng Game Reserve charges a conservation fee of {CONSERVATION_FEE_LABEL}, paid at the reserve gate when you arrive. It is not part of this total.
+            </p>
           </Section>
 
           <Section title="Dietary Requirements">

@@ -27,7 +27,8 @@ export const STAY_OPTIONS: Record<
 };
 
 export const CHILD_PER_NIGHT_CENTS = 27_000;
-export const CONSERVATION_PER_GUEST_CENTS = 10_000; // Dinokeng Game Reserve conservation fee, per guest
+/** Dinokeng Game Reserve conservation fee — paid at the reserve gate on arrival, never to the couple, so it is never part of a quote. */
+export const CONSERVATION_FEE_LABEL = 'R100 per guest';
 
 export const RSVP_DEADLINE = 'Monday, 28 September 2026';
 export const PAYMENT_DEADLINE = 'Friday, 16 October 2026';
@@ -47,8 +48,6 @@ export function quote(input: { stay: StayOption; adults: number; children: numbe
   const children = Math.max(0, input.children);
   const adultTotal = adults * opt.adultCents;
   const childTotal = children * CHILD_PER_NIGHT_CENTS * opt.nights;
-  const guests = adults + children;
-  const conservation = guests * CONSERVATION_PER_GUEST_CENTS;
 
   const lines: QuoteLine[] = [
     { label: `${adults} adult${adults === 1 ? '' : 's'} × ${formatRand(opt.adultCents)}`, cents: adultTotal },
@@ -59,12 +58,8 @@ export function quote(input: { stay: StayOption; adults: number; children: numbe
       cents: childTotal,
     });
   }
-  lines.push({
-    label: `Dinokeng conservation fee — R100 × ${guests} guest${guests === 1 ? '' : 's'} (to be confirmed)`,
-    cents: conservation,
-  });
 
-  return { lines, totalCents: adultTotal + childTotal + conservation };
+  return { lines, totalCents: adultTotal + childTotal };
 }
 
 /** Accommodation payment — shown on The Weekend beside the prices and on RSVP. */

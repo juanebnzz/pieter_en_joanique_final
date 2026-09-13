@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/site/Nav.astro';
+import Footer from '../components/site/Footer.astro';
+
+export const prerender = true;
+
+const faqs = [
+  {
+    q: 'Can I bring a plus-one?',
+    a: 'We have carefully planned our guest list, but if you would like to bring someone, please reach out to us directly. We would be happy to chat about it.',
+  },
+  { q: 'Are children welcome?', a: 'Yes. Children under 2 stay free, and children aged 2 to 12 are R270 per child per night.' },
+  {
+    q: 'Is Saturday night compulsory?',
+    a: 'Yes, up to full capacity, as we are booking out the entire venue with accommodation on site. If you have other arrangements, please contact us directly.',
+  },
+  { q: 'What time is check-in and check-out?', a: 'Check-in from 14:00 on Friday. Check-out at 10:00 on Sunday.' },
+  {
+    q: 'How do I pay?',
+    a: 'Accommodation is paid directly to Pieter and Joanique by EFT, by 16 October 2026. Details are on the RSVP page. Use your initials and surname as the reference.',
+  },
+  {
+    q: 'Can I bring my own food or drinks?',
+    a: 'No outside food or drinks are permitted. A cash bar and the on-site restaurant are available all weekend.',
+  },
+  { q: 'What is the road like?', a: 'The venue is accessed by a dirt road that is suitable for all vehicles. Secure parking is provided.' },
+  { q: 'Who do I contact with questions?', a: 'Pieter Kruger — 083 798 0144 — pieterkruger2911@gmail.com' },
+];
+---
+
+<Base title="FAQ — Pieter & Joanique">
+  <Nav />
+
+  <div class="mx-auto max-w-[680px] px-[6cqw]">
+    <section class="pb-[3cqw] pt-[9cqw]">
+      <h1 class="font-display font-medium text-brand-ink text-[clamp(2.2rem,8cqw,3rem)]">Frequently Asked Questions</h1>
+    </section>
+
+    <section class="pb-[12cqw]">
+      {
+        faqs.map((f) => (
+          <div data-reveal class="group border-t border-brand-rule py-[1.4em]">
+            <p class="mb-[0.5em] font-display italic font-medium text-brand-ink transition-colors group-hover:text-brand-accent text-[clamp(1.2rem,2.8cqw,1.4rem)]">
+              {f.q}
+            </p>
+            <p class="font-body leading-[1.7] text-[0.95rem] text-brand-muted">{f.a}</p>
+          </div>
+        ))
+      }
+    </section>
+  </div>
+
+  <Footer />
+</Base>

@@ -1,0 +1,124 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/site/Nav.astro';
+import Footer from '../components/site/Footer.astro';
+import photo6 from '../assets/photos/photo-6.jpg';
+import photo7 from '../assets/photos/photo-7.jpg';
+import photo8 from '../assets/photos/photo-8.jpg';
+import photo9 from '../assets/photos/photo-9.jpg';
+import photo10 from '../assets/photos/photo-10.jpg';
+import photo11 from '../assets/photos/photo-11.jpg';
+import photo12 from '../assets/photos/photo-12.jpg';
+
+export const prerender = true;
+
+// The six lightbox photos, in order. The band (photo-12) is decorative only.
+const photos = [photo6, photo7, photo8, photo9, photo10, photo11];
+const full = await Promise.all(photos.map((p) => getImage({ src: p, width: 1800, format: 'webp' })));
+const fullSrcs = full.map((f) => f.src);
+
+type Block = { kind: 'single'; i: [number] } | { kind: 'pair'; i: [number, number] } | { kind: 'band' };
+const blocks: Block[] = [
+  { kind: 'single', i: [0] },
+  { kind: 'pair', i: [1, 2] },
+  { kind: 'single', i: [3] },
+  { kind: 'band' },
+  { kind: 'pair', i: [4, 5] },
+];
+
+const tile = 'h-[clamp(260px,58cqw,520px)] cursor-pointer overflow-hidden';
+const img = 'h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]';
+---
+
+<Base title="Gallery — Pieter & Joanique">
+  <Nav />
+
+  <div class="flex flex-col gap-[5cqw] py-[5cqw]">
+    {
+      blocks.map((b) =>
+        b.kind === 'single' ? (
+          <div data-reveal class:list={['w-full', tile]}>
+            <button type="button" data-lightbox={b.i[0]} class="block h-full w-full" aria-label="Open photo">
+              <Image src={photos[b.i[0]]} alt="Pieter and Joanique" widths={[640, 1024, 1600]} sizes="100vw" class={img} />
+            </button>
+          </div>
+        ) : b.kind === 'pair' ? (
+          <div data-reveal class="flex flex-wrap gap-[2px] bg-brand-rule">
+            {b.i.map((idx) => (
+              <div class:list={['min-w-[220px] flex-[1_1_260px]', tile]}>
+                <button type="button" data-lightbox={idx} class="block h-full w-full" aria-label="Open photo">
+                  <Image src={photos[idx]} alt="Pieter and Joanique" widths={[640, 1024]} sizes="(min-width: 700px) 50vw, 100vw" class={img} />
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <section data-reveal class="relative h-[clamp(380px,68cqw,640px)] w-full overflow-hidden bg-brand-ink">
+            <Image src={photo12} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" />
+          </section>
+        ),
+      )
+    }
+  </div>
+
+  <div class="px-[6cqw] py-[5cqw] text-center">
+    <p class="font-body text-[0.8rem] tracking-[0.04em] text-brand-muted">Photography by Noeline le Roux, By Bitiah</p>
+  </div>
+
+  <Footer />
+
+  <!-- LIGHTBOX -->
+  <div
+    id="lightbox"
+    hidden
+    class="fixed inset-0 z-[999] flex items-center justify-center bg-brand-ink"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Photo"
+    data-srcs={JSON.stringify(fullSrcs)}
+  >
+    <img id="lightbox-img" alt="" class="pointer-events-none max-h-[82%] max-w-[92%] object-contain" />
+    <div id="lightbox-counter" class="pointer-events-none absolute bottom-[2.2em] left-0 right-0 text-center font-body text-[0.85rem] tracking-[0.08em] text-brand-bg"></div>
+  </div>
+
+  <script>
+    const box = document.getElementById('lightbox') as HTMLDivElement;
+    const img = document.getElementById('lightbox-img') as HTMLImageElement;
+    const counter = document.getElementById('lightbox-counter') as HTMLDivElement;
+    const srcs: string[] = JSON.parse(box.dataset.srcs ?? '[]');
+    const n = srcs.length;
+    let idx = -1;
+    let startX = 0;
+
+    function show(i: number) {
+      idx = (i + n) % n;
+      img.src = srcs[idx];
+      counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
+      box.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      box.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll<HTMLElement>('[data-lightbox]').forEach((el) => {
+      el.addEventListener('click', () => show(Number(el.dataset.lightbox)));
+    });
+    box.addEventListener('click', close);
+    box.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) show(dx < 0 ? idx + 1 : idx - 1);
+      else close();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (box.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') show(idx + 1);
+      if (e.key === 'ArrowLeft') show(idx - 1);
+    });
+  </script>
+</Base>

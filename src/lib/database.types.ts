@@ -1,4 +1,4 @@
-// Generated from Supabase project sduefddcfsurhoyxmfrq (2026-09-13).
+// Generated from Supabase project sduefddcfsurhoyxmfrq (2026-09-13), hand-patched for migration 0002.
 // Regenerate after schema changes (Supabase MCP `generate_typescript_types`
 // or `supabase gen types typescript --project-id sduefddcfsurhoyxmfrq`).
 export type Json =
@@ -63,6 +63,9 @@ export type Database = {
       households: {
         Row: {
           amount_due_cents: number
+          children_count: number
+          dietary: string | null
+          stay: Database["public"]["Enums"]["stay_option"] | null
           created_at: string
           email: string | null
           id: string
@@ -79,6 +82,9 @@ export type Database = {
         }
         Insert: {
           amount_due_cents?: number
+          children_count?: number
+          dietary?: string | null
+          stay?: Database["public"]["Enums"]["stay_option"] | null
           created_at?: string
           email?: string | null
           id?: string
@@ -95,6 +101,9 @@ export type Database = {
         }
         Update: {
           amount_due_cents?: number
+          children_count?: number
+          dietary?: string | null
+          stay?: Database["public"]["Enums"]["stay_option"] | null
           created_at?: string
           email?: string | null
           id?: string
@@ -241,6 +250,9 @@ export type Database = {
           amount_due_cents: number | null
           attending_count: number | null
           child_count: number | null
+          children_count: number | null
+          dietary: string | null
+          stay: Database["public"]["Enums"]["stay_option"] | null
           created_at: string | null
           email: string | null
           guest_count: number | null
@@ -270,6 +282,7 @@ export type Database = {
     Enums: {
       payment_status: "unpaid" | "partial" | "paid"
       rsvp_status: "pending" | "attending" | "declined"
+      stay_option: "friday_saturday" | "saturday"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -382,6 +395,7 @@ export const Constants = {
     Enums: {
       payment_status: ["unpaid", "partial", "paid"],
       rsvp_status: ["pending", "attending", "declined"],
+      stay_option: ["friday_saturday", "saturday"],
     },
   },
 } as const

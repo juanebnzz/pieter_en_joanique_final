@@ -1,0 +1,196 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/site/Nav.astro';
+import Footer from '../components/site/Footer.astro';
+import fridayPhoto from '../assets/photos/photo-9.jpg';
+import saturdayPhoto from '../assets/photos/photo-6.jpg';
+import sundayPhoto from '../assets/photos/photo-7.jpg';
+
+export const prerender = true;
+
+type Row = { time: string; event: string; ceremony?: boolean };
+const days: { title: string; photo: ImageMetadata; gradient: string; rows: Row[]; note: string | null }[] = [
+  {
+    title: 'Friday · 13 November',
+    photo: fridayPhoto,
+    gradient: 'height:65%;background:linear-gradient(to top, rgba(48,46,44,0.9) 0%, rgba(48,46,44,0) 100%);',
+    rows: [
+      { time: '14:00', event: 'Guests arrive' },
+      { time: '18:00', event: 'Bonfire and burger night' },
+    ],
+    note: 'Friday night accommodation at Tshikwalo Game Lodge',
+  },
+  {
+    title: 'Saturday · 14 November',
+    photo: saturdayPhoto,
+    gradient: 'height:70%;background:linear-gradient(to top, rgba(48,46,44,0.95) 0%, rgba(48,46,44,0) 100%);',
+    rows: [
+      { time: '08:00', event: 'Breakfast at the lodge restaurant, for Friday guests' },
+      { time: '11:00', event: 'Saturday guests arrive' },
+      { time: '14:30 for 15:00', event: 'Ceremony', ceremony: true },
+      { time: '16:00', event: 'Canapés' },
+      { time: '18:00', event: 'Reception' },
+      { time: '23:30', event: 'Last dance' },
+    ],
+    note: 'Saturday night accommodation at Tshikwalo Game Lodge',
+  },
+  {
+    title: 'Sunday · 15 November',
+    photo: sundayPhoto,
+    gradient: 'height:60%;background:linear-gradient(to top, rgba(48,46,44,0.85) 0%, rgba(48,46,44,0) 100%);',
+    rows: [
+      { time: '08:00', event: 'Breakfast for all guests' },
+      { time: '10:00', event: 'Checkout' },
+    ],
+    note: null,
+  },
+];
+
+const throughout = [
+  'A complimentary game drive for guests staying from Friday',
+  'The on-site restaurant is open all weekend for snacks and refreshments',
+  'A cash bar is available throughout',
+  'Bring swimwear for the pool',
+  'After the reception, the boma and bonfire stay open',
+];
+
+const costs = [
+  {
+    title: 'Friday and Saturday — R2 100 per person',
+    detail:
+      'Friday dinner, Friday accommodation, Saturday breakfast, all wedding events, Saturday accommodation, Sunday breakfast, complimentary game drive.',
+  },
+  { title: 'Saturday only — R965 per person', detail: 'All wedding events, Saturday accommodation, Sunday breakfast.' },
+  { title: 'Children', detail: 'Under 2 free. Ages 2 to 12, R270 per child per night.' },
+];
+
+const goodToKnow = [
+  'The venue is reached by a dirt road, suitable for all vehicles. Secure parking is provided.',
+  'No outside food or drinks are permitted.',
+  'A cash bar and the Tshikwalo "The Roots" restaurant are open all weekend.',
+];
+
+const container = 'mx-auto max-w-[680px] px-[6cqw]';
+const bodyText = 'font-display leading-[1.65] text-brand-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]';
+---
+
+<Base title="The Weekend — Pieter & Joanique">
+  <Nav />
+
+  <div class={container}>
+    <section data-reveal class="pb-[12cqw] pt-[9cqw]">
+      <div class="eyebrow mb-[1.2em]">The Invitation</div>
+      <p class="font-display leading-[1.65] text-brand-ink text-[clamp(1.2rem,2.8cqw,1.4rem)]">
+        Join us for an all-inclusive weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of
+        Pieter and Joanique's marriage.
+      </p>
+    </section>
+  </div>
+
+  {
+    days.map((d, i) => (
+      <>
+        <section class="relative h-[40vh] max-h-[340px] min-h-[220px] w-full overflow-hidden bg-brand-ink">
+          <Image src={d.photo} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" />
+          <div class="pointer-events-none absolute bottom-0 left-0 right-0" style={d.gradient} />
+          <div class="absolute bottom-0 left-0 right-0 pb-[0.9em] pr-[6cqw]" style="padding-left:max(6cqw,calc((100cqw - 680px) / 2));">
+            <p class="font-display font-medium text-brand-bg text-[clamp(2rem,7.5cqw,3rem)]">{d.title}</p>
+          </div>
+        </section>
+
+        <div class={container}>
+          <section class:list={['pt-[3cqw]', i === days.length - 1 ? 'pb-[8cqw]' : 'pb-[12cqw]']}>
+            {d.rows.map((r) => (
+              <div class="flex flex-wrap gap-y-[0.3em] gap-x-[1.2em] border-t border-brand-rule py-[0.9em]">
+                <div class="min-w-[9.5em] flex-none whitespace-nowrap font-body font-medium text-[0.9rem] text-brand-accent">{r.time}</div>
+                <div class="flex-[1_1_200px] font-display text-brand-ink text-[clamp(1.15rem,2.6cqw,1.35rem)]">
+                  {r.event}
+                  {r.ceremony && (
+                    <span>
+                      {' '}
+                      —{' '}
+                      <a
+                        href="/pieter-joanique-ceremony.ics"
+                        download="Pieter-Joanique-Ceremony.ics"
+                        class="font-body font-medium text-[0.85rem] tracking-[0.02em] text-brand-accent underline-offset-[0.15em] hover:underline"
+                      >
+                        Add to calendar →
+                      </a>
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+            {d.note && <p class="mt-[1.4em] font-display italic text-brand-muted text-[clamp(1.05rem,2.4cqw,1.2rem)]">{d.note}</p>}
+          </section>
+        </div>
+      </>
+    ))
+  }
+
+  <div class={container}>
+    <section data-reveal class="pb-[8cqw]">
+      <div class="eyebrow mb-[1.4em]">Throughout The Weekend</div>
+      {throughout.map((t) => <div class:list={['border-t border-brand-rule py-[0.9em]', bodyText]}>{t}</div>)}
+    </section>
+
+    <section data-reveal class="pb-[8cqw]">
+      <div class="eyebrow mb-[1.4em]">Staying With Us</div>
+      <p class:list={['mb-[1.4em]', bodyText]}>
+        Saturday night accommodation is compulsory, as we are booking out the entire venue. If you have other arrangements,
+        please contact us directly and we will make the necessary adjustments.
+      </p>
+      {
+        [
+          ['Check-in', 'Friday from 14:00'],
+          ['Check-out', 'Sunday at 10:00'],
+        ].map(([k, v]) => (
+          <div class="flex gap-[1.2em] border-t border-brand-rule py-[0.9em]">
+            <div class="min-w-[7.5em] flex-none font-body font-medium text-[0.9rem] text-brand-muted">{k}</div>
+            <div class="font-display text-brand-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">{v}</div>
+          </div>
+        ))
+      }
+    </section>
+
+    <section data-reveal class="pb-[8cqw]">
+      <div class="eyebrow mb-[1.4em]">What It Costs</div>
+      {
+        costs.map((c) => (
+          <div class="border-t border-brand-rule py-[1.4em]">
+            <p class="mb-[0.5em] font-display italic font-medium text-brand-ink text-[clamp(1.2rem,2.8cqw,1.4rem)]">{c.title}</p>
+            <p class="font-body leading-[1.7] text-[0.95rem] text-brand-muted">{c.detail}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section data-reveal class="pb-[8cqw]">
+      <div class="eyebrow mb-[1.4em]">Good To Know</div>
+      {goodToKnow.map((t) => <div class:list={['border-t border-brand-rule py-[0.9em]', bodyText]}>{t}</div>)}
+    </section>
+
+    <section data-reveal class="pb-[8cqw]">
+      <div class="eyebrow mb-[1.4em]">What To Wear</div>
+      <p class={bodyText}>
+        The dress code is semi-formal. We are keeping things earth-toned and summery to suit the bush setting, so please
+        avoid black, white, red and purple where possible.
+      </p>
+    </section>
+
+    <section data-reveal class="pb-[12cqw]">
+      <div class="eyebrow mb-[1.2em]">Finding Us</div>
+      <a
+        href="https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99"
+        target="_blank"
+        rel="noopener"
+        class="font-display italic text-brand-accent underline-offset-[0.2em] hover:underline text-[clamp(1.2rem,2.8cqw,1.4rem)]"
+        >Tshikwalo Game Lodge, Dinokeng Game Reserve →</a
+      >
+    </section>
+  </div>
+
+  <Footer />
+</Base>

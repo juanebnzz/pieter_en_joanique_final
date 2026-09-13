@@ -14,6 +14,9 @@ const patchSchema = z
     max_guests: z.number().int().min(1).max(20),
     rsvp_status: z.enum(['pending', 'attending', 'declined']),
     amount_due_cents: z.number().int().min(0),
+    stay: z.enum(["friday_saturday", "saturday"]).nullable(),
+    children_count: z.number().int().min(0).max(20),
+    dietary: z.string().trim().max(1000).nullable(),
     notes: z.string().trim().max(2000).nullable(),
   })
   .partial();

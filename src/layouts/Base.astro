@@ -7,7 +7,11 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, description = 'Pieter & Joanique — wedding', noindex = false } = Astro.props;
+const {
+  title,
+  description = 'Pieter & Joanique are getting married — Saturday, 14 November 2026 at Tshikwalo Game Lodge, Dinokeng Game Reserve.',
+  noindex = false,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -19,10 +23,40 @@ const { title, description = 'Pieter & Joanique — wedding', noindex = false } 
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#F8F7F3" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <slot name="head" />
   </head>
-  <body class="min-h-dvh antialiased">
-    <slot />
+  <body class="min-h-dvh bg-brand-bg text-brand-ink font-body">
+    <div class="site w-full overflow-x-hidden">
+      <slot />
+    </div>
+    <script>
+      // Scroll reveal — mirrors the design's attachReveal(): visible once the
+      // element's top crosses 92% of the viewport.
+      const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0 },
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
   </body>
 </html>

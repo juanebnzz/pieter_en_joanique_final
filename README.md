@@ -30,12 +30,28 @@ npm run dev
 - `SUPABASE_SECRET_KEY` — **paste from** Supabase Dashboard → Project Settings → API Keys → *Secret keys* (`sb_secret_…`). Server-only.
 - `ADMIN_SECRET` — generated. The couple's private link is `/admin/enter/<ADMIN_SECRET>`.
 
-## Routes
+## Pages
+
+Built from the Claude Design project "Pieter & Joanique Final" (5b481801). All public pages prerender.
 
 | Route | What |
 |---|---|
-| `/` | Public site (placeholder sections: hero, details, RSVP) |
-| `POST /api/rsvp` | Public RSVP submission |
+| `/` | Hero, welcome letter, gallery preview, orientation strip, RSVP CTA |
+| `/our-story` | Four chapters, alternating image/text, with a full-bleed quote band |
+| `/the-weekend` | Friday/Saturday/Sunday chapter bands + timelines, costs, dress code, directions |
+| `/gallery` | Six photos in single/pair/band blocks, click for lightbox (swipe + arrow keys) |
+| `/faq` | Eight questions |
+| `/rsvp` | Live RSVP form — attending or declining |
+| `POST /api/rsvp` | RSVP submission (server recomputes the accommodation total) |
+
+Design details carried across: brand tokens (`src/styles/global.css` `@theme`), Cormorant Garamond + Jost,
+`cqw` spacing off `.site`, scroll-reveal at 92% of the viewport, and the overlay/bar nav variants.
+The design’s "Design preview only" badge is dropped — this form is live.
+
+## Admin
+
+| Route | What |
+|---|---|
 | `/admin/enter/<ADMIN_SECRET>` | Secret link → sets httpOnly cookie → redirects to `/admin` |
 | `/admin` | Dashboard (404 without a valid cookie) |
 | `POST /admin/logout` | Clears the cookie |
@@ -47,9 +63,15 @@ npm run dev
 
 `src/middleware.ts` guards `/admin/*` and `/api/admin/*`.
 
+## Pricing
+
+`src/lib/pricing.ts` is the single source of truth, used by both the form’s running total and the server:
+R2 100 pp (Fri + Sat) or R965 pp (Sat only), R270 per child per night, plus a R100 per-guest Dinokeng
+conservation fee. The client total is display-only — `/api/rsvp` recomputes it before storing.
+
 ## Data model (`supabase/migrations/`)
 
-- **households** — one per invitation. `rsvp_status` (pending / attending / declined), `amount_due_cents`, derived `payment_status` (unpaid / partial / paid), admin `notes`, optional `invite_code`.
+- **households** — one per invitation. `rsvp_status` (pending / attending / declined), `stay` (friday_saturday / saturday), `children_count`, `dietary`, `amount_due_cents`, derived `payment_status` (unpaid / partial / paid), admin `notes`, optional `invite_code`.
 - **guests** — people in a household; `attending`, `is_child`, `dietary`.
 - **payments** — ledger of money received. A trigger recomputes `households.payment_status`.
 - **rsvp_submissions** — raw audit log of every form post.
@@ -69,8 +91,14 @@ Icons in `public/admin/icon-*.png` are placeholders — swap for the brand mark.
 Set the same env vars in the Vercel project (`SUPABASE_SECRET_KEY` and `ADMIN_SECRET` as *sensitive*), then `vercel deploy`.
 The cookie is only set `secure` over https, so the secret link must be opened on the real domain, not `http://`.
 
+## Photos
+
+`src/assets/photos/photo-6…12.jpg` — the seven engagement photos the design uses, resized to 2400px from
+the originals in `pieterandjoaniqueengagement-photo-download-1of1/` (gitignored, 510 MB).
+Astro generates responsive WebP at build time. Photography by Noeline le Roux, By Bitiah.
+
 ## What's next
 
-1. Drop in the Claude Design reference → replace `@theme` tokens, build out `src/pages/index.astro` and restyle `RsvpForm.tsx` / admin components.
-2. Real copy, dates, venue, dress code, accommodation, gift info.
-3. Optional: email confirmation on RSVP (Resend), invite-code-only RSVP mode, seating.
+1. Paste `SUPABASE_SECRET_KEY` into `.env` so RSVPs can save.
+2. Swap the admin PWA icons in `public/admin/` for the couple's monogram.
+3. Optional: RSVP confirmation email (Resend), invite-code-only RSVP, seating.

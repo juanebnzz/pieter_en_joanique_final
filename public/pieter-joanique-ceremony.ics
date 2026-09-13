@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pieter & Joanique//Wedding//EN
+BEGIN:VEVENT
+UID:ceremony-20261114@pieter-joanique
+SUMMARY:Pieter & Joanique – Ceremony
+DTSTART;TZID=Africa/Johannesburg:20261114T150000
+DTEND;TZID=Africa/Johannesburg:20261114T160000
+LOCATION:Tshikwalo Game Lodge\, Dinokeng Game Reserve
+DESCRIPTION:Arrive 14:30 for a 15:00 ceremony.
+END:VEVENT
+END:VCALENDAR

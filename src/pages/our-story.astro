@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/site/Nav.astro';
+import Footer from '../components/site/Footer.astro';
+import photo7 from '../assets/photos/photo-7.jpg';
+import photo8 from '../assets/photos/photo-8.jpg';
+import photo9 from '../assets/photos/photo-9.jpg';
+import photo10 from '../assets/photos/photo-10.jpg';
+import photo11 from '../assets/photos/photo-11.jpg';
+
+export const prerender = true;
+
+const chapters = [
+  {
+    label: '01 · 25 June 2024',
+    oversized: 'There was really no need to slap him with her sleeve. All she had to do was say hi.',
+    body: 'the church course, sitting behind her, the jacket.',
+    src: photo8,
+    bandAfter: false,
+  },
+  {
+    label: '02 · The Coffees',
+    oversized: 'Officially, it was just coffee.',
+    body: 'blue ticks, patience, Tashas, everything changing.',
+    src: photo9,
+    bandAfter: true,
+  },
+  {
+    label: '03 · The Proposal',
+    oversized: 'There was one small problem. Joanique does not like cheese.',
+    body: 'Van Gaalen, the picnic, Frik the penguin, her immediate yes.',
+    src: photo11,
+    bandAfter: false,
+  },
+  {
+    label: '04 · Since Then',
+    oversized: 'She outdrove him. He has never been allowed to forget it.',
+    body: 'Elsie the i10, Kruger, murder mystery nights, padel, Aroma ice creams.',
+    src: photo7,
+    bandAfter: false,
+  },
+];
+---
+
+<Base title="Our Story — Pieter & Joanique">
+  <Nav />
+
+  <div class="mx-auto flex max-w-[1040px] flex-col gap-[11cqw] px-[6cqw] pb-[4cqw] pt-[8cqw]">
+    {
+      chapters.map((c, i) => (
+        <>
+          {/* On wide screens chapters alternate image/text; on narrow, image always leads. */}
+          <div data-reveal="lift" class:list={['flex flex-wrap items-center gap-[5cqw]', i % 2 === 1 && 'flex-row-reverse']}>
+            <div class="min-w-[260px] flex-[1_1_300px] overflow-hidden" style="aspect-ratio:4/5;">
+              <Image src={c.src} alt="Pieter and Joanique" widths={[480, 800, 1200]} sizes="(min-width: 700px) 50vw, 100vw" class="h-full w-full object-cover" />
+            </div>
+            <div class="min-w-[260px] flex-[1_1_300px]">
+              <div class="eyebrow mb-[1em]">{c.label}</div>
+              <p class="mb-[0.9em] font-display italic font-medium leading-[1.25] text-brand-ink text-[clamp(1.6rem,4.4cqw,2.4rem)]">{c.oversized}</p>
+              <p class="font-display leading-[1.65] text-brand-muted text-[clamp(1.05rem,2.4cqw,1.2rem)]">{c.body}</p>
+            </div>
+          </div>
+
+          {c.bandAfter && (
+            <section
+              data-reveal="lift"
+              class="relative -mx-[6cqw] h-[clamp(380px,60cqw,600px)] w-[calc(100%+12cqw)] overflow-hidden bg-brand-ink"
+            >
+              <Image src={photo10} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" />
+              <div class="pointer-events-none absolute inset-0" style="background:linear-gradient(to bottom, rgba(48,46,44,0.15) 0%, rgba(48,46,44,0.55) 100%);" />
+              <div class="absolute bottom-0 left-0 right-0 p-[6cqw] text-center">
+                <p class="mx-auto max-w-[32em] font-display italic leading-[1.5] text-brand-bg text-[clamp(1.2rem,3.2cqw,1.7rem)]">
+                  Jeremiah 29:11 has been a constant reminder that God has a plan for their lives.
+                </p>
+              </div>
+            </section>
+          )}
+        </>
+      ))
+    }
+  </div>
+
+  <div data-reveal="lift" class="px-[6cqw] pb-[16cqw] pt-[14cqw] text-center">
+    <p class="font-display italic text-brand-muted text-[clamp(1.8rem,5cqw,2.6rem)]">Slegs goeie besluite</p>
+  </div>
+
+  <Footer />
+</Base>

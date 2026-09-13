@@ -1,31 +1,117 @@
 ---
-/**
- * PLACEHOLDER HOME PAGE.
- * Structure only — sections exist so the RSVP flow can be tested end to end.
- * The real layout, copy and styling come from the Claude Design reference.
- */
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import RsvpForm from '../components/site/RsvpForm';
+import Nav from '../components/site/Nav.astro';
+import Footer from '../components/site/Footer.astro';
+import hero from '../assets/photos/photo-6.jpg';
+import preview1 from '../assets/photos/photo-10.jpg';
+import preview2 from '../assets/photos/photo-12.jpg';
+import preview3 from '../assets/photos/photo-11.jpg';
 
 export const prerender = true;
+
+const previews = [
+  { src: preview1, ratio: '3/4', offset: '0', alt: 'Pieter and Joanique' },
+  { src: preview2, ratio: '4/3', offset: '4cqw', alt: 'Pieter and Joanique' },
+  { src: preview3, ratio: '3/4', offset: '2cqw', alt: 'Pieter and Joanique' },
+];
+
+const orientation = [
+  { label: 'The Weekend', detail: '14 to 16 November 2026' },
+  { label: 'The Place', detail: 'Tshikwalo Game Lodge' },
+  { label: 'RSVP by', detail: '28 September 2026' },
+];
 ---
 
-<Base title="Pieter & Joanique">
-  <main class="mx-auto max-w-3xl px-6 py-16 space-y-24">
-    <section id="hero" class="text-center space-y-4">
-      <p class="text-sm uppercase tracking-widest text-brand-muted">We're getting married</p>
-      <h1 class="font-display text-5xl">Pieter &amp; Joanique</h1>
-      <p class="text-brand-muted">[Date · Venue · City — from design]</p>
-    </section>
+<Base title="Pieter & Joanique — 14 November 2026">
+  <!-- HERO -->
+  <section class="relative m-0 h-[78vh] min-h-[520px] w-full overflow-hidden bg-brand-ink">
+    <Image
+      src={hero}
+      alt="Pieter and Joanique"
+      widths={[640, 1024, 1600, 2400]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="absolute inset-0 block h-full w-full object-cover"
+    />
+    <div
+      class="pointer-events-none absolute inset-0"
+      style="background:linear-gradient(to bottom, rgba(48,46,44,0) 35%, rgba(48,46,44,0.55) 70%, rgba(48,46,44,0.85) 100%);"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute left-0 right-0 top-0 h-[26cqw] min-h-[120px]"
+      style="background:linear-gradient(to bottom, rgba(48,46,44,0.45) 0%, rgba(48,46,44,0) 100%);"
+    >
+    </div>
+    <Nav variant="overlay" />
+    <div class="pointer-events-none absolute bottom-0 left-0 right-0 px-[6cqw] pb-[6cqw] pt-[8cqw] text-center">
+      <h1 class="mb-[0.5em] font-display font-medium leading-[1.05] tracking-[0.02em] text-brand-bg text-[clamp(2.2rem,9cqw,5rem)]">
+        PIETER &amp; JOANIQUE
+      </h1>
+      <p class="mb-[0.35em] font-body tracking-[0.04em] text-brand-bg text-[clamp(1rem,2.4cqw,1.25rem)]">Saturday, 14 November 2026</p>
+      <p class="whitespace-nowrap font-body tracking-[0.04em] text-brand-hero-secondary text-[clamp(0.95rem,2.2cqw,1.15rem)]">
+        Tshikwalo Game Lodge, Dinokeng Game Reserve
+      </p>
+    </div>
+  </section>
 
-    <section id="details" class="space-y-3">
-      <h2 class="font-display text-3xl">Details</h2>
-      <p class="text-brand-muted">[Ceremony, reception, dress code, accommodation, gifts — from design]</p>
-    </section>
+  <!-- WELCOME LETTER -->
+  <section data-reveal class="mx-auto max-w-[640px] px-[6cqw] pb-[6cqw] pt-[9cqw] text-center">
+    <p class="mb-[1.6em] font-display leading-[1.6] text-brand-ink text-[clamp(1.25rem,3.4cqw,1.5rem)]">
+      We are truly grateful to have you celebrate our special day with us. Each of you was intentionally invited, and we
+      look forward to seeing you all. We cannot wait to build lasting memories and have you be part of them.
+    </p>
+    <p class="font-display italic text-brand-muted text-[clamp(1.15rem,3cqw,1.3rem)]">With love, Pieter &amp; Joanique</p>
+  </section>
 
-    <section id="rsvp" class="space-y-6">
-      <h2 class="font-display text-3xl">RSVP</h2>
-      <RsvpForm client:load />
-    </section>
-  </main>
+  <!-- GALLERY PREVIEW -->
+  <section data-reveal class="border-t border-brand-rule px-[6cqw] py-[9cqw]">
+    <div class="eyebrow mb-[5cqw] text-center">A Few Moments So Far</div>
+    <div class="mx-auto flex max-w-[960px] flex-wrap items-start justify-center gap-y-[4cqw] gap-x-[3cqw]">
+      {
+        previews.map((p) => (
+          <div
+            class="min-w-[200px] max-w-[320px] flex-[1_1_220px] overflow-hidden"
+            style={`margin-top:${p.offset};aspect-ratio:${p.ratio};`}
+          >
+            <Image src={p.src} alt={p.alt} widths={[400, 640, 960]} sizes="(min-width: 700px) 320px, 90vw" class="h-full w-full object-cover" />
+          </div>
+        ))
+      }
+    </div>
+    <div class="mt-[5cqw] text-center">
+      <a href="/gallery" class="font-body font-medium text-[0.85rem] tracking-[0.08em] text-brand-accent underline-offset-[0.25em] hover:underline"
+        >See the gallery →</a
+      >
+    </div>
+  </section>
+
+  <!-- QUICK ORIENTATION STRIP -->
+  <section data-reveal class="border-y border-brand-rule bg-brand-soft">
+    <div class="mx-auto grid max-w-[960px] overflow-hidden" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+      {
+        orientation.map((o) => (
+          <div class="-ml-px -mt-px whitespace-nowrap border-l border-t border-brand-rule px-[5cqw] py-[4.5cqw] text-center">
+            <div class="eyebrow mb-[0.6em]">{o.label}</div>
+            <div class="font-display text-brand-ink text-[clamp(1.1rem,3cqw,1.3rem)]">{o.detail}</div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- PRIMARY CTA -->
+  <section data-reveal class="px-[6cqw] pb-[10cqw] pt-[9cqw]">
+    <div class="mx-auto max-w-[640px]">
+      <a
+        href="/rsvp"
+        class="block min-h-[44px] w-full bg-brand-ink px-[1em] py-[1.1em] text-center font-body font-medium uppercase tracking-[0.1em] text-brand-bg transition-colors hover:bg-brand-ink-hover"
+        >RSVP</a
+      >
+    </div>
+  </section>
+
+  <Footer />
 </Base>

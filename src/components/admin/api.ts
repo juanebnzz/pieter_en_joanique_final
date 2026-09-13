@@ -10,6 +10,8 @@ export type Overview = {
     pending: number;
     guests_attending: number;
     children_attending: number;
+    friday_households: number;
+    saturday_households: number;
     due_cents: number;
     paid_cents: number;
     outstanding_cents: number;
@@ -54,6 +56,11 @@ export const rands = (cents: number | null | undefined) =>
   new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', maximumFractionDigits: 0 }).format(
     (cents ?? 0) / 100,
   );
+
+export const STAY_LABEL: Record<string, string> = {
+  friday_saturday: "Fri + Sat",
+  saturday: "Sat only",
+};
 
 export const RSVP_LABEL: Record<RsvpStatus, string> = {
   pending: 'No reply yet',

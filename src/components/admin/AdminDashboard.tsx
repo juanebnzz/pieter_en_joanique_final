@@ -98,7 +98,7 @@ export default function AdminDashboard() {
 
       {s && (
         <section className="mb-6 grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
-          <Stat label="Attending" value={s.attending} sub={`${s.guests_attending} guests · ${s.children_attending} children`} />
+          <Stat label="Attending" value={s.attending} sub={`${s.guests_attending} ${s.guests_attending === 1 ? "guest" : "guests"} · ${s.children_attending} ${s.children_attending === 1 ? "child" : "children"}`} />
           <Stat label="Fri + Sat / Sat only" value={`${s.friday_households} / ${s.saturday_households}`} sub="households" />
           <Stat label="Declined · No reply" value={`${s.declined} · ${s.pending}`} sub={`${s.households} on the list`} />
           <Stat label="Paid" value={rands(s.paid_cents)} sub={`of ${rands(s.due_cents)} · ${rands(s.outstanding_cents)} outstanding`} />

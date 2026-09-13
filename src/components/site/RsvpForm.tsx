@@ -113,7 +113,7 @@ export default function RsvpForm() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setErrors(data.issues ?? { form: [data.error ?? 'Something went wrong — please try again'] });
+        setErrors(data.issues ?? { form: [data.error ?? 'Something went wrong. Please try again.'] });
         setStatus('idle');
         return;
       }
@@ -121,7 +121,7 @@ export default function RsvpForm() {
       setStatus('done');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch {
-      setErrors({ form: ['Network error — please try again'] });
+      setErrors({ form: ['Network error. Please try again.'] });
       setStatus('idle');
     }
   }
@@ -130,7 +130,7 @@ export default function RsvpForm() {
     return (
       <section className="fade-in pb-[6em] pt-[1em] text-center">
         <p className="mb-[0.6em] font-display italic font-medium text-ink text-[clamp(1.5rem,4cqw,2rem)]">
-          {sentAttending ? 'Thank you — we cannot wait to see you there.' : 'Thank you for letting us know.'}
+          {sentAttending ? 'Thank you. We cannot wait to see you there.' : 'Thank you for letting us know.'}
         </p>
         {sentAttending && (
           <p className="mx-auto max-w-[34em] font-display leading-[1.6] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">
@@ -271,7 +271,7 @@ export default function RsvpForm() {
           <Section title="Children">
             <div className="flex items-center justify-between gap-[1em] border-t border-rule py-[0.9em]">
               <label htmlFor="children" className="font-display text-ink text-[clamp(1.05rem,2.6cqw,1.2rem)]">
-                Children aged 2–12 — R270 per child per night
+                Children aged 2 to 12 · R270 per child per night
               </label>
               <input
                 id="children"

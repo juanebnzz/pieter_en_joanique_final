@@ -3,125 +3,121 @@ import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
 import Section from '../components/site/Section.astro';
+import Grid from '../components/site/Grid.astro';
+import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 
 export const prerender = true;
 
-// Ten frames from the engagement shoot at the gallery, in a loose narrative
-// order: arriving, a first hand, the two of them, each alone, and the dip.
-// Each carries its own alt text; g-NN numbering follows the photographer's export.
+// Seventeen frames, none of which appear on another page, in a loose
+// narrative order. g-NN numbering follows the photographer's export.
 import g05 from '../assets/photos/gallery/g-05.jpg';
-import g30 from '../assets/photos/gallery/g-30.jpg';
-import g33 from '../assets/photos/gallery/g-33.jpg';
-import g15 from '../assets/photos/gallery/g-15.jpg';
-import g19 from '../assets/photos/gallery/g-19.jpg';
+import g06 from '../assets/photos/gallery/g-06.jpg';
+import g09 from '../assets/photos/gallery/g-09.jpg';
+import g12 from '../assets/photos/gallery/g-12.jpg';
+import g17 from '../assets/photos/gallery/g-17.jpg';
+import g20 from '../assets/photos/gallery/g-20.jpg';
+import g23 from '../assets/photos/gallery/g-23.jpg';
+import g26 from '../assets/photos/gallery/g-26.jpg';
+import g43 from '../assets/photos/gallery/g-43.jpg';
+import g27 from '../assets/photos/gallery/g-27.jpg';
 import g28 from '../assets/photos/gallery/g-28.jpg';
-import g42 from '../assets/photos/gallery/g-42.jpg';
+import g29 from '../assets/photos/gallery/g-29.jpg';
+import g34 from '../assets/photos/gallery/g-34.jpg';
+import g39 from '../assets/photos/gallery/g-39.jpg';
 import g40 from '../assets/photos/gallery/g-40.jpg';
-import g37 from '../assets/photos/gallery/g-37.jpg';
-import g46 from '../assets/photos/gallery/g-46.jpg';
+import g42 from '../assets/photos/gallery/g-42.jpg';
+import g24 from '../assets/photos/gallery/g-24.jpg';
 
 const gallery: { src: ImageMetadata; alt: string }[] = [
   { src: g05, alt: 'Pieter and Joanique laughing as they walk hand in hand past a wall of bright paintings in a white gallery.' },
-  { src: g30, alt: 'Pieter and Joanique holding hands in a doorway, framed by white walls with a parquet floor beneath them.' },
-  { src: g33, alt: 'Black and white close-up of Pieter and Joanique\'s hands reaching for each other, her engagement ring catching the light.' },
-  { src: g15, alt: 'Pieter and Joanique smiling at the camera, her hand on his chest, in front of framed artworks on a green gallery wall.' },
-  { src: g19, alt: 'Black and white photograph of Pieter and Joanique in a close embrace, foreheads almost touching, beside framed prints.' },
+  { src: g06, alt: 'Pieter and Joanique from behind, her head on his shoulder, looking at framed prints under track lighting.' },
+  { src: g09, alt: 'Seen from above, Pieter and Joanique sit close on a wooden bench in a green-walled room of framed paintings.' },
+  { src: g12, alt: 'Black and white view from above of Pieter and Joanique kissing on a bench beneath a wall of framed drawings.' },
+  { src: g17, alt: 'Pieter lifting Joanique\'s hand as if to spin her, both laughing, in the green gallery.' },
+  { src: g20, alt: 'Joanique studying a framed print on the green wall while Pieter, seated, watches her.' },
+  { src: g23, alt: 'Black and white photograph of Joanique alone at the far end of a charcoal-walled gallery.' },
+  { src: g26, alt: 'Joanique smiling with her arms around Pieter\'s neck beneath a red-beamed ceiling.' },
+  { src: g43, alt: 'Joanique at a painting on the left and Pieter leaning against the teal wall on the right, a row of framed drawings between them.' },
+  { src: g27, alt: 'Black and white photograph of Joanique from behind, hands clasped, before a row of framed drawings.' },
   { src: g28, alt: 'Joanique glancing back over her shoulder with a smile, in a white dress against a teal gallery wall lined with framed drawings.' },
-  { src: g42, alt: 'Pieter grinning, hands in his pockets, in a black shirt against a teal gallery wall lined with framed drawings.' },
+  { src: g29, alt: 'Black and white photograph of Joanique mid-stride past a row of small framed drawings.' },
+  { src: g34, alt: 'Long-exposure black and white frame of Pieter and Joanique blurring across a gallery towards each other.' },
+  { src: g39, alt: 'Pieter and Joanique standing close before a single large framed print on a white wall.' },
   { src: g40, alt: 'Pieter and Joanique sitting close together in a wooden chair, watching a vintage television in a dim exhibition room.' },
-  { src: g37, alt: 'Black and white close-up of Pieter and Joanique nose to nose, her hand resting on his cheek.' },
-  { src: g46, alt: 'Pieter dipping Joanique in a dance in front of a teal gallery wall, her heel kicked up behind her.' },
+  { src: g42, alt: 'Pieter grinning, hands in his pockets, in a black shirt against a teal gallery wall lined with framed drawings.' },
+  { src: g24, alt: 'Pieter and Joanique in a tight embrace, her arms around his neck, beneath a red-beamed ceiling.' },
 ];
 const photos = gallery.map((g) => g.src);
 
 const full = await Promise.all(photos.map((p) => getImage({ src: p, width: 2400, format: 'webp', quality: 90 })));
 const fullSrcs = full.map((f) => f.src);
 
-// Layout rhythm: landscape frames become full-width bands; portraits are
-// grouped in a repeating pair / single / trio / pair cadence.
-type Block = { kind: 'band'; i: number } | { kind: 'row'; i: number[] };
-const cadence = [2, 1, 3, 2];
-const blocks: Block[] = [];
-let step = 0;
-let pending: number[] = [];
-const flush = () => {
-  if (pending.length) blocks.push({ kind: 'row', i: pending });
-  pending = [];
-};
-photos.forEach((p, idx) => {
-  if (p.width > p.height) {
-    flush();
-    blocks.push({ kind: 'band', i: idx });
-    return;
-  }
-  pending.push(idx);
-  if (pending.length === cadence[step % cadence.length]) {
-    flush();
-    step++;
-  }
-});
-flush();
+// Layout: rows of three portraits, an offset pair, and one landscape frame.
+type Block = { kind: 'three' | 'pair' | 'wide'; i: number[] };
+const blocks: Block[] = [
+  { kind: 'three', i: [0, 1, 2] },
+  { kind: 'pair', i: [3, 4] },
+  { kind: 'three', i: [5, 6, 7] },
+  { kind: 'wide', i: [8] },
+  { kind: 'three', i: [9, 10, 11] },
+  { kind: 'pair', i: [12, 13] },
+  { kind: 'three', i: [14, 15, 16] },
+];
 
-const img = 'h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]';
+const img = 'absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]';
 ---
 
 <Base title="Gallery — Pieter & Joanique">
   <Nav />
 
-  <!-- HEADING · burlap (no image; alternates) -->
-  <Section mode="burlap" class="px-[6cqw] py-[6cqw]">
-    <div class="mx-auto max-w-[680px]">
-      <h1 class="font-display font-medium text-ink text-[clamp(2.2rem,8cqw,3rem)]">Gallery</h1>
-      <p class="mt-[0.6em] font-body text-[0.95rem] text-ink">A few moments from our engagement shoot.</p>
-    </div>
+  <PageIntro kicker="Gallery" title="A Few Moments So Far" lead="Our engagement shoot, in a gallery of cream, white, emerald and charcoal walls." />
+
+  <!-- GRID · linen; gutters are the ground showing through -->
+  <Section mode="linen" class="pb-12 lg:pb-16">
+    <Grid grid={false} class="flex flex-col gap-5 lg:gap-6">
+      {
+        blocks.map((b) =>
+          b.kind === 'wide' ? (
+            <div data-reveal class="relative aspect-[3/2] overflow-hidden lg:aspect-[16/9]">
+              <button type="button" data-lightbox={b.i[0]} class="block h-full w-full" aria-label={`Open photo ${b.i[0] + 1} of ${photos.length}`}>
+                <Image src={photos[b.i[0]]} alt={gallery[b.i[0]].alt} widths={[800, 1400, 2400]} sizes="100vw" quality={90} class={img} />
+              </button>
+            </div>
+          ) : (
+            <div data-reveal class:list={['grid gap-5 lg:gap-6', b.kind === 'three' ? 'sm:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-12']}>
+              {b.i.map((idx, n) => (
+                <div
+                  class:list={[
+                    'relative aspect-[4/5] overflow-hidden',
+                    b.kind === 'pair' && (n === 0 ? 'lg:col-start-2 lg:col-span-5' : 'lg:col-start-7 lg:col-span-5 lg:mt-24'),
+                  ]}
+                >
+                  <button type="button" data-lightbox={idx} class="block h-full w-full" aria-label={`Open photo ${idx + 1} of ${photos.length}`}>
+                    <Image
+                      src={photos[idx]}
+                      alt={gallery[idx].alt}
+                      widths={[640, 1024, 1600]}
+                      quality={90}
+                      sizes={b.kind === 'three' ? '(min-width: 640px) 33vw, 100vw' : '(min-width: 1024px) 42vw, (min-width: 640px) 50vw, 100vw'}
+                      class={img}
+                    />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ),
+        )
+      }
+    </Grid>
   </Section>
 
-  <!-- GRID · olive (emerald and charcoal walls dominate the ten frames); the surface shows through the 2px gutters -->
-  <Section mode="olive" class="flex flex-col gap-[2px] py-[5cqw]">
-    {
-      blocks.map((b) =>
-        b.kind === 'band' ? (
-          <div data-reveal class="h-[clamp(320px,62cqw,720px)] w-full cursor-pointer overflow-hidden bg-surface">
-            <button type="button" data-lightbox={b.i} class="block h-full w-full" aria-label={`Open photo ${b.i + 1} of ${photos.length}`}>
-              <Image src={photos[b.i]} alt={gallery[b.i].alt} widths={[800, 1400, 2400]} sizes="100vw" quality={90} class={img} />
-            </button>
-          </div>
-        ) : (
-          <div data-reveal class="flex flex-wrap gap-[2px]">
-            {b.i.map((idx) => (
-              <div
-                class:list={[
-                  'cursor-pointer overflow-hidden bg-surface',
-                  b.i.length === 1
-                    ? 'h-[clamp(420px,110cqw,900px)] w-full'
-                    : b.i.length === 2
-                      ? 'h-[clamp(320px,70cqw,720px)] min-w-[220px] flex-[1_1_260px]'
-                      : 'h-[clamp(280px,50cqw,560px)] min-w-[200px] flex-[1_1_200px]',
-                ]}
-              >
-                <button type="button" data-lightbox={idx} class="block h-full w-full" aria-label={`Open photo ${idx + 1} of ${photos.length}`}>
-                  <Image
-                    src={photos[idx]}
-                    alt={gallery[idx].alt}
-                    widths={[640, 1024, 1600, 2400]}
-                    quality={90}
-                    sizes={b.i.length === 1 ? '100vw' : b.i.length === 2 ? '(min-width: 700px) 50vw, 100vw' : '(min-width: 700px) 33vw, 100vw'}
-                    class={img}
-                  />
-                </button>
-              </div>
-            ))}
-          </div>
-        ),
-      )
-    }
-  </Section>
-
-  <!-- CREDIT · linen (no image; alternates) -->
-  <Section mode="linen" class="px-[6cqw] py-[5cqw] text-center">
-    <p class="font-body text-[0.8rem] tracking-[0.04em] text-ink">Photography by Bitiah</p>
+  <!-- CREDIT · linen -->
+  <Section mode="linen" class="pb-20 lg:pb-28">
+    <Grid grid={false} class="border-t border-rule pt-6">
+      <p class="font-body text-small tracking-[0.04em] text-ink">Photography by Bitiah</p>
+    </Grid>
   </Section>
 
   <Footer />

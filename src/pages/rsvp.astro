@@ -1,45 +1,47 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Section from '../components/site/Section.astro';
+import Grid from '../components/site/Grid.astro';
+import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 import RsvpForm from '../components/site/RsvpForm';
-import banner from '../assets/photos/photo-12.jpg';
+import banner from '../assets/photos/gallery/g-33.jpg';
 import { RSVP_DEADLINE } from '../lib/pricing';
 
 export const prerender = true;
 ---
 
-<Base title="RSVP — Pieter & Joanique">
+<Base title="RSVP · Pieter & Joanique">
   <Nav />
 
-  <!-- BANNER · olive (photograph; the surface never shows) -->
-  <Section mode="olive" class="max-h-[340px] w-full overflow-hidden" style="aspect-ratio:16/9;">
-    <Image src={banner} alt="" widths={[640, 1024, 1600]} sizes="100vw" loading="eager" class="block h-full w-full object-cover" />
-  </Section>
+  <PageIntro
+    kicker="RSVP"
+    title="Kindly respond by 28 September"
+    lead={`We would love to know whether you can join us. Please reply by ${RSVP_DEADLINE}.`}
+    photo={banner}
+    alt="Black and white close-up of Pieter and Joanique's hands reaching for each other, her engagement ring catching the light."
+    ratio="3/2"
+    position="50% 50%"
+  />
 
-  <!-- HEADING · burlap (no image; alternates) -->
-  <Section mode="burlap" class="px-[6cqw] py-[2.4em] text-center">
-    <div class="mx-auto max-w-[600px]">
-      <h1 class="mb-[0.5em] font-display font-medium text-ink text-[clamp(2.4rem,9cqw,3.2rem)]">RSVP</h1>
-      <p class="font-body text-[0.95rem] text-ink">Kindly respond by {RSVP_DEADLINE}</p>
-    </div>
-  </Section>
-
-  <!-- FORM · linen (no image; alternates) -->
-  <Section mode="linen" class="px-[6cqw] pt-[2.4em]">
-    <div class="mx-auto max-w-[600px]">
-      <noscript>
-        <p class="mb-[2em] font-display leading-[1.6] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">
-          Having trouble with the form? Send your response to Pieter on{' '}
-          <a href="tel:+27837980144" class="text-accent underline underline-offset-[0.2em]">083 798 0144</a> and he will sort it
-          out with you. Prices and banking details are on{' '}
-          <a href="/the-weekend#payment" class="text-accent underline underline-offset-[0.2em]">The Weekend</a>.
-        </p>
-      </noscript>
-      <RsvpForm client:load />
-    </div>
+  <!-- FORM · linen, columns 3–9 -->
+  <Section mode="linen" class="pb-20 lg:pb-28">
+    <Grid>
+      <div class="border-t border-rule pt-10 lg:col-start-3 lg:col-span-7 lg:pt-14">
+        <div class="max-w-[600px]">
+          <noscript>
+            <p class="mb-8 font-display text-lead text-ink">
+              Having trouble with the form? Send your response to Pieter on{' '}
+              <a href="tel:+27837980144" class="text-accent underline underline-offset-[0.2em]">083 798 0144</a> and he will sort it
+              out with you. Prices and banking details are on{' '}
+              <a href="/the-weekend#payment" class="text-accent underline underline-offset-[0.2em]">The Weekend</a>.
+            </p>
+          </noscript>
+          <RsvpForm client:load />
+        </div>
+      </div>
+    </Grid>
   </Section>
 
   <Footer />

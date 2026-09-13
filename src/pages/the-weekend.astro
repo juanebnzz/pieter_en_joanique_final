@@ -2,29 +2,30 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
-import Section, { type Mode } from '../components/site/Section.astro';
+import Section from '../components/site/Section.astro';
+import Grid from '../components/site/Grid.astro';
+import Editorial from '../components/site/Editorial.astro';
+import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
-import fridayPhoto from '../assets/photos/photo-9.jpg';
-import saturdayPhoto from '../assets/photos/photo-6.jpg';
-import sundayPhoto from '../assets/photos/photo-7.jpg';
+import introPhoto from '../assets/photos/gallery/g-16.jpg';
+import fridayPhoto from '../assets/photos/gallery/g-22.jpg';
+import saturdayPhoto from '../assets/photos/gallery/g-18.jpg';
+import sundayPhoto from '../assets/photos/gallery/g-03.jpg';
 import { BANK_DETAILS, GIFT_DETAILS, PAYMENT_DEADLINE } from '../lib/pricing';
 
 export const prerender = true;
 
 type Row = { time: string; event: string; ceremony?: boolean };
-// Every day band photograph has white gallery walls, so bands are linen, and
-// each timeline beneath sits on burlap. As on the home page, text blocks only
-// ever alternate burlap / linen; olive is reserved for photographs and the footer.
-const scrim = (pct: number, height: string) =>
-  `height:${height};background:linear-gradient(to top, color-mix(in srgb, var(--color-surface) ${pct}%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);`;
-const days: { title: string; photo: ImageMetadata; mode: Mode; timelineMode: Mode; gradient: string; rows: Row[]; note: string | null }[] = [
+// Each day is a split: the day kicker hangs beside its timeline and a portrait
+// sits in the outer columns, alternating sides so the page zigzags. Every
+// frame here is unique to this page.
+const days: { kicker: string; photo: ImageMetadata; alt: string; position: string; rows: Row[]; note: string | null }[] = [
   {
-    title: 'Friday · 13 November',
-    photo: fridayPhoto, // photo-9: white walls
-    mode: 'linen',
-    timelineMode: 'burlap',
-    gradient: scrim(90, '65%'),
+    kicker: 'Friday · 13 November',
+    photo: fridayPhoto,
+    alt: 'Pieter and Joanique walking away hand in hand along a green gallery wall of framed prints.',
+    position: '50% 50%',
     rows: [
       { time: '14:00', event: 'Guests arrive' },
       { time: '18:00', event: 'Bonfire and burger night' },
@@ -32,11 +33,10 @@ const days: { title: string; photo: ImageMetadata; mode: Mode; timelineMode: Mod
     note: 'Friday night accommodation at Tshikwalo Game Lodge',
   },
   {
-    title: 'Saturday · 14 November',
-    photo: saturdayPhoto, // photo-6: white walls
-    mode: 'linen',
-    timelineMode: 'burlap',
-    gradient: scrim(95, '70%'),
+    kicker: 'Saturday · 14 November',
+    photo: saturdayPhoto,
+    alt: 'Pieter dipping Joanique in a dance in the green gallery, her hair swinging.',
+    position: '50% 55%',
     rows: [
       { time: '08:00', event: 'Breakfast at the lodge restaurant, for Friday guests' },
       { time: '11:00', event: 'Saturday guests arrive' },
@@ -48,11 +48,10 @@ const days: { title: string; photo: ImageMetadata; mode: Mode; timelineMode: Mod
     note: 'Saturday night accommodation at Tshikwalo Game Lodge',
   },
   {
-    title: 'Sunday · 15 November',
-    photo: sundayPhoto, // photo-7: white walls
-    mode: 'linen',
-    timelineMode: 'burlap',
-    gradient: scrim(85, '60%'),
+    kicker: 'Sunday · 15 November',
+    photo: sundayPhoto,
+    alt: 'Black and white photograph of Pieter and Joanique walking away down a white gallery corridor, hand in hand.',
+    position: '50% 45%',
     rows: [
       { time: '08:00', event: 'Breakfast for all guests' },
       { time: '10:00', event: 'Checkout' },
@@ -91,184 +90,152 @@ const goodToKnow = [
   'Dinokeng Game Reserve charges a R100 conservation fee per guest, paid at the gate on arrival.',
 ];
 
-const inner = 'mx-auto max-w-[680px]';
-const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]';
+const body = 'max-w-[64ch] font-display text-lead text-ink';
+const listRow = 'border-t border-rule py-4 max-w-[64ch] font-display text-lead text-ink';
 ---
 
 <Base title="The Weekend — Pieter & Joanique">
   <Nav />
 
-  <!-- INVITATION · burlap -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[9cqw]">
-    <div class={inner}>
-      <div class="eyebrow mb-[1.2em]">The Invitation</div>
-      <p class="font-display leading-[1.65] text-ink text-[clamp(1.2rem,2.8cqw,1.4rem)]">
-        Join us for a weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of
-        Pieter and Joanique's marriage.
-      </p>
-    </div>
-  </Section>
+  <PageIntro
+    kicker="The Weekend"
+    title="Friday 13 to Sunday 15 November 2026"
+    lead="Join us for a weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of Pieter and Joanique's marriage."
+    photo={introPhoto}
+    alt="Joanique pulling Pieter along by the hand across the green gallery, both laughing."
+    position="50% 45%"
+  />
 
   {
-    days.map((d) => (
-      <>
-        {/* DAY BAND · linen (white walls) */}
-        <Section mode={d.mode} class="relative h-[40vh] max-h-[340px] min-h-[220px] w-full overflow-hidden">
-          <Image src={d.photo} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" />
-          <div class="pointer-events-none absolute bottom-0 left-0 right-0" style={d.gradient} />
-          <div class="absolute bottom-0 left-0 right-0 pb-[0.9em] pr-[6cqw]" style="padding-left:max(6cqw,calc((100cqw - 680px) / 2));">
-            <p class="font-display font-medium text-ink text-[clamp(2rem,7.5cqw,3rem)]">{d.title}</p>
-          </div>
-        </Section>
-
-        {/* DAY TIMELINE · burlap / olive / burlap (no image; alternates) */}
-        <Section mode={d.timelineMode} class="px-[6cqw] pb-[8cqw] pt-[3cqw]">
-          <div class={inner}>
-            {d.rows.map((r) => (
-              <div class="flex flex-wrap gap-y-[0.3em] gap-x-[1.2em] border-t border-rule py-[0.9em]">
-                <div class="min-w-[9.5em] flex-none whitespace-nowrap font-body font-medium text-[0.9rem] text-ink">{r.time}</div>
-                <div class="flex-[1_1_200px] font-display text-ink text-[clamp(1.15rem,2.6cqw,1.35rem)]">
-                  {r.event}
-                  {r.ceremony && (
-                    <span>
-                      {' '}
-                      —{' '}
-                      <a
-                        href="/pieter-joanique-ceremony.ics"
-                        download="Pieter-Joanique-Ceremony.ics"
-                        class="font-body font-medium text-[0.85rem] tracking-[0.02em] text-ink underline underline-offset-[0.15em] hover:opacity-75"
-                      >
-                        Add to calendar →
-                      </a>
-                    </span>
-                  )}
+    days.map((d, i) => {
+      const photoLeft = i % 2 === 1;
+      return (
+        <Section mode="linen" data-reveal class="py-12 md:py-14 lg:py-16">
+          <Grid class="gap-y-8 border-t border-rule pt-10 lg:pt-14">
+            <div class:list={['eyebrow mb-2 lg:mb-0', photoLeft ? 'lg:col-start-6 lg:col-span-2' : 'lg:col-start-2 lg:col-span-2']}>{d.kicker}</div>
+            <div class:list={['order-3 lg:order-none', photoLeft ? 'lg:col-start-8 lg:col-span-5' : 'lg:col-start-4 lg:col-span-5']}>
+              {d.rows.map((r) => (
+                <div class="flex flex-wrap gap-x-6 gap-y-1 border-t border-rule py-4 first:border-t-0 first:pt-0">
+                  <div class="w-[8.5em] flex-none font-body font-medium text-small text-ink">{r.time}</div>
+                  <div class="flex-[1_1_200px] font-display text-lead text-ink">
+                    {r.event}
+                    {r.ceremony && (
+                      <span>
+                        {' '}
+                        —{' '}
+                        <a
+                          href="/pieter-joanique-ceremony.ics"
+                          download="Pieter-Joanique-Ceremony.ics"
+                          class="font-body font-medium text-small text-ink underline underline-offset-[0.15em] hover:opacity-75"
+                        >
+                          Add to calendar →
+                        </a>
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-            {d.note && <p class="mt-[1.4em] font-display italic text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">{d.note}</p>}
-          </div>
+              ))}
+              {d.note && <p class="mt-6 font-display italic text-lead text-ink">{d.note}</p>}
+            </div>
+            <div
+              class:list={['relative order-2 aspect-[4/5] overflow-hidden lg:order-none lg:row-start-1', photoLeft ? 'lg:col-start-1 lg:col-span-4' : 'lg:col-start-10 lg:col-span-3']}
+            >
+              <Image src={d.photo} alt={d.alt} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 33vw, 100vw" class="absolute inset-0 h-full w-full object-cover" style={`object-position:${d.position};`} />
+            </div>
+          </Grid>
         </Section>
-      </>
-    ))
+      );
+    })
   }
 
-  <!-- THROUGHOUT · linen (no image; alternates) -->
-  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
-    <div class={inner}>
-      <div class="eyebrow mb-[1.4em]">Throughout The Weekend</div>
-      {throughout.map((t) => <div class:list={['border-t border-rule py-[0.9em]', bodyText]}>{t}</div>)}
-    </div>
-  </Section>
+  <Editorial kicker="Throughout The Weekend">
+    {throughout.map((t) => <div class={listRow}>{t}</div>)}
+  </Editorial>
 
-  <!-- STAYING · burlap (no image; alternates) -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
-    <div class={inner}>
-      <div class="eyebrow mb-[1.4em]">Staying With Us</div>
-      <p class:list={['mb-[1.4em]', bodyText]}>
-        Saturday night accommodation is compulsory, as we are booking out the entire venue. If you have other arrangements,
-        please contact us directly and we will make the necessary adjustments.
+  <Editorial kicker="Staying With Us">
+    <p class:list={['mb-6', body]}>
+      Saturday night accommodation is compulsory, as we are booking out the entire venue. If you have other arrangements,
+      please contact us directly and we will make the necessary adjustments.
+    </p>
+    {
+      [
+        ['Check-in', 'Friday from 14:00'],
+        ['Check-out', 'Sunday at 10:00'],
+      ].map(([k, v]) => (
+        <div class="flex gap-6 border-t border-rule py-4">
+          <div class="w-[8.5em] flex-none font-body font-medium text-small text-ink">{k}</div>
+          <div class="font-display text-lead text-ink">{v}</div>
+        </div>
+      ))
+    }
+  </Editorial>
+
+  <!-- COSTS + HOW TO PAY · burlap — the page's one interlude, so the money information stands apart -->
+  <Editorial kicker="What It Costs" mode="burlap" id="payment">
+    {
+      costs.map((c) => (
+        <div class="max-w-[64ch] border-t border-rule py-5">
+          <p class="mb-2 font-display font-medium text-title text-ink">{c.title}</p>
+          <p class="font-body text-body text-ink">{c.detail}</p>
+        </div>
+      ))
+    }
+    <div class="mt-12">
+      <div class="eyebrow mb-5">How To Pay</div>
+      <p class:list={['mb-6', body]}>
+        Accommodation is paid by EFT, directly to Pieter and Joanique, by {PAYMENT_DEADLINE}. Please use your initials and
+        surname as the reference.
       </p>
-      {
-        [
-          ['Check-in', 'Friday from 14:00'],
-          ['Check-out', 'Sunday at 10:00'],
-        ].map(([k, v]) => (
-          <div class="flex gap-[1.2em] border-t border-rule py-[0.9em]">
-            <div class="min-w-[7.5em] flex-none font-body font-medium text-[0.9rem] text-accent">{k}</div>
-            <div class="font-display text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">{v}</div>
-          </div>
-        ))
-      }
-    </div>
-  </Section>
-
-  <!-- COSTS · linen (no image; alternates) -->
-  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
-    <div class={inner}>
-      <div class="eyebrow mb-[1.4em]">What It Costs</div>
-      {
-        costs.map((c) => (
-          <div class="border-t border-rule py-[1.4em]">
-            <p class="mb-[0.5em] font-display font-medium text-ink text-[clamp(1.2rem,2.8cqw,1.4rem)]">{c.title}</p>
-            <p class="font-body leading-[1.7] text-[0.95rem] text-ink">{c.detail}</p>
-          </div>
-        ))
-      }
-
-      <!-- HOW TO PAY · sits with the prices so the money information is in one place -->
-      <div id="payment" class="mt-[2.4em] scroll-mt-[2em]">
-        <div class="eyebrow mb-[1.2em]">How To Pay</div>
-        <p class:list={['mb-[1.4em]', bodyText]}>
-          Accommodation is paid by EFT, directly to Pieter and Joanique, by {PAYMENT_DEADLINE}. Please use your initials and
-          surname as the reference.
-        </p>
-        <dl class="m-0">
-          {
-            BANK_DETAILS.map((r) => (
-              <div class="flex justify-between gap-[1em] border-t border-rule py-[0.8em]">
-                <dt class="font-body font-medium text-[0.85rem] text-ink">{r.label}</dt>
-                <dd class="m-0 text-right font-body text-[0.95rem] text-ink">{r.value}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
-    </div>
-  </Section>
-
-  <!-- GIFTS · burlap (no image; alternates) — kept apart from the accommodation payment block -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
-    <div class={inner}>
-      <div class="eyebrow mb-[1.4em]">A Gift</div>
-      <p class:list={['mb-[1.4em]', bodyText]}>
-        Having you with us is the greatest gift we could ask for. If you would like to bless us with something extra, the
-        same account applies — with a different reference so it is kept apart from your accommodation payment.
-      </p>
-      <dl class="m-0">
+      <dl class="m-0 max-w-[64ch]">
         {
-          GIFT_DETAILS.map((r) => (
-            <div class="flex justify-between gap-[1em] border-t border-rule py-[0.8em]">
-              <dt class="font-body font-medium text-[0.85rem] text-ink">{r.label}</dt>
-              <dd class="m-0 text-right font-body text-[0.95rem] text-ink">{r.value}</dd>
+          BANK_DETAILS.map((r) => (
+            <div class="flex justify-between gap-4 border-t border-rule py-3">
+              <dt class="font-body font-medium text-small text-ink">{r.label}</dt>
+              <dd class="m-0 text-right font-body text-body text-ink">{r.value}</dd>
             </div>
           ))
         }
       </dl>
     </div>
-  </Section>
+  </Editorial>
 
-  <!-- GOOD TO KNOW · linen (no image; alternates) -->
-  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
-    <div class={inner}>
-      <div class="eyebrow mb-[1.4em]">Good To Know</div>
-      {goodToKnow.map((t) => <div class:list={['border-t border-rule py-[0.9em]', bodyText]}>{t}</div>)}
-    </div>
-  </Section>
+  <Editorial kicker="A Gift">
+    <p class:list={['mb-6', body]}>
+      Having you with us is the greatest gift we could ask for. If you would like to bless us with something extra, the same
+      account applies — with a different reference so it is kept apart from your accommodation payment.
+    </p>
+    <dl class="m-0 max-w-[64ch]">
+      {
+        GIFT_DETAILS.map((r) => (
+          <div class="flex justify-between gap-4 border-t border-rule py-3">
+            <dt class="font-body font-medium text-small text-ink">{r.label}</dt>
+            <dd class="m-0 text-right font-body text-body text-ink">{r.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Editorial>
 
-  <!-- WHAT TO WEAR · burlap (no image; alternates) -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
-    <div class={inner}>
-      <div class="eyebrow mb-[1.4em]">What To Wear</div>
-      <p class={bodyText}>
-        The dress code is semi-formal. We are keeping things earth-toned and summery to suit the bush setting, so please
-        avoid black, white, red and purple where possible.
-      </p>
-    </div>
-  </Section>
+  <Editorial kicker="Good To Know">
+    {goodToKnow.map((t) => <div class={listRow}>{t}</div>)}
+  </Editorial>
 
-  <!-- FINDING US · linen (no image; alternates) -->
-  <Section mode="linen" data-reveal class="px-[6cqw] pb-[12cqw] pt-[6cqw]">
-    <div class={inner}>
-      <div class="eyebrow mb-[1.2em]">Finding Us</div>
-      <a
-        href="https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99"
-        target="_blank"
-        rel="noopener"
-        class="font-display italic text-ink underline underline-offset-[0.2em] hover:opacity-75 text-[clamp(1.2rem,2.8cqw,1.4rem)]"
-        >Tshikwalo Game Lodge, Dinokeng Game Reserve →</a
-      >
-    </div>
-  </Section>
+  <Editorial kicker="What To Wear">
+    <p class={body}>
+      The dress code is semi-formal. We are keeping things earth-toned and summery to suit the bush setting, so please avoid
+      black, white, red and purple where possible.
+    </p>
+  </Editorial>
+
+  <Editorial kicker="Finding Us" class="pb-20 lg:pb-28">
+    <a
+      href="https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99"
+      target="_blank"
+      rel="noopener"
+      class="font-display italic text-title text-ink underline underline-offset-[0.2em] hover:opacity-75"
+      >Tshikwalo Game Lodge, Dinokeng Game Reserve →</a
+    >
+  </Editorial>
 
   <Footer />
 </Base>

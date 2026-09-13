@@ -2,96 +2,109 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
-import Section, { type Mode } from '../components/site/Section.astro';
+import Section from '../components/site/Section.astro';
+import Grid from '../components/site/Grid.astro';
+import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
-import photo7 from '../assets/photos/photo-7.jpg';
-import photo8 from '../assets/photos/photo-8.jpg';
-import photo9 from '../assets/photos/photo-9.jpg';
-import photo10 from '../assets/photos/photo-10.jpg';
-import photo11 from '../assets/photos/photo-11.jpg';
+import ch1 from '../assets/photos/gallery/g-37.jpg';
+import ch2 from '../assets/photos/gallery/g-02.jpg';
+import ch3 from '../assets/photos/gallery/g-32.jpg';
+import ch4 from '../assets/photos/gallery/g-25.jpg';
+import bandPhoto from '../assets/photos/gallery/g-11.jpg';
 
 export const prerender = true;
 
-// Each chapter's mode follows the wall tone of its photograph: white → linen,
-// cream → burlap, emerald / charcoal → olive. Chapter 03 (charcoal) would be
-// olive, but it follows the olive quote band, so it takes burlap instead.
-// `body` is the chapter prose beneath the oversized line. It is optional so a
-// chapter renders cleanly while its copy is still with the couple.
-const chapters: { label: string; oversized: string; body?: string; src: ImageMetadata; mode: Mode; bandAfter: boolean }[] = [
+// Chapters are asymmetric splits that alternate image side so the page
+// zigzags. The "01 · date" kicker is the spine. `body` is the chapter prose
+// beneath the oversized line; it is optional until the couple's copy lands.
+const chapters: { label: string; oversized: string; body?: string; src: ImageMetadata; alt: string; position: string; bandAfter: boolean }[] = [
   {
     label: '01 · 25 June 2024',
     oversized: 'There was really no need to slap him with her sleeve. All she had to do was say hi.',
-    src: photo8, // cream walls
-    mode: 'burlap',
+    src: ch1,
+    alt: 'Black and white close-up of Pieter and Joanique nose to nose, her hand resting on his cheek.',
+    position: '50% 40%',
     bandAfter: false,
   },
   {
     label: '02 · The Coffees',
     oversized: 'Officially, it was just coffee.',
-    src: photo9, // white walls
-    mode: 'linen',
+    src: ch2,
+    alt: 'Pieter and Joanique walking hand in hand through a white gallery hung with colourful paintings.',
+    position: '50% 50%',
     bandAfter: true,
   },
   {
     label: '03 · The Proposal',
     oversized: 'There was one small problem. Joanique does not like cheese.',
-    src: photo11, // charcoal wall — olive by tone, burlap by adjacency
-    mode: 'burlap',
+    src: ch3,
+    alt: "Pieter's hand reaching for Joanique's across a parquet floor, her engagement ring catching the light.",
+    position: '50% 50%',
     bandAfter: false,
   },
   {
     label: '04 · Since Then',
     oversized: 'She outdrove him. He has never been allowed to forget it.',
-    src: photo7, // white walls
-    mode: 'linen',
+    src: ch4,
+    alt: 'Joanique laughing with her arms around Pieter\'s neck in a bright gallery corridor.',
+    position: '50% 35%',
     bandAfter: false,
   },
 ];
-
-const bandScrim =
-  'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 15%, transparent) 0%, color-mix(in srgb, var(--color-surface) 55%, transparent) 100%);';
 ---
 
 <Base title="Our Story — Pieter & Joanique">
   <Nav />
 
-  {
-    chapters.map((c, i) => (
-      <>
-        <Section mode={c.mode} data-reveal="lift" class="px-[6cqw] py-[6cqw]">
-          {/* On wide screens chapters alternate image/text; on narrow, image always leads. */}
-          <div class:list={['mx-auto flex max-w-[1040px] flex-wrap items-center gap-[5cqw]', i % 2 === 1 && 'flex-row-reverse']}>
-            <div class="min-w-[260px] flex-[1_1_300px] overflow-hidden" style="aspect-ratio:4/5;">
-              <Image src={c.src} alt="Pieter and Joanique" widths={[480, 800, 1200]} sizes="(min-width: 1120px) 470px, (min-width: 700px) 45vw, 100vw" class="h-full w-full object-cover" />
-            </div>
-            <div class="min-w-[260px] flex-[1_1_300px]">
-              <div class="eyebrow mb-[1em]">{c.label}</div>
-              <p class:list={['font-display italic font-medium leading-[1.25] text-ink text-[clamp(1.6rem,4.4cqw,2.4rem)]', c.body && 'mb-[0.9em]']}>{c.oversized}</p>
-              {c.body && <p class="font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">{c.body}</p>}
-            </div>
-          </div>
-        </Section>
+  <PageIntro kicker="Our Story" title="How it happened" />
 
-        {/* QUOTE BAND · olive (photo-10: emerald wall) */}
-        {c.bandAfter && (
-          <Section mode="olive" data-reveal="lift" class="relative h-[clamp(380px,60cqw,600px)] w-full overflow-hidden">
-            <Image src={photo10} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" />
-            <div class="pointer-events-none absolute inset-0" style={bandScrim} />
-            <div class="absolute bottom-0 left-0 right-0 p-[6cqw] text-center">
-              <p class="mx-auto max-w-[32em] font-display italic leading-[1.5] text-ink text-[clamp(1.2rem,3.2cqw,1.7rem)]">
-                Jeremiah 29:11 has been a constant reminder that God has a plan for their lives.
-              </p>
-            </div>
+  {
+    chapters.map((c, i) => {
+      const photoLeft = i % 2 === 0;
+      return (
+        <>
+          <Section mode="linen" data-reveal="lift" class="py-12 md:py-14 lg:py-16">
+            <Grid class="gap-y-8 border-t border-rule pt-10 lg:pt-14">
+              <div class:list={['relative aspect-[4/5] overflow-hidden lg:row-start-1', photoLeft ? 'lg:col-start-1 lg:col-span-6' : 'lg:col-start-7 lg:col-span-6']}>
+                <Image src={c.src} alt={c.alt} widths={[640, 1024, 1600]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" style={`object-position:${c.position};`} />
+              </div>
+              {/* The text block sits below the image top — the offset is what keeps it from reading as a template. */}
+              <div class:list={['lg:row-start-1 lg:self-start lg:pt-24', photoLeft ? 'lg:col-start-8 lg:col-span-5' : 'lg:col-start-1 lg:col-span-5']}>
+                <div class="eyebrow mb-6">{c.label}</div>
+                <p class:list={['max-w-[24ch] font-display italic font-medium text-quote text-ink', c.body && 'mb-8']}>{c.oversized}</p>
+                {c.body && <p class="max-w-[64ch] font-display text-lead text-ink">{c.body}</p>}
+              </div>
+            </Grid>
           </Section>
-        )}
-      </>
-    ))
+
+          {/* INTERSTITIAL · olive, full bleed; anchored to the bottom of the aerial frame so the couple stay in shot, with the line over the empty floor at right */}
+          {c.bandAfter && (
+            <Section mode="olive" data-reveal="lift" class="relative w-full overflow-hidden">
+              <div class="relative aspect-[4/5] w-full md:aspect-[3/2] lg:aspect-[16/9] lg:max-h-[760px]">
+                <Image src={bandPhoto} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" style="object-position:50% 90%;" />
+                <div class="pointer-events-none absolute inset-0 hidden lg:block" style="background:linear-gradient(to top, color-mix(in srgb, var(--color-surface) 75%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 65%);" />
+              </div>
+              {/* Below lg the line sits beneath the photo; from lg it overlays the empty floor at right. */}
+              <div class="py-10 lg:absolute lg:inset-x-0 lg:bottom-0 lg:py-0">
+                <Grid class="lg:pb-16">
+                  <p class="max-w-[26ch] font-display italic text-quote text-ink lg:col-start-8 lg:col-span-5">
+                    Jeremiah 29:11 has been a constant reminder that God has a plan for their lives.
+                  </p>
+                </Grid>
+              </div>
+            </Section>
+          )}
+        </>
+      );
+    })
   }
 
-  <!-- CLOSING · burlap (no image; alternates) -->
-  <Section mode="burlap" data-reveal="lift" class="px-[6cqw] pb-[16cqw] pt-[14cqw] text-center">
-    <p class="font-display italic text-ink text-[clamp(1.8rem,5cqw,2.6rem)]">Slegs goeie besluite</p>
+  <!-- CLOSING · burlap — the one interlude, and the line stands alone -->
+  <Section mode="burlap" data-reveal="lift" class="py-20 md:py-24 lg:py-32">
+    <Grid>
+      <p class="font-display italic text-display text-ink lg:col-start-3 lg:col-span-8">Slegs goeie besluite</p>
+    </Grid>
   </Section>
 
   <Footer />

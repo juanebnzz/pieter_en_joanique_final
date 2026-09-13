@@ -79,7 +79,7 @@ export default function AdminDashboard() {
           <p className="font-body text-sm text-ink">
             RSVPs &amp; payments
             {data && <> · updated {new Date(data.generated_at).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })}</>}
-            {offline && <span className="ml-2 border border-accent px-2 py-0.5 text-accent">offline — showing last copy</span>}
+            {offline && <span className="ml-2 border border-accent px-2 py-0.5 text-accent">offline, showing last copy</span>}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

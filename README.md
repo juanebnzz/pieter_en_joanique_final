@@ -11,7 +11,7 @@ for the couple to track RSVPs and payments.
 |---|---|---|
 | Framework | Astro 7, `output: 'server'` | Public pages prerender (`export const prerender = true`); RSVP + admin are on-demand |
 | UI islands | React 19 | RSVP form, admin dashboard |
-| Styling | Tailwind 4 | Sectional colour tokens as CSS custom properties in `src/styles/global.css` (`surface` / `ink` / `rule` / `accent`, resolved per `data-mode`), mapped to utilities in `tailwind.config.mjs`; every section is wrapped in `src/components/site/Section.astro` with a `mode` of linen · burlap · olive (cinnamon is defined but currently unused). Text sections alternate burlap / linen; olive is reserved for photograph-backed sections and the footer. Espresso is ink, rule and accent only — never a surface |
+| Styling | Tailwind 4 | Sectional colour tokens as CSS custom properties in `src/styles/global.css` (`surface` / `ink` / `rule` / `accent`, resolved per `data-mode`), mapped to utilities in `tailwind.config.mjs`; every section is wrapped in `src/components/site/Section.astro` with a `mode` of linen · burlap · olive (cinnamon is defined but currently unused). Linen is the ground on every page, sections are divided by hairline rules, burlap appears at most once per page as an interlude, and olive is reserved for the home hero, the Our Story interstitial and the footer. Espresso is ink, rule and accent only — never a surface |
 | Database | Supabase (`joanique-pieter-2026`, `sduefddcfsurhoyxmfrq`, eu-west-1) | Postgres 17 |
 | Hosting | Vercel (`@astrojs/vercel`) | |
 | Validation | zod 4 | Shared schema in `src/lib/rsvp-schema.ts` |
@@ -39,7 +39,7 @@ Built from the Claude Design project "Pieter & Joanique Final" (5b481801). All p
 | `/` | Hero, welcome letter, gallery preview, orientation strip, RSVP CTA |
 | `/our-story` | Four chapters, alternating image/text, with a full-bleed quote band |
 | `/the-weekend` | Friday/Saturday/Sunday chapter bands + timelines, costs, dress code, directions |
-| `/gallery` | Ten captioned photos in single/pair/band blocks, click for lightbox (swipe + arrow keys) |
+| `/gallery` | Seventeen captioned photos in rows of three, offset pairs and one landscape, click for lightbox (swipe + arrow keys) |
 | `/faq` | Eight questions |
 | `/rsvp` | Live RSVP form — attending or declining |
 | `POST /api/rsvp` | RSVP submission (server recomputes the accommodation total) |
@@ -94,7 +94,7 @@ The cookie is only set `secure` over https, so the secret link must be opened on
 
 ## Photos
 
-`src/assets/photos/photo-6…12.jpg` — the seven engagement photos the design uses, resized to 2400px from
+`src/assets/photos/gallery/g-01…46.jpg` — the full engagement shoot, resized to 2400px from
 the originals in `pieterandjoaniqueengagement-photo-download-1of1/` (gitignored, 510 MB).
 Astro generates responsive WebP at build time. Photography by Bitiah.
 

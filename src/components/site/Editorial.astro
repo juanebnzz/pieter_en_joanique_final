@@ -1,0 +1,29 @@
+---
+/**
+ * Contained editorial section (archetype C): the kicker hangs in column 2 on
+ * desktop and stacks above the content on smaller screens; the content sits in
+ * columns 3–9. Sections are separated by a hairline rule, not by colour —
+ * pass mode="burlap" for the page's single warm interlude.
+ */
+import Section, { type Mode } from './Section.astro';
+import Grid from './Grid.astro';
+
+interface Props {
+  kicker: string;
+  mode?: Mode;
+  id?: string;
+  /** Hairline above the content (default). The first section after a page intro can drop it. */
+  rule?: boolean;
+  class?: string;
+}
+const { kicker, mode = 'linen', id, rule = true, class: className } = Astro.props;
+---
+
+<Section mode={mode} id={id} data-reveal class:list={['py-12 md:py-14 lg:py-16 scroll-mt-8', className]}>
+  <Grid class:list={[rule && 'border-t border-rule pt-10 lg:pt-14']}>
+    <div class="eyebrow mb-6 lg:col-start-2 lg:col-span-1 lg:mb-0 lg:pr-4">{kicker}</div>
+    <div class="lg:col-start-3 lg:col-span-7">
+      <slot />
+    </div>
+  </Grid>
+</Section>

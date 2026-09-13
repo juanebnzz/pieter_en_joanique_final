@@ -1,0 +1,50 @@
+---
+/**
+ * Inner-page opener. Kicker, display title and an optional lead in columns
+ * 1–6; an optional photograph in columns 8–12 (archetype B: the text block is
+ * offset below the image top). Stacks image-first below lg.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Section from './Section.astro';
+import Grid from './Grid.astro';
+
+interface Props {
+  kicker: string;
+  title: string;
+  lead?: string;
+  photo?: ImageMetadata;
+  alt?: string;
+  /** CSS aspect-ratio for the photo frame; 4/5 for portraits, 3/2 for landscapes. */
+  ratio?: string;
+  /** object-position, when the subject sits off centre. */
+  position?: string;
+}
+const { kicker, title, lead, photo, alt = '', ratio = '4/5', position = '50% 40%' } = Astro.props;
+---
+
+<Section mode="linen" class="pt-8 pb-12 md:pt-10 md:pb-14 lg:pt-14 lg:pb-16">
+  <Grid class="gap-y-10">
+    <div class:list={['order-2 lg:order-1', photo ? 'lg:col-span-6 lg:self-center lg:pt-16' : 'lg:col-span-8']}>
+      <div class="eyebrow mb-6">{kicker}</div>
+      <h1 class="font-display font-medium text-display text-ink">{title}</h1>
+      {lead && <p class="mt-8 max-w-[44ch] font-display text-lead text-ink">{lead}</p>}
+      <slot />
+    </div>
+    {
+      photo && (
+        <div class="relative order-1 overflow-hidden lg:order-2 lg:col-start-8 lg:col-span-5" style={`aspect-ratio:${ratio};`}>
+          <Image
+            src={photo}
+            alt={alt}
+            widths={[640, 1024, 1600]}
+            sizes="(min-width: 1024px) 42vw, 100vw"
+            loading="eager"
+            class="absolute inset-0 h-full w-full object-cover"
+            style={`object-position:${position};`}
+          />
+        </div>
+      )
+    }
+  </Grid>
+</Section>

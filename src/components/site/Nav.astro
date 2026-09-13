@@ -1,8 +1,13 @@
 ---
 /**
- * Site navigation. `overlay` sits transparently over the home hero and inherits
- * the hero section's mode (so its ink is the hero's ink); `bar` is the solid
- * version used on every other page and is a section of its own.
+ * Site navigation, sticky on every page. `bar` is the solid version used on
+ * every inner page and is a section of its own. `overlay` sits transparently
+ * over the home hero (in the hero's mode, so its ink is the hero's ink) and
+ * turns into a solid bar of that same mode once the page scrolls — a
+ * transparent nav with linen ink would vanish over the linen sections below.
+ *
+ * The overlay's stickiness is gated on html.js-enabled: without the scroll
+ * script it would never go solid, so it falls back to the old absolute overlay.
  */
 import Section, { type Mode } from './Section.astro';
 import NavLinks from './NavLinks.astro';
@@ -17,12 +22,33 @@ const overlay = variant === 'overlay';
 
 {
   overlay ? (
-    <nav class="absolute top-0 left-0 right-0 z-20 bg-transparent">
-      <NavLinks overlay />
-    </nav>
+    <div data-mode={mode} data-nav-overlay class="nav-overlay top-0 left-0 right-0 z-30 h-0">
+      <nav class="nav-overlay-bar bg-transparent text-ink transition-colors duration-300">
+        <NavLinks overlay />
+      </nav>
+    </div>
   ) : (
-    <Section as="nav" mode={mode} class="relative z-20 border-b border-rule">
+    <Section as="nav" mode={mode} class="sticky top-0 z-30 border-b border-rule">
       <NavLinks overlay={false} />
     </Section>
   )
 }
+
+<style>
+  .nav-overlay { position: absolute; }
+  :global(.js-enabled) .nav-overlay { position: sticky; }
+  .nav-overlay.is-scrolled .nav-overlay-bar {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-rule);
+  }
+</style>
+
+<script>
+  // Overlay nav goes solid once the top of the page has scrolled away.
+  const overlayNav = document.querySelector<HTMLElement>('[data-nav-overlay]');
+  if (overlayNav) {
+    const update = () => overlayNav.classList.toggle('is-scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

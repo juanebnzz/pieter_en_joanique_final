@@ -5,7 +5,7 @@ import Section from '../components/site/Section.astro';
 import Grid from '../components/site/Grid.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
-import hero from '../assets/photos/photo-6.jpg';
+import hero from '../assets/photos/gallery/g-44.jpg';
 import storyPhoto from '../assets/photos/gallery/g-15.jpg';
 import moment1 from '../assets/photos/gallery/g-30.jpg';
 import moment2 from '../assets/photos/gallery/g-19.jpg';
@@ -34,8 +34,11 @@ const moments = [
 ];
 ---
 
-<Base title="Pieter & Joanique — 14 November 2026">
-  <!-- HERO · olive (photo-6), full bleed with the overlay nav — kept exactly as the couple want it -->
+<Base title="Pieter & Joanique · 14 November 2026">
+  <!-- Sticky overlay nav: a sibling of the hero, not a child, because the hero clips overflow -->
+  <Nav variant="overlay" mode="olive" />
+
+  <!-- HERO · olive (g-44), full bleed under the overlay nav — kept exactly as the couple want it -->
   <Section mode="olive" class="relative m-0 h-[84vh] min-h-[600px] w-full overflow-hidden">
     <Image
       src={hero}
@@ -48,7 +51,6 @@ const moments = [
     />
     <div class="pointer-events-none absolute inset-0" style={heroScrim}></div>
     <div class="pointer-events-none absolute left-0 right-0 top-0 h-[26cqw] min-h-[120px]" style={navScrim}></div>
-    <Nav variant="overlay" />
     <div class="pointer-events-none absolute bottom-0 left-0 right-0 px-[6cqw] pb-[6cqw] pt-[8cqw] text-center">
       <h1 class="mb-[0.5em] font-display font-medium leading-[1.05] tracking-[0.02em] text-ink text-[clamp(2.2rem,9cqw,5rem)]">
         PIETER &amp; JOANIQUE

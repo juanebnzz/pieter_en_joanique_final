@@ -10,7 +10,7 @@ interface Props {
 
 const {
   title,
-  description = 'Pieter & Joanique are getting married — Saturday, 14 November 2026 at Tshikwalo Game Lodge, Dinokeng Game Reserve.',
+  description = 'Pieter & Joanique are getting married on Saturday, 14 November 2026 at Tshikwalo Game Lodge, Dinokeng Game Reserve.',
   noindex = false,
 } = Astro.props;
 ---
@@ -42,7 +42,8 @@ const {
     <slot name="head" />
   </head>
   <body class="min-h-dvh bg-surface text-ink font-body">
-    <div class="site w-full overflow-x-hidden">
+    <!-- overflow-x-clip, not -hidden: hidden would make .site a scroll container and break the sticky nav -->
+    <div class="site w-full overflow-x-clip">
       <slot />
     </div>
     <script>

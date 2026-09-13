@@ -79,7 +79,7 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
         <div className="min-w-0">
           <p className="truncate font-display text-lg font-medium text-ink">{h.name}</p>
           <p className="truncate font-body text-sm text-ink">
-            {h.guests.length > 0 ? h.guests.map((g) => g.full_name).join(', ') : (h.email ?? '—')}
+            {h.guests.length > 0 ? h.guests.map((g) => g.full_name).join(', ') : (h.email ?? 'No names yet')}
             {(h.children_count ?? 0) > 0 && ` + ${h.children_count} child${h.children_count === 1 ? '' : 'ren'}`}
           </p>
         </div>
@@ -138,7 +138,7 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
               <option value="declined">Declined</option>
             </select>
             <select name="stay" defaultValue={h.stay ?? ''} className={input}>
-              <option value="">Nights — not set</option>
+              <option value="">Nights: not set</option>
               <option value="friday_saturday">Friday + Saturday</option>
               <option value="saturday">Saturday only</option>
             </select>

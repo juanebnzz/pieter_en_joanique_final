@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/*
+ * Brand tokens — PLACEHOLDERS.
+ * Replace these with the values from the Claude Design reference once it lands.
+ * Everything on the site should reference these tokens, never raw hex.
+ */
+@theme {
+  --color-brand-bg: #faf8f5;
+  --color-brand-ink: #1f1d1b;
+  --color-brand-muted: #6b6560;
+  --color-brand-accent: #8a6d3b;
+  --color-brand-accent-soft: #efe6d8;
+
+  --font-display: ui-serif, Georgia, serif;
+  --font-body: ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  background: var(--color-brand-bg);
+  color: var(--color-brand-ink);
+  font-family: var(--font-body);
+}

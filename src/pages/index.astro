@@ -1,0 +1,31 @@
+---
+/**
+ * PLACEHOLDER HOME PAGE.
+ * Structure only — sections exist so the RSVP flow can be tested end to end.
+ * The real layout, copy and styling come from the Claude Design reference.
+ */
+import Base from '../layouts/Base.astro';
+import RsvpForm from '../components/site/RsvpForm';
+
+export const prerender = true;
+---
+
+<Base title="Pieter & Joanique">
+  <main class="mx-auto max-w-3xl px-6 py-16 space-y-24">
+    <section id="hero" class="text-center space-y-4">
+      <p class="text-sm uppercase tracking-widest text-brand-muted">We're getting married</p>
+      <h1 class="font-display text-5xl">Pieter &amp; Joanique</h1>
+      <p class="text-brand-muted">[Date · Venue · City — from design]</p>
+    </section>
+
+    <section id="details" class="space-y-3">
+      <h2 class="font-display text-3xl">Details</h2>
+      <p class="text-brand-muted">[Ceremony, reception, dress code, accommodation, gifts — from design]</p>
+    </section>
+
+    <section id="rsvp" class="space-y-6">
+      <h2 class="font-display text-3xl">RSVP</h2>
+      <RsvpForm client:load />
+    </section>
+  </main>
+</Base>

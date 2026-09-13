@@ -53,7 +53,7 @@ const chapters = [
           {/* On wide screens chapters alternate image/text; on narrow, image always leads. */}
           <div data-reveal="lift" class:list={['flex flex-wrap items-center gap-[5cqw]', i % 2 === 1 && 'flex-row-reverse']}>
             <div class="min-w-[260px] flex-[1_1_300px] overflow-hidden" style="aspect-ratio:4/5;">
-              <Image src={c.src} alt="Pieter and Joanique" widths={[480, 800, 1200]} sizes="(min-width: 700px) 50vw, 100vw" class="h-full w-full object-cover" />
+              <Image src={c.src} alt="Pieter and Joanique" widths={[480, 800, 1200]} sizes="(min-width: 1120px) 470px, (min-width: 700px) 45vw, 100vw" class="h-full w-full object-cover" />
             </div>
             <div class="min-w-[260px] flex-[1_1_300px]">
               <div class="eyebrow mb-[1em]">{c.label}</div>

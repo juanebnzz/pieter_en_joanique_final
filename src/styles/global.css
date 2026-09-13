@@ -1,31 +1,75 @@
 @import "tailwindcss";
 
-/* Brand tokens — from the Claude Design reference (Pieter & Joanique Final). */
-@theme {
-  --color-brand-bg: #F8F7F3;
-  --color-brand-soft: #EFEBE3;
-  --color-brand-rule: #D5CEC4;
-  --color-brand-ink: #302E2C;
-  --color-brand-ink-hover: #3D3B38;
-  --color-brand-muted: #5B5546;
-  --color-brand-accent: #875F45;
-  --color-brand-accent-light: #C08B68;
-  --color-brand-hero-secondary: #CFC9BF;
+/* ---------------------------------------------------------------------------
+   TOKEN LAYER — the only place a colour literal may appear.
+
+   Raw palette (the five locked colours) is registered so a literal can be
+   reached in the rare case one is needed: bg-linen, text-espresso, …
+   Semantic tokens (surface / ink / rule / accent) are what every section and
+   component uses. They resolve per mode through the [data-mode] cascade below,
+   so the same utility — bg-surface, text-ink, border-rule, text-accent — paints
+   correctly inside any section.
+
+   @theme static: emit every variable even if no utility references it, so the
+   mode blocks can safely point at the raw palette variables.
+   --------------------------------------------------------------------------- */
+@theme static {
+  --color-espresso: #302E2C;
+  --color-cinnamon: #875F45;
+  --color-olive:    #5B5546;
+  --color-burlap:   #BCB3A6;
+  --color-linen:    #F8F7F3;
+
+  /* :root defaults = linen mode */
+  --color-surface: var(--color-linen);
+  --color-ink:     var(--color-espresso);
+  --color-rule:    var(--color-burlap);
+  --color-accent:  var(--color-cinnamon);
 
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Jost', system-ui, sans-serif;
 }
 
+/* Sectional modes. Accent deviates from the brief in three modes because the
+   specified value fails WCAG 4.5:1 for the small text accent carries
+   (kickers, links, times): burlap→olive 3.58, olive→burlap 3.58,
+   espresso→cinnamon 2.42. Each is swapped for the nearest locked colour that
+   passes; see the Feature 1 report. Ink passes as specified in every mode. */
+[data-mode="linen"] {
+  --color-surface: var(--color-linen);
+  --color-ink:     var(--color-espresso);
+  --color-rule:    var(--color-burlap);
+  --color-accent:  var(--color-cinnamon);
+}
+[data-mode="burlap"] {
+  --color-surface: var(--color-burlap);
+  --color-ink:     var(--color-espresso);
+  --color-rule:    color-mix(in srgb, var(--color-espresso) 20%, transparent);
+  --color-accent:  var(--color-espresso); /* spec: olive — 3.58:1, fails */
+}
+[data-mode="olive"] {
+  --color-surface: var(--color-olive);
+  --color-ink:     var(--color-linen);
+  --color-rule:    color-mix(in srgb, var(--color-linen) 25%, transparent);
+  --color-accent:  var(--color-linen); /* spec: burlap — 3.58:1, fails */
+}
+[data-mode="espresso"] {
+  --color-surface: var(--color-espresso);
+  --color-ink:     var(--color-linen);
+  --color-rule:    var(--color-cinnamon);
+  --color-accent:  var(--color-burlap); /* spec: cinnamon — 2.42:1, fails */
+}
+
 @layer base {
   html {
-    background: var(--color-brand-bg);
-    color: var(--color-brand-ink);
+    background: var(--color-surface);
+    color: var(--color-ink);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--color-brand-accent); text-decoration: none; }
+  a { color: var(--color-accent); text-decoration: none; }
   input, textarea, button { font-family: var(--font-body); }
-  input:focus, textarea:focus { outline: none; border-color: var(--color-brand-accent); }
+  input:focus, textarea:focus { outline: none; border-color: var(--color-accent); }
 }
 
 /* The design measures everything in container-query units (cqw) off this root. */
@@ -37,7 +81,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-brand-accent);
+  color: var(--color-accent);
 }
 
 @utility nav-link {

@@ -10,9 +10,9 @@ import AddHouseholdForm from './AddHouseholdForm';
 type RsvpFilter = 'all' | 'attending' | 'declined' | 'pending';
 type PayFilter = 'all' | 'paid' | 'partial' | 'unpaid';
 
-const btn = 'min-h-[40px] border border-brand-rule bg-white px-3 py-2 font-body text-sm text-brand-ink transition-colors hover:bg-brand-soft';
-const btnDark = 'min-h-[40px] bg-brand-ink px-3 py-2 font-body text-sm text-brand-bg transition-colors hover:bg-brand-ink-hover';
-const select = 'min-h-[40px] border border-brand-rule bg-white px-3 py-2 font-body text-sm text-brand-ink';
+const btn = 'min-h-[40px] border border-rule bg-surface px-3 py-2 font-body text-sm text-ink transition-colors hover:border-ink';
+const btnDark = 'min-h-[40px] bg-ink px-3 py-2 font-body text-sm text-surface transition-colors hover:bg-accent';
+const select = 'min-h-[40px] border border-ink bg-surface px-3 py-2 font-body text-sm text-ink';
 
 export default function AdminDashboard() {
   const [data, setData] = useState<Overview | null>(null);
@@ -75,11 +75,11 @@ export default function AdminDashboard() {
     <div className="mx-auto max-w-5xl px-4 pb-24 pt-6 sm:px-6">
       <header className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-medium text-brand-ink">Pieter &amp; Joanique</h1>
-          <p className="font-body text-sm text-brand-muted">
+          <h1 className="font-display text-3xl font-medium text-ink">Pieter &amp; Joanique</h1>
+          <p className="font-body text-sm text-ink">
             RSVPs &amp; payments
             {data && <> · updated {new Date(data.generated_at).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })}</>}
-            {offline && <span className="ml-2 bg-amber-100 px-2 py-0.5 text-amber-800">offline — showing last copy</span>}
+            {offline && <span className="ml-2 border border-accent px-2 py-0.5 text-accent">offline — showing last copy</span>}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -92,12 +92,12 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      {error && <div className="mb-4 border border-red-200 bg-red-50 p-4 font-body text-sm text-red-800">{error}</div>}
+      {error && <div className="mb-4 border border-accent p-4 font-body text-sm text-ink" role="alert">{error}</div>}
 
       {showAdd && <AddHouseholdForm onDone={() => { setShowAdd(false); refresh(); }} onCancel={() => setShowAdd(false)} />}
 
       {s && (
-        <section className="mb-6 grid grid-cols-2 gap-px border border-brand-rule bg-brand-rule sm:grid-cols-4">
+        <section className="mb-6 grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
           <Stat label="Attending" value={s.attending} sub={`${s.guests_attending} guests · ${s.children_attending} children`} />
           <Stat label="Fri + Sat / Sat only" value={`${s.friday_households} / ${s.saturday_households}`} sub="households" />
           <Stat label="Declined · No reply" value={`${s.declined} · ${s.pending}`} sub={`${s.households} on the list`} />
@@ -127,10 +127,10 @@ export default function AdminDashboard() {
         </select>
       </section>
 
-      {loading && !data && <p className="font-body text-sm text-brand-muted">Loading…</p>}
+      {loading && !data && <p className="font-body text-sm text-ink">Loading…</p>}
 
       {data && filtered.length === 0 && (
-        <p className="border border-dashed border-brand-rule p-8 text-center font-body text-sm text-brand-muted">
+        <p className="border border-dashed border-rule p-8 text-center font-body text-sm text-ink">
           {data.households.length === 0 ? 'No RSVPs yet. Add households manually or wait for guests to respond.' : 'Nothing matches those filters.'}
         </p>
       )}
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
         ))}
       </ul>
 
-      <p className="mt-8 text-center font-body text-xs text-brand-muted">
+      <p className="mt-8 text-center font-body text-xs text-ink">
         {filtered.length} of {data?.households.length ?? 0} households
       </p>
     </div>
@@ -152,10 +152,10 @@ export default function AdminDashboard() {
 
 function Stat({ label, value, sub }: { label: string; value: string | number; sub?: string }) {
   return (
-    <div className="bg-brand-bg p-4">
+    <div className="bg-surface p-4">
       <p className="eyebrow text-[0.68rem]">{label}</p>
-      <p className="mt-1 font-display text-2xl font-medium text-brand-ink">{value}</p>
-      {sub && <p className="mt-1 font-body text-xs text-brand-muted">{sub}</p>}
+      <p className="mt-1 font-display text-2xl font-medium text-ink">{value}</p>
+      {sub && <p className="mt-1 font-body text-xs text-ink">{sub}</p>}
     </div>
   );
 }

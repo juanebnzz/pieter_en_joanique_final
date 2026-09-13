@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import Section from '../components/site/Section.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 import hero from '../assets/photos/photo-6.jpg';
@@ -21,11 +22,17 @@ const orientation = [
   { label: 'The Place', detail: 'Tshikwalo Game Lodge' },
   { label: 'RSVP by', detail: '28 September 2026' },
 ];
+
+// Overlays resolve toward the section's own surface colour.
+const heroScrim =
+  'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 0%, transparent) 35%, color-mix(in srgb, var(--color-surface) 55%, transparent) 70%, color-mix(in srgb, var(--color-surface) 85%, transparent) 100%);';
+const navScrim =
+  'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 45%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);';
 ---
 
 <Base title="Pieter & Joanique — 14 November 2026">
-  <!-- HERO -->
-  <section class="relative m-0 h-[78vh] min-h-[520px] w-full overflow-hidden bg-brand-ink">
+  <!-- HERO · olive (engagement imagery) -->
+  <Section mode="olive" class="relative m-0 h-[78vh] min-h-[520px] w-full overflow-hidden">
     <Image
       src={hero}
       alt="Pieter and Joanique"
@@ -35,39 +42,33 @@ const orientation = [
       fetchpriority="high"
       class="absolute inset-0 block h-full w-full object-cover"
     />
-    <div
-      class="pointer-events-none absolute inset-0"
-      style="background:linear-gradient(to bottom, rgba(48,46,44,0) 35%, rgba(48,46,44,0.55) 70%, rgba(48,46,44,0.85) 100%);"
-    >
-    </div>
-    <div
-      class="pointer-events-none absolute left-0 right-0 top-0 h-[26cqw] min-h-[120px]"
-      style="background:linear-gradient(to bottom, rgba(48,46,44,0.45) 0%, rgba(48,46,44,0) 100%);"
-    >
-    </div>
+    <div class="pointer-events-none absolute inset-0" style={heroScrim}></div>
+    <div class="pointer-events-none absolute left-0 right-0 top-0 h-[26cqw] min-h-[120px]" style={navScrim}></div>
     <Nav variant="overlay" />
     <div class="pointer-events-none absolute bottom-0 left-0 right-0 px-[6cqw] pb-[6cqw] pt-[8cqw] text-center">
-      <h1 class="mb-[0.5em] font-display font-medium leading-[1.05] tracking-[0.02em] text-brand-bg text-[clamp(2.2rem,9cqw,5rem)]">
+      <h1 class="mb-[0.5em] font-display font-medium leading-[1.05] tracking-[0.02em] text-ink text-[clamp(2.2rem,9cqw,5rem)]">
         PIETER &amp; JOANIQUE
       </h1>
-      <p class="mb-[0.35em] font-body tracking-[0.04em] text-brand-bg text-[clamp(1rem,2.4cqw,1.25rem)]">Saturday, 14 November 2026</p>
-      <p class="whitespace-nowrap font-body tracking-[0.04em] text-brand-hero-secondary text-[clamp(0.95rem,2.2cqw,1.15rem)]">
+      <p class="mb-[0.35em] font-body tracking-[0.04em] text-ink text-[clamp(1rem,2.4cqw,1.25rem)]">Saturday, 14 November 2026</p>
+      <p class="whitespace-nowrap font-body tracking-[0.04em] text-ink text-[clamp(0.95rem,2.2cqw,1.15rem)]">
         Tshikwalo Game Lodge, Dinokeng Game Reserve
       </p>
     </div>
-  </section>
+  </Section>
 
-  <!-- WELCOME LETTER -->
-  <section data-reveal class="mx-auto max-w-[640px] px-[6cqw] pb-[6cqw] pt-[9cqw] text-center">
-    <p class="mb-[1.6em] font-display leading-[1.6] text-brand-ink text-[clamp(1.25rem,3.4cqw,1.5rem)]">
-      We are truly grateful to have you celebrate our special day with us. Each of you was intentionally invited, and we
-      look forward to seeing you all. We cannot wait to build lasting memories and have you be part of them.
-    </p>
-    <p class="font-display italic text-brand-muted text-[clamp(1.15rem,3cqw,1.3rem)]">With love, Pieter &amp; Joanique</p>
-  </section>
+  <!-- WELCOME LETTER · linen -->
+  <Section mode="linen" data-reveal class="px-[6cqw] pb-[6cqw] pt-[9cqw] text-center">
+    <div class="mx-auto max-w-[640px]">
+      <p class="mb-[1.6em] font-display leading-[1.6] text-ink text-[clamp(1.25rem,3.4cqw,1.5rem)]">
+        We are truly grateful to have you celebrate our special day with us. Each of you was intentionally invited, and we
+        look forward to seeing you all. We cannot wait to build lasting memories and have you be part of them.
+      </p>
+      <p class="font-display italic text-ink text-[clamp(1.15rem,3cqw,1.3rem)]">With love, Pieter &amp; Joanique</p>
+    </div>
+  </Section>
 
-  <!-- GALLERY PREVIEW -->
-  <section data-reveal class="border-t border-brand-rule px-[6cqw] py-[9cqw]">
+  <!-- GALLERY PREVIEW · espresso (engagement imagery) -->
+  <Section mode="espresso" data-reveal class="px-[6cqw] py-[9cqw]">
     <div class="eyebrow mb-[5cqw] text-center">A Few Moments So Far</div>
     <div class="mx-auto flex max-w-[960px] flex-wrap items-start justify-center gap-y-[4cqw] gap-x-[3cqw]">
       {
@@ -82,36 +83,36 @@ const orientation = [
       }
     </div>
     <div class="mt-[5cqw] text-center">
-      <a href="/gallery" class="font-body font-medium text-[0.85rem] tracking-[0.08em] text-brand-accent underline-offset-[0.25em] hover:underline"
+      <a href="/gallery" class="font-body font-medium text-[0.85rem] tracking-[0.08em] text-accent underline-offset-[0.25em] hover:underline"
         >See the gallery →</a
       >
     </div>
-  </section>
+  </Section>
 
-  <!-- QUICK ORIENTATION STRIP -->
-  <section data-reveal class="border-y border-brand-rule bg-brand-soft">
+  <!-- QUICK ORIENTATION STRIP · burlap -->
+  <Section mode="burlap" data-reveal>
     <div class="mx-auto grid max-w-[960px] overflow-hidden" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
       {
         orientation.map((o) => (
-          <div class="-ml-px -mt-px whitespace-nowrap border-l border-t border-brand-rule px-[5cqw] py-[4.5cqw] text-center">
+          <div class="-ml-px -mt-px whitespace-nowrap border-l border-t border-rule px-[5cqw] py-[4.5cqw] text-center">
             <div class="eyebrow mb-[0.6em]">{o.label}</div>
-            <div class="font-display text-brand-ink text-[clamp(1.1rem,3cqw,1.3rem)]">{o.detail}</div>
+            <div class="font-display text-ink text-[clamp(1.1rem,3cqw,1.3rem)]">{o.detail}</div>
           </div>
         ))
       }
     </div>
-  </section>
+  </Section>
 
-  <!-- PRIMARY CTA -->
-  <section data-reveal class="px-[6cqw] pb-[10cqw] pt-[9cqw]">
+  <!-- PRIMARY CTA · linen -->
+  <Section mode="linen" data-reveal class="px-[6cqw] pb-[10cqw] pt-[9cqw]">
     <div class="mx-auto max-w-[640px]">
       <a
         href="/rsvp"
-        class="block min-h-[44px] w-full bg-brand-ink px-[1em] py-[1.1em] text-center font-body font-medium uppercase tracking-[0.1em] text-brand-bg transition-colors hover:bg-brand-ink-hover"
+        class="block min-h-[44px] w-full bg-ink px-[1em] py-[1.1em] text-center font-body font-medium uppercase tracking-[0.1em] text-surface transition-colors hover:bg-accent"
         >RSVP</a
       >
     </div>
-  </section>
+  </Section>
 
   <Footer />
 </Base>

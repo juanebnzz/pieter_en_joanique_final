@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { palette } from '../lib/palette';
 
 interface Props {
   title: string;
@@ -23,7 +24,7 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
-    <meta name="theme-color" content="#F8F7F3" />
+    <meta name="theme-color" content={palette.linen} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,7 +34,7 @@ const {
     />
     <slot name="head" />
   </head>
-  <body class="min-h-dvh bg-brand-bg text-brand-ink font-body">
+  <body class="min-h-dvh bg-surface text-ink font-body">
     <div class="site w-full overflow-x-hidden">
       <slot />
     </div>

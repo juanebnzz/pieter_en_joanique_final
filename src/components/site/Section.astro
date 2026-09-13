@@ -1,0 +1,25 @@
+---
+/**
+ * The one wrapper every page section sits in. `mode` sets the sectional colour
+ * mode via data-mode; the token layer (global.css) resolves surface / ink /
+ * rule / accent underneath it, so children only ever use bg-surface, text-ink,
+ * border-rule and text-accent.
+ *
+ * `as` picks the element (section by default; footer, nav, div where the
+ * semantics call for it). Any other attribute — id, hidden, role, aria-*,
+ * data-* — passes straight through.
+ */
+import type { HTMLTag, Polymorphic } from 'astro/types';
+
+export type Mode = 'linen' | 'burlap' | 'olive' | 'espresso';
+
+type Props<Tag extends HTMLTag = 'section'> = Polymorphic<{ as: Tag }> & {
+  mode: Mode;
+};
+
+const { as: Tag = 'section', mode, class: className, ...rest } = Astro.props;
+---
+
+<Tag data-mode={mode} class:list={['bg-surface text-ink', className]} {...rest}>
+  <slot />
+</Tag>

@@ -2,15 +2,17 @@ import { useState, type FormEvent } from 'react';
 import { api, rands, RSVP_LABEL, STAY_LABEL, type HouseholdRow } from './api';
 import type { RsvpStatus } from '../../lib/supabase';
 
+// Status is carried by the label text; chips are hairline-ruled, never filled.
+// Anything needing attention (no reply, owing) is ruled in accent.
 const badge: Record<string, string> = {
-  attending: 'bg-emerald-100 text-emerald-900',
-  declined: 'bg-brand-soft text-brand-muted',
-  pending: 'bg-amber-100 text-amber-900',
-  paid: 'bg-emerald-100 text-emerald-900',
-  partial: 'bg-amber-100 text-amber-900',
-  unpaid: 'bg-red-100 text-red-900',
+  attending: 'border border-rule text-ink',
+  declined: 'border border-rule text-ink',
+  pending: 'border border-accent text-accent',
+  paid: 'border border-rule text-ink',
+  partial: 'border border-accent text-accent',
+  unpaid: 'border border-accent text-accent',
 };
-const input = 'min-h-[40px] w-full border border-brand-rule bg-white px-3 py-2 font-body text-sm text-brand-ink';
+const input = 'min-h-[40px] w-full border border-ink bg-surface px-3 py-2 font-body text-sm text-ink';
 const h3 = 'eyebrow mb-2 text-[0.68rem]';
 
 export default function HouseholdCard({ household: h, onChanged }: { household: HouseholdRow; onChanged: () => void }) {
@@ -72,11 +74,11 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
   const headcount = (h.attending_count ?? 0) + (h.children_count ?? 0);
 
   return (
-    <div className="border border-brand-rule bg-white">
+    <div className="border border-rule bg-surface">
       <button onClick={() => setOpen((v) => !v)} className="flex w-full items-start justify-between gap-3 p-4 text-left" aria-expanded={open}>
         <div className="min-w-0">
-          <p className="truncate font-display text-lg font-medium text-brand-ink">{h.name}</p>
-          <p className="truncate font-body text-sm text-brand-muted">
+          <p className="truncate font-display text-lg font-medium text-ink">{h.name}</p>
+          <p className="truncate font-body text-sm text-ink">
             {h.guests.length > 0 ? h.guests.map((g) => g.full_name).join(', ') : (h.email ?? '—')}
             {(h.children_count ?? 0) > 0 && ` + ${h.children_count} child${h.children_count === 1 ? '' : 'ren'}`}
           </p>
@@ -95,7 +97,7 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
       </button>
 
       {open && (
-        <div className="space-y-5 border-t border-brand-rule p-4">
+        <div className="space-y-5 border-t border-rule p-4">
           {h.guests.length > 0 && (
             <div>
               <h3 className={h3}>Guests</h3>
@@ -103,7 +105,7 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
                 {h.guests.map((g) => (
                   <li key={g.id} className="py-0.5">
                     {g.full_name}
-                    {g.attending === false && <span className="ml-1 text-xs text-brand-muted">(not attending)</span>}
+                    {g.attending === false && <span className="ml-1 text-xs text-ink">(not attending)</span>}
                   </li>
                 ))}
               </ul>
@@ -140,19 +142,19 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
               <option value="friday_saturday">Friday + Saturday</option>
               <option value="saturday">Saturday only</option>
             </select>
-            <label className="flex items-center gap-2 font-body text-sm text-brand-muted">
+            <label className="flex items-center gap-2 font-body text-sm text-ink">
               Children
               <input name="children_count" type="number" min={0} defaultValue={h.children_count ?? 0} className={input} />
             </label>
             <input name="max_guests" type="number" min={1} defaultValue={h.max_guests ?? 2} placeholder="Max guests" className={input} />
-            <label className="flex items-center gap-2 font-body text-sm text-brand-muted sm:col-span-2">
+            <label className="flex items-center gap-2 font-body text-sm text-ink sm:col-span-2">
               Due (R)
               <input name="amount_due" type="number" min={0} step="0.01" defaultValue={((h.amount_due_cents ?? 0) / 100).toFixed(2)} className={input} />
             </label>
             <textarea name="dietary" defaultValue={h.dietary ?? ''} placeholder="Dietary requirements" rows={2} className={`${input} sm:col-span-3`} />
             <textarea name="notes" defaultValue={h.notes ?? ''} placeholder="Private notes" rows={2} className={`${input} sm:col-span-3`} />
             <div className="sm:col-span-3">
-              <button disabled={busy} className="min-h-[40px] bg-brand-ink px-4 py-2 font-body text-sm text-brand-bg disabled:opacity-50">Save</button>
+              <button disabled={busy} className="min-h-[40px] bg-ink px-4 py-2 font-body text-sm text-surface disabled:opacity-50">Save</button>
             </div>
           </form>
 
@@ -161,15 +163,15 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
               Payments · {rands(h.paid_cents)} received{owes && ` · ${rands(h.outstanding_cents)} outstanding`}
             </h3>
             {h.payments.length > 0 && (
-              <ul className="mb-2 divide-y divide-brand-rule font-body text-sm">
+              <ul className="mb-2 divide-y divide-rule font-body text-sm">
                 {h.payments.map((p) => (
                   <li key={p.id} className="flex items-center justify-between gap-2 py-1">
                     <span>
                       {rands(p.amount_cents)} · {new Date(p.paid_at).toLocaleDateString('en-ZA')}
-                      {p.method && <span className="text-brand-muted"> · {p.method}</span>}
-                      {p.reference && <span className="text-brand-muted"> · {p.reference}</span>}
+                      {p.method && <span className="text-ink"> · {p.method}</span>}
+                      {p.reference && <span className="text-ink"> · {p.reference}</span>}
                     </span>
-                    <button disabled={busy} onClick={() => confirm('Remove this payment?') && run(() => api.deletePayment(p.id))} className="text-xs text-red-700">
+                    <button disabled={busy} onClick={() => confirm('Remove this payment?') && run(() => api.deletePayment(p.id))} className="text-xs text-accent">
                       Remove
                     </button>
                   </li>
@@ -181,13 +183,13 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
               <input name="method" placeholder="EFT / cash" className={input} />
               <input name="reference" placeholder="Reference" className={input} />
               <div className="flex flex-wrap gap-2">
-                <button disabled={busy} className="min-h-[40px] border border-brand-ink px-3 py-2 font-body text-sm">Record</button>
+                <button disabled={busy} className="min-h-[40px] border border-ink px-3 py-2 font-body text-sm text-ink">Record</button>
                 {owes && (h.outstanding_cents ?? 0) > 0 && (
                   <button
                     type="button"
                     disabled={busy}
                     onClick={() => run(() => api.addPayment({ household_id: h.id, amount_cents: h.outstanding_cents, method: 'marked paid' }))}
-                    className="min-h-[40px] border border-brand-rule px-3 py-2 font-body text-sm"
+                    className="min-h-[40px] border border-rule px-3 py-2 font-body text-sm text-ink"
                   >
                     Mark paid in full
                   </button>
@@ -196,13 +198,13 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
             </form>
           </div>
 
-          {err && <p className="font-body text-sm text-red-700">{err}</p>}
+          {err && <p className="font-body text-sm text-accent">{err}</p>}
 
           <div className="flex justify-end">
             <button
               disabled={busy}
               onClick={() => confirm(`Delete "${h.name}" and all their guests and payments?`) && run(() => api.deleteHousehold(h.id))}
-              className="font-body text-xs text-red-700"
+              className="font-body text-xs text-accent"
             >
               Delete household
             </button>

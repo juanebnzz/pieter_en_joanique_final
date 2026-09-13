@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { api } from './api';
 
-const input = 'min-h-[40px] w-full border border-brand-rule bg-white px-3 py-2 font-body text-sm text-brand-ink';
+const input = 'min-h-[40px] w-full border border-ink bg-surface px-3 py-2 font-body text-sm text-ink';
 
 /** Pre-load a household onto the invite list before they RSVP. */
 export default function AddHouseholdForm({ onDone, onCancel }: { onDone: () => void; onCancel: () => void }) {
@@ -32,7 +32,7 @@ export default function AddHouseholdForm({ onDone, onCancel }: { onDone: () => v
   }
 
   return (
-    <form onSubmit={submit} className="mb-6 grid gap-3 border border-brand-rule bg-brand-soft p-4 sm:grid-cols-3">
+    <form onSubmit={submit} className="mb-6 grid gap-3 border border-rule p-4 sm:grid-cols-3">
       <input name="name" required placeholder="Household name *" className={`${input} sm:col-span-3`} />
       <input name="email" type="email" placeholder="Email" className={input} />
       <input name="phone" placeholder="Phone" className={input} />
@@ -40,10 +40,10 @@ export default function AddHouseholdForm({ onDone, onCancel }: { onDone: () => v
       <input name="max_guests" type="number" min={1} defaultValue={2} placeholder="Max guests" className={input} />
       <input name="amount_due" type="number" min={0} step="0.01" placeholder="Amount due (R)" className={input} />
       <input name="notes" placeholder="Notes" className={input} />
-      {err && <p className="font-body text-sm text-red-700 sm:col-span-3">{err}</p>}
+      {err && <p className="font-body text-sm text-accent sm:col-span-3">{err}</p>}
       <div className="flex gap-2 sm:col-span-3">
-        <button disabled={busy} className="min-h-[40px] bg-brand-ink px-4 py-2 font-body text-sm text-brand-bg disabled:opacity-50">Add household</button>
-        <button type="button" onClick={onCancel} className="min-h-[40px] border border-brand-rule bg-white px-4 py-2 font-body text-sm">Cancel</button>
+        <button disabled={busy} className="min-h-[40px] bg-ink px-4 py-2 font-body text-sm text-surface disabled:opacity-50">Add household</button>
+        <button type="button" onClick={onCancel} className="min-h-[40px] border border-rule bg-surface px-4 py-2 font-body text-sm text-ink">Cancel</button>
       </div>
     </form>
   );

@@ -1,0 +1,42 @@
+---
+/** The nav's inner row — shared by both Nav wrappers. Colour comes from the enclosing section's mode. */
+interface Props {
+  overlay: boolean;
+}
+const { overlay } = Astro.props;
+
+const links = [
+  { label: 'Our Story', href: '/our-story' },
+  { label: 'The Weekend', href: '/the-weekend' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'FAQ', href: '/faq' },
+];
+const current = Astro.url.pathname;
+---
+
+<div class="mx-auto flex max-w-[1080px] flex-wrap items-start justify-between gap-y-[0.8em] gap-x-[1.4em] px-[6cqw] py-[1.1em]">
+  <a href="/" class="font-display italic font-medium text-[1.35rem] min-h-[44px] flex items-center text-ink transition-opacity hover:opacity-65"
+    >P &amp; J</a
+  >
+  <div class="flex flex-wrap items-center justify-end gap-y-[0.5em] gap-x-[1.5em]">
+    {
+      links.map((l) => (
+        <a
+          href={l.href}
+          aria-current={current === l.href ? 'page' : undefined}
+          class:list={['nav-link text-ink underline-offset-[0.3em] hover:underline', current === l.href && 'underline']}
+        >
+          {l.label}
+        </a>
+      ))
+    }
+    <a
+      href="/rsvp"
+      class:list={[
+        'nav-link justify-center border px-[1.3em] text-ink transition-colors',
+        overlay ? 'border-ink hover:bg-ink/15' : 'border-rule hover:border-ink',
+      ]}
+      >RSVP</a
+    >
+  </div>
+</div>

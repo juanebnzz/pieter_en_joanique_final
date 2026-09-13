@@ -4,6 +4,7 @@
  * service worker live in public/admin/ so they're served as static files.
  */
 import '../styles/global.css';
+import { palette } from '../lib/palette';
 
 interface Props {
   title?: string;
@@ -23,7 +24,7 @@ const { title = 'Wedding admin' } = Astro.props;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="manifest" href="/admin/manifest.webmanifest" />
-    <meta name="theme-color" content="#302E2C" />
+    <meta name="theme-color" content={palette.espresso} />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -31,7 +32,7 @@ const { title = 'Wedding admin' } = Astro.props;
     <link rel="apple-touch-icon" href="/admin/icon-192.png" />
     <link rel="icon" type="image/png" href="/admin/icon-192.png" />
   </head>
-  <body class="min-h-dvh bg-brand-bg text-brand-ink antialiased">
+  <body class="min-h-dvh bg-surface text-ink antialiased">
     <slot />
     <script>
       if ('serviceWorker' in navigator) {

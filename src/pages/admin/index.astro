@@ -1,11 +1,14 @@
 ---
 import Admin from '../../layouts/Admin.astro';
 import AdminDashboard from '../../components/admin/AdminDashboard';
+import Section from '../../components/site/Section.astro';
 
 export const prerender = false;
 // Access is enforced in src/middleware.ts — this page only renders for a valid session.
 ---
 
 <Admin title="Pieter & Joanique — Admin">
-  <AdminDashboard client:only="react" />
+  <Section mode="linen" as="div">
+    <AdminDashboard client:only="react" />
+  </Section>
 </Admin>

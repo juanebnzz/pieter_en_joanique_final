@@ -1,58 +1,28 @@
 ---
 /**
- * Site navigation. `overlay` sits transparently over the home hero (light text);
- * `bar` is the solid version used on every other page.
+ * Site navigation. `overlay` sits transparently over the home hero and inherits
+ * the hero section's mode (so its ink is the hero's ink); `bar` is the solid
+ * version used on every other page and is a section of its own.
  */
+import Section, { type Mode } from './Section.astro';
+import NavLinks from './NavLinks.astro';
+
 interface Props {
   variant?: 'bar' | 'overlay';
+  mode?: Mode;
 }
-const { variant = 'bar' } = Astro.props;
+const { variant = 'bar', mode = 'linen' } = Astro.props;
 const overlay = variant === 'overlay';
-
-const links = [
-  { label: 'Our Story', href: '/our-story' },
-  { label: 'The Weekend', href: '/the-weekend' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'FAQ', href: '/faq' },
-];
-
-const text = overlay ? 'text-brand-bg [text-shadow:0_1px_4px_rgba(0,0,0,0.35)]' : 'text-brand-ink';
-const current = Astro.url.pathname;
 ---
 
-<nav
-  class:list={[
-    'top-0 left-0 right-0 z-20',
-    overlay ? 'absolute bg-transparent' : 'relative bg-brand-bg border-b border-brand-rule',
-  ]}
->
-  <div class="mx-auto flex max-w-[1080px] flex-wrap items-start justify-between gap-y-[0.8em] gap-x-[1.4em] px-[6cqw] py-[1.1em]">
-    <a
-      href="/"
-      class:list={['font-display italic font-medium text-[1.35rem] min-h-[44px] flex items-center transition-opacity hover:opacity-65', text]}
-      >P &amp; J</a
-    >
-    <div class="flex flex-wrap items-center justify-end gap-y-[0.5em] gap-x-[1.5em]">
-      {
-        links.map((l) => (
-          <a
-            href={l.href}
-            aria-current={current === l.href ? 'page' : undefined}
-            class:list={['nav-link underline-offset-[0.3em] hover:underline', text, current === l.href && 'underline']}
-          >
-            {l.label}
-          </a>
-        ))
-      }
-      <a
-        href="/rsvp"
-        class:list={[
-          'nav-link justify-center border px-[1.3em] transition-colors',
-          text,
-          overlay ? 'border-brand-bg hover:bg-brand-bg/15' : 'border-brand-rule hover:bg-brand-soft',
-        ]}
-        >RSVP</a
-      >
-    </div>
-  </div>
-</nav>
+{
+  overlay ? (
+    <nav class="absolute top-0 left-0 right-0 z-20 bg-transparent">
+      <NavLinks overlay />
+    </nav>
+  ) : (
+    <Section as="nav" mode={mode} class="relative z-20 border-b border-rule">
+      <NavLinks overlay={false} />
+    </Section>
+  )
+}

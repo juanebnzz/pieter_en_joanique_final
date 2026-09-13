@@ -8,12 +8,33 @@ import Footer from '../components/site/Footer.astro';
 
 export const prerender = true;
 
-// All 46 engagement highlights, in shoot order (g-01 … g-46). Drop a file into
-// src/assets/photos/gallery/ and it appears here automatically.
-const modules = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/gallery/*.jpg', { eager: true });
-const photos = Object.keys(modules)
-  .sort()
-  .map((k) => modules[k].default);
+// Ten frames from the engagement shoot at the gallery, in a loose narrative
+// order: arriving, a first hand, the two of them, each alone, and the dip.
+// Each carries its own alt text; g-NN numbering follows the photographer's export.
+import g05 from '../assets/photos/gallery/g-05.jpg';
+import g30 from '../assets/photos/gallery/g-30.jpg';
+import g33 from '../assets/photos/gallery/g-33.jpg';
+import g15 from '../assets/photos/gallery/g-15.jpg';
+import g19 from '../assets/photos/gallery/g-19.jpg';
+import g28 from '../assets/photos/gallery/g-28.jpg';
+import g42 from '../assets/photos/gallery/g-42.jpg';
+import g40 from '../assets/photos/gallery/g-40.jpg';
+import g37 from '../assets/photos/gallery/g-37.jpg';
+import g46 from '../assets/photos/gallery/g-46.jpg';
+
+const gallery: { src: ImageMetadata; alt: string }[] = [
+  { src: g05, alt: 'Pieter and Joanique laughing as they walk hand in hand past a wall of bright paintings in a white gallery.' },
+  { src: g30, alt: 'Pieter and Joanique holding hands in a doorway, framed by white walls with a parquet floor beneath them.' },
+  { src: g33, alt: 'Black and white close-up of Pieter and Joanique\'s hands reaching for each other, her engagement ring catching the light.' },
+  { src: g15, alt: 'Pieter and Joanique smiling at the camera, her hand on his chest, in front of framed artworks on a green gallery wall.' },
+  { src: g19, alt: 'Black and white photograph of Pieter and Joanique in a close embrace, foreheads almost touching, beside framed prints.' },
+  { src: g28, alt: 'Joanique glancing back over her shoulder with a smile, in a white dress against a teal gallery wall lined with framed drawings.' },
+  { src: g42, alt: 'Pieter grinning, hands in his pockets, in a black shirt against a teal gallery wall lined with framed drawings.' },
+  { src: g40, alt: 'Pieter and Joanique sitting close together in a wooden chair, watching a vintage television in a dim exhibition room.' },
+  { src: g37, alt: 'Black and white close-up of Pieter and Joanique nose to nose, her hand resting on his cheek.' },
+  { src: g46, alt: 'Pieter dipping Joanique in a dance in front of a teal gallery wall, her heel kicked up behind her.' },
+];
+const photos = gallery.map((g) => g.src);
 
 const full = await Promise.all(photos.map((p) => getImage({ src: p, width: 2400, format: 'webp', quality: 90 })));
 const fullSrcs = full.map((f) => f.src);
@@ -49,14 +70,22 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
 <Base title="Gallery — Pieter & Joanique">
   <Nav />
 
+  <!-- HEADING · burlap -->
+  <Section mode="burlap" class="px-[6cqw] py-[6cqw]">
+    <div class="mx-auto max-w-[680px]">
+      <h1 class="font-display font-medium text-ink text-[clamp(2.2rem,8cqw,3rem)]">Gallery</h1>
+      <p class="mt-[0.6em] font-body text-[0.95rem] text-ink">A few moments from our engagement shoot.</p>
+    </div>
+  </Section>
+
   <!-- GRID · espresso (engagement imagery); the section surface shows through the 2px gutters -->
   <Section mode="espresso" class="flex flex-col gap-[2px] py-[5cqw]">
     {
       blocks.map((b) =>
         b.kind === 'band' ? (
           <div data-reveal class="h-[clamp(320px,62cqw,720px)] w-full cursor-pointer overflow-hidden bg-surface">
-            <button type="button" data-lightbox={b.i} class="block h-full w-full" aria-label="Open photo">
-              <Image src={photos[b.i]} alt="Pieter and Joanique" widths={[800, 1400, 2400]} sizes="100vw" quality={90} class={img} />
+            <button type="button" data-lightbox={b.i} class="block h-full w-full" aria-label={`Open photo ${b.i + 1} of ${photos.length}`}>
+              <Image src={photos[b.i]} alt={gallery[b.i].alt} widths={[800, 1400, 2400]} sizes="100vw" quality={90} class={img} />
             </button>
           </div>
         ) : (
@@ -72,10 +101,10 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
                       : 'h-[clamp(280px,50cqw,560px)] min-w-[200px] flex-[1_1_200px]',
                 ]}
               >
-                <button type="button" data-lightbox={idx} class="block h-full w-full" aria-label="Open photo">
+                <button type="button" data-lightbox={idx} class="block h-full w-full" aria-label={`Open photo ${idx + 1} of ${photos.length}`}>
                   <Image
                     src={photos[idx]}
-                    alt="Pieter and Joanique"
+                    alt={gallery[idx].alt}
                     widths={[640, 1024, 1600, 2400]}
                     quality={90}
                     sizes={b.i.length === 1 ? '100vw' : b.i.length === 2 ? '(min-width: 700px) 50vw, 100vw' : '(min-width: 700px) 33vw, 100vw'}
@@ -92,7 +121,7 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
 
   <!-- CREDIT · linen -->
   <Section mode="linen" class="px-[6cqw] py-[5cqw] text-center">
-    <p class="font-body text-[0.8rem] tracking-[0.04em] text-ink">Photography by Noeline le Roux, By Bitiah</p>
+    <p class="font-body text-[0.8rem] tracking-[0.04em] text-ink">Photography by Bitiah</p>
   </Section>
 
   <Footer />
@@ -108,6 +137,7 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
     aria-modal="true"
     aria-label="Photo"
     data-srcs={JSON.stringify(fullSrcs)}
+    data-alts={JSON.stringify(gallery.map((g) => g.alt))}
   >
     <img id="lightbox-img" alt="" class="pointer-events-none max-h-[82%] max-w-[92%] object-contain" />
     <div id="lightbox-counter" class="pointer-events-none absolute bottom-[2.2em] left-0 right-0 text-center font-body text-[0.85rem] tracking-[0.08em] text-ink"></div>
@@ -118,6 +148,7 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
     const img = document.getElementById('lightbox-img') as HTMLImageElement;
     const counter = document.getElementById('lightbox-counter') as HTMLDivElement;
     const srcs: string[] = JSON.parse(box.dataset.srcs ?? '[]');
+    const alts: string[] = JSON.parse(box.dataset.alts ?? '[]');
     const n = srcs.length;
     let idx = -1;
     let startX = 0;
@@ -128,6 +159,7 @@ const img = 'h-full w-full object-cover transition-transform duration-500 hover:
     function show(i: number) {
       idx = (i + n) % n;
       img.src = srcs[idx];
+      img.alt = alts[idx] ?? '';
       counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
       box.hidden = false;
       document.body.style.overflow = 'hidden';

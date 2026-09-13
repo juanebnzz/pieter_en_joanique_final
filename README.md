@@ -39,7 +39,7 @@ Built from the Claude Design project "Pieter & Joanique Final" (5b481801). All p
 | `/` | Hero, welcome letter, gallery preview, orientation strip, RSVP CTA |
 | `/our-story` | Four chapters, alternating image/text, with a full-bleed quote band |
 | `/the-weekend` | Friday/Saturday/Sunday chapter bands + timelines, costs, dress code, directions |
-| `/gallery` | Six photos in single/pair/band blocks, click for lightbox (swipe + arrow keys) |
+| `/gallery` | Ten captioned photos in single/pair/band blocks, click for lightbox (swipe + arrow keys) |
 | `/faq` | Eight questions |
 | `/rsvp` | Live RSVP form — attending or declining |
 | `POST /api/rsvp` | RSVP submission (server recomputes the accommodation total) |
@@ -95,7 +95,7 @@ The cookie is only set `secure` over https, so the secret link must be opened on
 
 `src/assets/photos/photo-6…12.jpg` — the seven engagement photos the design uses, resized to 2400px from
 the originals in `pieterandjoaniqueengagement-photo-download-1of1/` (gitignored, 510 MB).
-Astro generates responsive WebP at build time. Photography by Noeline le Roux, By Bitiah.
+Astro generates responsive WebP at build time. Photography by Bitiah.
 
 ## What's next
 

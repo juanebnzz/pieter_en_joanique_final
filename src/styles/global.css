@@ -96,16 +96,18 @@
   text-decoration: none;
 }
 
-/* Scroll reveal: elements start hidden, become visible when scrolled into view.
+/* Scroll reveal: elements become visible when scrolled into view. Fails open —
+   the hidden initial state applies only under html.js-enabled (set by an inline
+   script in Base.astro), so without JS every section renders as normal.
    Lift is opt-in via data-reveal="lift" (Our Story). */
-[data-reveal] {
+.js-enabled [data-reveal] {
   opacity: 0;
   transition: opacity 0.7s ease, transform 0.8s ease;
 }
-[data-reveal="lift"] { transform: translateY(20px); }
-[data-reveal].is-visible { opacity: 1; transform: none; }
+.js-enabled [data-reveal="lift"] { transform: translateY(20px); }
+.js-enabled [data-reveal].is-visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .js-enabled [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
 
 /* Sections that mount after interaction (RSVP flows) fade in on their own. */

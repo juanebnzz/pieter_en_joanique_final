@@ -1,5 +1,8 @@
 ---
 import Section from './Section.astro';
+import { NAV_LINKS } from '../../lib/nav';
+
+const current = Astro.url.pathname;
 ---
 
 <Section as="footer" mode="espresso" class="px-[6cqw] py-[6cqw] text-center font-body">
@@ -7,8 +10,31 @@ import Section from './Section.astro';
     Pieter &amp; Joanique — 14 November 2026
   </p>
   <p class="mb-[0.9em] text-[0.85rem] text-ink">Tshikwalo Game Lodge, Dinokeng Game Reserve</p>
-  <p class="mb-[1.2em] text-[0.85rem] text-ink">
+  <p class="mb-[2em] text-[0.85rem] text-ink">
     Contact: Pieter Kruger, <a href="tel:+27837980144" class="text-accent hover:underline">083 798 0144</a>
   </p>
+
+  <nav aria-label="Footer" class="mb-[2em] border-t border-rule pt-[1.6em]">
+    <ul class="m-0 flex list-none flex-wrap items-center justify-center gap-x-[1.5em] gap-y-[0.4em] p-0">
+      <li>
+        <a href="/" aria-current={current === '/' ? 'page' : undefined} class="nav-link text-ink underline-offset-[0.3em] hover:underline">Home</a>
+      </li>
+      {
+        NAV_LINKS.map((l) => (
+          <li>
+            <a href={l.href} aria-current={current === l.href ? 'page' : undefined} class="nav-link text-ink underline-offset-[0.3em] hover:underline">
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a
+      href="/rsvp"
+      class="nav-link mx-auto mt-[1.2em] inline-flex min-h-[44px] justify-center border border-rule px-[1.6em] text-ink transition-colors hover:border-ink"
+      >RSVP</a
+    >
+  </nav>
+
   <p class="text-[0.72rem] tracking-[0.05em] text-accent">#KrugerForKeeps</p>
 </Section>

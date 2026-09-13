@@ -320,7 +320,7 @@ export default function RsvpForm() {
               of our lives and sharing this beautiful new chapter with us.
             </p>
             <DetailRows rows={GIFT_DETAILS} />
-            <p className="mt-[1.2em] font-body italic text-[0.85rem] text-ink">This is separate from your accommodation payment.</p>
+            <p className="mt-[1.2em] font-body text-[0.85rem] text-ink">This is separate from your accommodation payment.</p>
           </Section>
 
           <section className="fade-in pb-[6em]">

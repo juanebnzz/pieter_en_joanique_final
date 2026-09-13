@@ -8,6 +8,7 @@ import Footer from '../components/site/Footer.astro';
 import fridayPhoto from '../assets/photos/photo-9.jpg';
 import saturdayPhoto from '../assets/photos/photo-6.jpg';
 import sundayPhoto from '../assets/photos/photo-7.jpg';
+import { BANK_DETAILS, GIFT_DETAILS, PAYMENT_DEADLINE } from '../lib/pricing';
 
 export const prerender = true;
 
@@ -72,12 +73,17 @@ const costs = [
   },
   { title: 'Saturday only — R965 per person', detail: 'All wedding events, Saturday accommodation, Sunday breakfast.' },
   { title: 'Children', detail: 'Under 2 free. Ages 2 to 12, R270 per child per night.' },
+  {
+    title: 'Conservation fee — R100 per guest',
+    detail: 'Dinokeng Game Reserve charges a conservation fee of R100 per guest entering the reserve. It is added to your accommodation total.',
+  },
 ];
 
 const goodToKnow = [
   'The venue is reached by a dirt road, suitable for all vehicles. Secure parking is provided.',
   'No outside food or drinks are permitted.',
   'A cash bar and the Tshikwalo "The Roots" restaurant are open all weekend.',
+  'Dinokeng Game Reserve charges a conservation fee of R100 per guest. It is included in your accommodation total.',
 ];
 
 const inner = 'mx-auto max-w-[680px]';
@@ -178,24 +184,64 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
       {
         costs.map((c) => (
           <div class="border-t border-rule py-[1.4em]">
-            <p class="mb-[0.5em] font-display italic font-medium text-ink text-[clamp(1.2rem,2.8cqw,1.4rem)]">{c.title}</p>
+            <p class="mb-[0.5em] font-display font-medium text-ink text-[clamp(1.2rem,2.8cqw,1.4rem)]">{c.title}</p>
             <p class="font-body leading-[1.7] text-[0.95rem] text-ink">{c.detail}</p>
           </div>
         ))
       }
+
+      <!-- HOW TO PAY · sits with the prices so the money information is in one place -->
+      <div id="payment" class="mt-[2.4em] scroll-mt-[2em]">
+        <div class="eyebrow mb-[1.2em]">How To Pay</div>
+        <p class:list={['mb-[1.4em]', bodyText]}>
+          Accommodation is paid by EFT, directly to Pieter and Joanique, by {PAYMENT_DEADLINE}. Please use your initials and
+          surname as the reference.
+        </p>
+        <dl class="m-0">
+          {
+            BANK_DETAILS.map((r) => (
+              <div class="flex justify-between gap-[1em] border-t border-rule py-[0.8em]">
+                <dt class="font-body font-medium text-[0.85rem] text-ink">{r.label}</dt>
+                <dd class="m-0 text-right font-body text-[0.95rem] text-ink">{r.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </div>
   </Section>
 
-  <!-- GOOD TO KNOW · linen -->
+  <!-- GIFTS · linen — kept apart from the accommodation payment block -->
   <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
+    <div class={inner}>
+      <div class="eyebrow mb-[1.4em]">A Gift</div>
+      <p class:list={['mb-[1.4em]', bodyText]}>
+        Having you with us is the greatest gift we could ask for. If you would like to bless us with something extra, the
+        same account applies — with a different reference so it is kept apart from your accommodation payment.
+      </p>
+      <dl class="m-0">
+        {
+          GIFT_DETAILS.map((r) => (
+            <div class="flex justify-between gap-[1em] border-t border-rule py-[0.8em]">
+              <dt class="font-body font-medium text-[0.85rem] text-ink">{r.label}</dt>
+              <dd class="m-0 text-right font-body text-[0.95rem] text-ink">{r.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </Section>
+
+  <!-- GOOD TO KNOW · burlap -->
+  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">Good To Know</div>
       {goodToKnow.map((t) => <div class:list={['border-t border-rule py-[0.9em]', bodyText]}>{t}</div>)}
     </div>
   </Section>
 
-  <!-- WHAT TO WEAR · burlap -->
-  <Section mode="burlap" data-reveal class="px-[6cqw] py-[6cqw]">
+  <!-- WHAT TO WEAR · linen -->
+  <Section mode="linen" data-reveal class="px-[6cqw] py-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.4em]">What To Wear</div>
       <p class={bodyText}>
@@ -205,8 +251,8 @@ const bodyText = 'font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cq
     </div>
   </Section>
 
-  <!-- FINDING US · linen -->
-  <Section mode="linen" data-reveal class="px-[6cqw] pb-[12cqw] pt-[6cqw]">
+  <!-- FINDING US · burlap -->
+  <Section mode="burlap" data-reveal class="px-[6cqw] pb-[12cqw] pt-[6cqw]">
     <div class={inner}>
       <div class="eyebrow mb-[1.2em]">Finding Us</div>
       <a

@@ -13,13 +13,17 @@ const faqs = [
   },
   { q: 'Are children welcome?', a: 'Yes. Children under 2 stay free, and children aged 2 to 12 are R270 per child per night.' },
   {
+    q: 'Is there a conservation fee?',
+    a: 'Yes. Dinokeng Game Reserve charges a conservation fee of R100 per guest. It is added to your accommodation total and paid together with it.',
+  },
+  {
     q: 'Is Saturday night compulsory?',
     a: 'Yes, up to full capacity, as we are booking out the entire venue with accommodation on site. If you have other arrangements, please contact us directly.',
   },
   { q: 'What time is check-in and check-out?', a: 'Check-in from 14:00 on Friday. Check-out at 10:00 on Sunday.' },
   {
     q: 'How do I pay?',
-    a: 'Accommodation is paid directly to Pieter and Joanique by EFT, by 16 October 2026. Details are on the RSVP page. Use your initials and surname as the reference.',
+    a: 'Accommodation is paid directly to Pieter and Joanique by EFT, by 16 October 2026. The banking details are on The Weekend page, beside the prices, and on the RSVP page. Use your initials and surname as the reference.',
   },
   {
     q: 'Can I bring my own food or drinks?',
@@ -46,7 +50,7 @@ const faqs = [
       {
         faqs.map((f) => (
           <div data-reveal class="group border-t border-rule py-[1.4em]">
-            <p class="mb-[0.5em] font-display italic font-medium text-ink transition-colors group-hover:text-accent text-[clamp(1.2rem,2.8cqw,1.4rem)]">
+            <p class="mb-[0.5em] font-display font-medium text-ink transition-colors group-hover:text-accent text-[clamp(1.2rem,2.8cqw,1.4rem)]">
               {f.q}
             </p>
             <p class="font-body leading-[1.7] text-[0.95rem] text-ink">{f.a}</p>

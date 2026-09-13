@@ -18,7 +18,7 @@ const previews = [
 ];
 
 const orientation = [
-  { label: 'The Weekend', detail: '14 to 16 November 2026' },
+  { label: 'The Weekend', detail: 'Friday 13 to Sunday 15 November 2026' },
   { label: 'The Place', detail: 'Tshikwalo Game Lodge' },
   { label: 'RSVP by', detail: '28 September 2026' },
 ];
@@ -94,7 +94,7 @@ const navScrim =
     <div class="mx-auto grid max-w-[960px] overflow-hidden" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
       {
         orientation.map((o) => (
-          <div class="-ml-px -mt-px whitespace-nowrap border-l border-t border-rule px-[5cqw] py-[4.5cqw] text-center">
+          <div class="-ml-px -mt-px border-l border-t border-rule px-[5cqw] py-[4.5cqw] text-center">
             <div class="eyebrow mb-[0.6em]">{o.label}</div>
             <div class="font-display text-ink text-[clamp(1.1rem,3cqw,1.3rem)]">{o.detail}</div>
           </div>

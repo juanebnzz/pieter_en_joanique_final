@@ -3,14 +3,9 @@
 interface Props {
   overlay: boolean;
 }
-const { overlay } = Astro.props;
+import { NAV_LINKS } from '../../lib/nav';
 
-const links = [
-  { label: 'Our Story', href: '/our-story' },
-  { label: 'The Weekend', href: '/the-weekend' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'FAQ', href: '/faq' },
-];
+const { overlay } = Astro.props;
 const current = Astro.url.pathname;
 ---
 
@@ -20,7 +15,7 @@ const current = Astro.url.pathname;
   >
   <div class="flex flex-wrap items-center justify-end gap-y-[0.5em] gap-x-[1.5em]">
     {
-      links.map((l) => (
+      NAV_LINKS.map((l) => (
         <a
           href={l.href}
           aria-current={current === l.href ? 'page' : undefined}

@@ -15,11 +15,12 @@ export const prerender = true;
 
 // Every chapter carries engagement imagery, so each is olive or espresso and
 // they alternate. The quote band sits between 02 and 03 and alternates too.
-const chapters: { label: string; oversized: string; body: string; src: ImageMetadata; mode: Mode; bandAfter: boolean }[] = [
+// `body` is the chapter prose beneath the oversized line. It is optional so a
+// chapter renders cleanly while its copy is still with the couple.
+const chapters: { label: string; oversized: string; body?: string; src: ImageMetadata; mode: Mode; bandAfter: boolean }[] = [
   {
     label: '01 · 25 June 2024',
     oversized: 'There was really no need to slap him with her sleeve. All she had to do was say hi.',
-    body: 'the church course, sitting behind her, the jacket.',
     src: photo8,
     mode: 'olive',
     bandAfter: false,
@@ -27,7 +28,6 @@ const chapters: { label: string; oversized: string; body: string; src: ImageMeta
   {
     label: '02 · The Coffees',
     oversized: 'Officially, it was just coffee.',
-    body: 'blue ticks, patience, Tashas, everything changing.',
     src: photo9,
     mode: 'espresso',
     bandAfter: true,
@@ -35,7 +35,6 @@ const chapters: { label: string; oversized: string; body: string; src: ImageMeta
   {
     label: '03 · The Proposal',
     oversized: 'There was one small problem. Joanique does not like cheese.',
-    body: 'Van Gaalen, the picnic, Frik the penguin, her immediate yes.',
     src: photo11,
     mode: 'espresso',
     bandAfter: false,
@@ -43,7 +42,6 @@ const chapters: { label: string; oversized: string; body: string; src: ImageMeta
   {
     label: '04 · Since Then',
     oversized: 'She outdrove him. He has never been allowed to forget it.',
-    body: 'Elsie the i10, Kruger, murder mystery nights, padel, Aroma ice creams.',
     src: photo7,
     mode: 'olive',
     bandAfter: false,
@@ -68,8 +66,8 @@ const bandScrim =
             </div>
             <div class="min-w-[260px] flex-[1_1_300px]">
               <div class="eyebrow mb-[1em]">{c.label}</div>
-              <p class="mb-[0.9em] font-display italic font-medium leading-[1.25] text-ink text-[clamp(1.6rem,4.4cqw,2.4rem)]">{c.oversized}</p>
-              <p class="font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">{c.body}</p>
+              <p class:list={['font-display italic font-medium leading-[1.25] text-ink text-[clamp(1.6rem,4.4cqw,2.4rem)]', c.body && 'mb-[0.9em]']}>{c.oversized}</p>
+              {c.body && <p class="font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">{c.body}</p>}
             </div>
           </div>
         </Section>

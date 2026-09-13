@@ -23,14 +23,20 @@ export const prerender = true;
   <Section mode="burlap" class="px-[6cqw] py-[2.4em] text-center">
     <div class="mx-auto max-w-[600px]">
       <h1 class="mb-[0.5em] font-display font-medium text-ink text-[clamp(2.4rem,9cqw,3.2rem)]">RSVP</h1>
-      <p class="mb-[1.4em] font-body text-[0.95rem] text-ink">Kindly respond by {RSVP_DEADLINE}</p>
-      <p class="font-display italic text-ink text-[clamp(1.1rem,2.8cqw,1.25rem)]">Slegs goeie besluite</p>
+      <p class="font-body text-[0.95rem] text-ink">Kindly respond by {RSVP_DEADLINE}</p>
     </div>
   </Section>
 
   <!-- FORM · linen -->
   <Section mode="linen" class="px-[6cqw] pt-[2.4em]">
     <div class="mx-auto max-w-[600px]">
+      <noscript>
+        <p class="mb-[2em] font-display leading-[1.6] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">
+          The RSVP form needs JavaScript to run. Please enable it, or send your response to Pieter on{' '}
+          <a href="tel:+27837980144" class="text-accent underline underline-offset-[0.2em]">083 798 0144</a>. Prices and banking
+          details are on <a href="/the-weekend#payment" class="text-accent underline underline-offset-[0.2em]">The Weekend</a>.
+        </p>
+      </noscript>
       <RsvpForm client:load />
     </div>
   </Section>

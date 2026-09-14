@@ -79,6 +79,7 @@
 
 @layer base {
   html {
+    scroll-behavior: smooth;
     background: var(--color-surface);
     color: var(--color-ink);
     font-family: var(--font-body);

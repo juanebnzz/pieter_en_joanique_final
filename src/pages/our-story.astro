@@ -127,9 +127,9 @@ const chapters: {
     position="50% 30%"
     anchor
     detail="Since 25 June 2024"
-    facts={chapters.map((c) => {
+    facts={chapters.map((c, i) => {
       const [n, t] = c.label.split(" · ");
-      return { label: n, value: t };
+      return { label: n, value: t, href: `#chapter-${i + 1}` };
     })}
   >
     <p
@@ -146,9 +146,10 @@ const chapters: {
       return (
         <>
           <Section
+            id={`chapter-${i + 1}`}
             mode="linen"
             data-reveal="lift"
-            class="py-10 md:py-14 lg:py-16"
+            class="scroll-mt-16 py-10 md:py-14 lg:py-16"
           >
             <Grid class="gap-y-6 border-t border-rule pt-8 sm:grid-cols-12 sm:gap-x-6 md:pt-10 lg:gap-y-8 lg:pt-14">
               <div

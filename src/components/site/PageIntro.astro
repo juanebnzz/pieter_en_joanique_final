@@ -41,9 +41,10 @@ interface Props {
    * Short label / value rows set at the foot of the text column, above the
    * `foot` line — a programme, an index of chapters, the dates that matter.
    * They give the column a bottom edge to meet the print's, so a tall
-   * portrait never leaves the left side empty.
+   * portrait never leaves the left side empty. With an `href` (an in-page
+   * anchor, say "#chapter-3") the row becomes a link to that section.
    */
-  facts?: { label: string; value: string }[];
+  facts?: { label: string; value: string; href?: string }[];
   /** Pin the `foot` slot to the print's bottom edge (text column spans its full height). */
   anchor?: boolean;
   /** Small right-aligned detail on the spread rule; the hairline line when there is no photo. */
@@ -105,9 +106,22 @@ const hairline = 'border-color:color-mix(in srgb, var(--color-ink) 45%, transpar
                 {facts.length > 0 && (
                   <dl class="m-0 mb-3">
                     {facts.map((f) => (
-                      <div class="flex items-baseline gap-x-6 border-t border-rule py-3">
+                      <div
+                        class:list={[
+                          'flex items-baseline gap-x-6 border-t border-rule py-3',
+                          f.href && 'group relative transition-colors duration-300 hover:text-accent',
+                        ]}
+                      >
                         <dt class="eyebrow w-[7.5rem] flex-none">{f.label}</dt>
-                        <dd class="m-0 font-display text-[1.1rem] leading-snug text-ink md:text-[1.2rem]">{f.value}</dd>
+                        <dd class="m-0 font-display text-[1.1rem] leading-snug text-ink group-hover:text-accent md:text-[1.2rem]">
+                          {f.href ? (
+                            <a href={f.href} class="after:absolute after:inset-0 focus-visible:text-accent">
+                              {f.value}
+                            </a>
+                          ) : (
+                            f.value
+                          )}
+                        </dd>
                       </div>
                     ))}
                   </dl>

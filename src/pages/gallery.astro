@@ -10,7 +10,7 @@ import Footer from "../components/site/Footer.astro";
 
 export const prerender = true;
 
-// Seventeen frames, none of which appear on another page (index, Our Story,
+// Sixteen frames, none of which appear on another page (index, Our Story,
 // The Weekend, RSVP, Gifts and the Interlude band all draw from the same
 // folder — check before adding one here). Roughly in shoot order; one black
 // and white frame in every block so the monochrome is spread evenly rather
@@ -21,7 +21,6 @@ import g03 from "../assets/photos/gallery/g-03.jpg";
 import g06 from "../assets/photos/gallery/g-06.jpg";
 import g14 from "../assets/photos/gallery/g-14.jpg";
 import g12 from "../assets/photos/gallery/g-12.jpg";
-import g16 from "../assets/photos/gallery/g-16.jpg";
 import g20 from "../assets/photos/gallery/g-20.jpg";
 import g23 from "../assets/photos/gallery/g-23.jpg";
 import g43 from "../assets/photos/gallery/g-43.jpg";
@@ -29,7 +28,7 @@ import g28 from "../assets/photos/gallery/g-28.jpg";
 import g27 from "../assets/photos/gallery/g-27.jpg";
 import g26 from "../assets/photos/gallery/g-26.jpg";
 import g29 from "../assets/photos/gallery/g-29.jpg";
-import g30 from "../assets/photos/gallery/g-30.jpg";
+import g04 from "../assets/photos/gallery/g-04.jpg";
 import g36 from "../assets/photos/gallery/g-36.jpg";
 import g41 from "../assets/photos/gallery/g-41.jpg";
 import g42 from "../assets/photos/gallery/g-42.jpg";
@@ -59,10 +58,6 @@ const gallery: { src: ImageMetadata; alt: string }[] = [
   },
   // three
   {
-    src: g16,
-    alt: "Pieter spinning Joanique out by the hand in front of a dark green gallery wall hung with paintings.",
-  },
-  {
     src: g20,
     alt: "Joanique studying a framed print on the green wall while Pieter, seated, watches her.",
   },
@@ -70,16 +65,16 @@ const gallery: { src: ImageMetadata; alt: string }[] = [
     src: g23,
     alt: "Black and white photograph of Joanique alone at the far end of a charcoal-walled gallery.",
   },
+  {
+    src: g28,
+    alt: "Joanique glancing back over her shoulder with a smile, in a white dress against a teal gallery wall lined with framed drawings.",
+  },
   // wide
   {
     src: g43,
     alt: "Joanique at a painting on the left and Pieter leaning against the teal wall on the right, a row of framed drawings between them.",
   },
-  // three
-  {
-    src: g28,
-    alt: "Joanique glancing back over her shoulder with a smile, in a white dress against a teal gallery wall lined with framed drawings.",
-  },
+  // pair
   {
     src: g27,
     alt: "Black and white photograph of Joanique from behind, hands clasped, before a row of framed drawings.",
@@ -88,20 +83,20 @@ const gallery: { src: ImageMetadata; alt: string }[] = [
     src: g26,
     alt: "Joanique smiling with her arms around Pieter's neck beneath a red-beamed ceiling.",
   },
-  // pair
+  // three
   {
     src: g29,
     alt: "Black and white photograph of Joanique mid-stride past a row of small framed drawings.",
   },
   {
-    src: g30,
-    alt: "Pieter and Joanique walking hand in hand through a bright white hall with a parquet floor, glancing back at each other.",
+    src: g04,
+    alt: "Joanique twirling in a white dress in front of a wall of colourful paintings while Pieter watches.",
   },
-  // three
   {
     src: g36,
     alt: "Pieter kissing Joanique's cheek as they sit together on a bench in a white gallery.",
   },
+  // pair
   {
     src: g41,
     alt: "Black and white photograph of Pieter and Joanique nose to nose in an embrace against a wall of framed drawings.",
@@ -123,16 +118,16 @@ const fullSrcs = full.map((f) => f.src);
 // Layout: rows of three portraits, an offset pair, and one landscape frame.
 // Below sm the block wrappers dissolve (display: contents) and every frame
 // flows into one two-column grid, the landscape frame spanning both columns —
-// a phone gets a proper contact-sheet rather than seventeen stacked portraits.
+// a phone gets a proper contact-sheet rather than sixteen stacked portraits.
 type Block = { kind: "three" | "pair" | "wide"; i: number[] };
 const blocks: Block[] = [
   { kind: "three", i: [0, 1, 2] },
   { kind: "pair", i: [3, 4] },
   { kind: "three", i: [5, 6, 7] },
   { kind: "wide", i: [8] },
-  { kind: "three", i: [9, 10, 11] },
-  { kind: "pair", i: [12, 13] },
-  { kind: "three", i: [14, 15, 16] },
+  { kind: "pair", i: [9, 10] },
+  { kind: "three", i: [11, 12, 13] },
+  { kind: "pair", i: [14, 15] },
 ];
 
 const img =
@@ -248,7 +243,7 @@ const img =
   <Section mode="linen" class="pb-20 lg:pb-28">
     <Grid grid={false} class="border-t border-rule pt-6">
       <p class="font-body text-small tracking-[0.04em] text-ink">
-        Photography by Noeline from Bithiah
+        Photography: <a href="https://bybithiah.co.za/" target="_blank" rel="noopener" class="underline underline-offset-[0.2em] hover:opacity-75">By Bithiah</a>
       </p>
     </Grid>
   </Section>

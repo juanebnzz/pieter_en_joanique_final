@@ -15,6 +15,7 @@ export const prerender = true;
 // folder — check before adding one here). Roughly in shoot order; one black
 // and white frame in every block so the monochrome is spread evenly rather
 // than bunched. g-NN numbering follows the photographer's export.
+import introPhoto from "../assets/photos/gallery/g-13.jpg";
 import g05 from "../assets/photos/gallery/g-05.jpg";
 import g03 from "../assets/photos/gallery/g-03.jpg";
 import g06 from "../assets/photos/gallery/g-06.jpg";
@@ -141,11 +142,27 @@ const img =
 <Base title="Gallery — Pieter & Joanique">
   <Nav />
 
+  <!-- The opener hangs one print that is NOT in the grid below (g-13: the two of them looking, from behind),
+       so the page opens the way every other inner page does, and no frame repeats. -->
   <PageIntro
     kicker="Gallery"
-    title="A Few Moments So Far"
-    lead="Our engagement shoot, in a gallery of cream, white, emerald and charcoal walls."
-  />
+    title="The Two of Us"
+    flourish="in pictures"
+    lead="From our engagement shoot, before the big day."
+    photo={introPhoto}
+    alt="Black and white photograph of Pieter and Joanique from behind, her head against his shoulder, looking at a wall of framed prints."
+    ratio="5/6"
+    position="50% 35%"
+    anchor
+    detail="Engagement shoot"
+    caption="Side by side"
+    facts={[
+      { label: 'Engagement', value: 'One afternoon among the paintings' },
+      { label: 'The wedding', value: 'Saturday 14 November 2026' },
+    ]}
+  >
+    <p slot="foot" class="m-0 max-w-[44ch] font-display italic text-lead text-ink">Tap any photograph to see it larger.</p>
+  </PageIntro>
 
   <!-- GRID · linen; gutters are the ground showing through -->
   <Section mode="linen" class="pb-12 lg:pb-16">

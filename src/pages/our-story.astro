@@ -114,14 +114,20 @@ const chapters: {
 
   <PageIntro
     kicker="Our Story"
-    title={"How it\nhappened"}
+    title="How it"
+    flourish="happened"
     lead="Five chapters, in our own words."
+    caption="Over her shoulder"
     photo={introPhoto}
     alt="Joanique looking back over her shoulder at Pieter, smiling, in front of a green gallery wall of framed prints."
     ratio="5/6"
     position="50% 30%"
     anchor
     detail="Since 25 June 2024"
+    facts={chapters.map((c) => {
+      const [n, t] = c.label.split(" · ");
+      return { label: n, value: t };
+    })}
   >
     <p
       slot="foot"

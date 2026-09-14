@@ -46,7 +46,7 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'Do I have to stay at the venue, or can I stay somewhere else?',
-    a: 'Please stay with us. Saturday night at the lodge is compulsory for every guest: we have booked out the whole of Tshikwalo for the weekend, at a rate that only works if we fill it, so everyone sleeps over on the Saturday. If that is genuinely not possible for you, phone Pieter before you RSVP and he will talk it through with you.',
+    a: 'Saturday night at Tshikwalo is part of the invitation. The lodge is inside the Dinokeng Game Reserve, and the reserve gates close in the evening, so there is no driving out after the reception. Besides, the reception runs late and there is breakfast together on Sunday morning, so we would love you to stay over with us. If that is tricky for you, give Pieter a call and we will find a way.',
     links: [{ label: 'Call Pieter →', href: 'tel:+27837980144' }],
   },
   {
@@ -117,11 +117,17 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
 <Base title="FAQ — Pieter & Joanique">
   <Nav />
 
-  <PageIntro kicker="FAQ" title="Frequently Asked Questions" />
+  <PageIntro
+    kicker="FAQ"
+    title="Frequently Asked"
+    flourish="Questions"
+    lead="Everything you might want to know before the weekend. If your question is not here, phone Pieter."
+    detail="Saturday 14 November 2026 · Tshikwalo Game Lodge"
+  />
 
   <Section mode="linen" class="pb-20 lg:pb-28">
     <Grid>
-      <div class="border-t border-rule lg:col-start-3 lg:col-span-7">
+      <div class="border-t border-rule lg:col-start-3 lg:col-span-8">
         {
           faqs.map((f) => (
             <details data-reveal class="faq group border-b border-rule">

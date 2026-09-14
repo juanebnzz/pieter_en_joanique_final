@@ -90,20 +90,27 @@ const content = 'lg:col-start-4 lg:col-span-8';
 <Base title="The Weekend — Pieter & Joanique">
   <Nav />
 
-  <!-- 1 · INTRO · same family as every inner page; the date set on two deliberate lines -->
+  <!-- 1 · INTRO · same family as every inner page; the date on the rule and in the programme rows, the script on a phrase (never on numerals) -->
   <PageIntro
     kicker="The Weekend"
-    title={'Friday 13 — Sunday 15\nNovember 2026'}
-    lead="Join us for a weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of our marriage."
+    title="Three Days"
+    flourish="in the bushveld"
+    caption="Come along"
+    lead="Join us at Tshikwalo Game Lodge, in the Dinokeng Game Reserve, as we celebrate the beginning of our marriage."
     photo={introPhoto}
     alt="Joanique pulling Pieter along by the hand across the green gallery, both laughing."
     ratio="5/6"
     position="50% 45%"
     anchor
-    detail="Tshikwalo Game Lodge · Dinokeng"
+    detail="Friday 13 – Sunday 15 November 2026"
+    facts={[
+      { label: 'Friday 13', value: 'Guests arrive from 14:00 · bonfire at 18:00' },
+      { label: 'Saturday 14', value: 'The ceremony at 15:00 · reception at 18:00' },
+      { label: 'Sunday 15', value: 'Breakfast together · checkout at 10:00' },
+    ]}
   >
     <p slot="foot" class="m-0 max-w-[44ch] font-display italic text-lead text-ink">
-      The ceremony is on Saturday at 15:00.<br class="hidden sm:block" /> Please be seated from 14:30.
+      Please be seated for the ceremony from 14:30.
     </p>
   </PageIntro>
 

@@ -10,19 +10,19 @@ export const STAY_OPTIONS: Record<
   { label: string; adultCents: number; nights: number; smallPrint: string; priceLabel: string }
 > = {
   friday_saturday: {
-    label: 'Friday & Saturday Evening',
+    label: 'Friday & Saturday Nights',
     priceLabel: 'R2 100 pp',
     adultCents: 210_000,
     nights: 2,
     smallPrint:
-      'Friday dinner, Friday accommodation, Saturday breakfast, wedding events, Saturday accommodation, Sunday breakfast, and a complimentary three-hour game drive with snacks.',
+      'Friday bonfire dinner, two nights of accommodation, breakfast on Saturday and Sunday, all the wedding events, and the complimentary three-hour game drive with snacks.',
   },
   saturday: {
-    label: 'Saturday Evening',
+    label: 'Saturday Night Only',
     priceLabel: 'R965 pp',
     adultCents: 96_500,
     nights: 1,
-    smallPrint: 'Wedding events, Saturday accommodation, Sunday breakfast. The game drive is not included, but can be added for R450 per person.',
+    smallPrint: 'All the wedding events, Saturday night accommodation and Sunday breakfast. The game drive is not included, but can be added for R450 per person.',
   },
 };
 
@@ -109,7 +109,7 @@ export const GIFT_DETAILS = [
   { label: 'Account holder', value: 'Pieter Kruger' },
   { label: 'Account number', value: '63051501724', copy: true },
   { label: 'Branch code', value: '250655', copy: true },
-  { label: 'Reference', value: 'Gift - Initials + Surname' },
+  { label: 'Reference', value: 'Gift + Initials & Surname' },
 ];
 
 export type DetailRow = { label: string; value: string; copy?: boolean };

@@ -47,7 +47,7 @@ const days: { day: string; date: string; rows: Row[] }[] = [
     day: 'Saturday',
     date: '14 November',
     rows: [
-      { time: '08:00', event: 'Breakfast, for Friday guests' },
+      { time: '08:00', event: 'Breakfast for Friday guests' },
       { time: '11:00', event: 'Saturday guests arrive' },
       { time: '14:30 for 15:00', event: 'Ceremony', ceremony: true },
       { time: '16:00', event: 'Canapés' },
@@ -60,21 +60,21 @@ const days: { day: string; date: string; rows: Row[] }[] = [
     date: '15 November',
     rows: [
       { time: '08:00', event: 'Breakfast for all guests' },
-      { time: '10:00', event: 'Checkout' },
+      { time: '10:00', event: 'Check-out' },
     ],
   },
 ];
 
 // At a glance — six short cells. Every fact once.
 const glance = [
-  { label: 'Check-in', text: 'Friday from 14:00, or Saturday from 11:00. Saturday night is compulsory — we are booking out the whole lodge.' },
+  { label: 'Check-in', text: 'Friday from 14:00, or Saturday from 11:00. Saturday night at the lodge is part of the invitation for every guest.' },
   { label: 'Check-out', text: 'Sunday at 10:00, after breakfast.' },
   { label: 'Dress code', text: 'Semi-formal, earth-toned and summery. Please avoid black, white, red and purple.' },
   { label: 'Food & drink', text: 'A cash bar and The Roots restaurant, all weekend. No outside food or drinks, please.' },
-  { label: 'Getting there', text: 'The last stretch is a dirt road, fine for any car. Secure parking at the lodge.' },
+  { label: 'Getting there', text: 'Directions are in the Maps link above. The reserve gates close in the evening, so please arrive in daylight.' },
   {
     label: 'In between',
-    text: 'A three-hour game drive, free for weekend guests (R450 pp if you only stay Saturday), the pool, and the boma and bonfire after the reception.',
+    text: `A three-hour game drive, free for weekend guests (${formatRand(GAME_DRIVE_CENTS)} per person if you only stay Saturday), the pool, and the boma and bonfire after the reception.`,
   },
 ];
 
@@ -87,7 +87,10 @@ const kicker = 'eyebrow m-0 mb-6 lg:col-start-2 lg:col-span-2 lg:mb-0 lg:pr-6';
 const content = 'lg:col-start-4 lg:col-span-8';
 ---
 
-<Base title="The Weekend — Pieter & Joanique">
+<Base
+  title="The Weekend · Pieter & Joanique"
+  description="The full programme for Pieter and Joanique's wedding weekend at Tshikwalo Game Lodge, 13 to 15 November 2026: times, prices, the game drive and how to pay."
+>
   <Nav />
 
   <!-- 1 · INTRO · same family as every inner page; the date on the rule and in the programme rows, the script on a phrase (never on numerals) -->
@@ -102,11 +105,11 @@ const content = 'lg:col-start-4 lg:col-span-8';
     ratio="5/6"
     position="50% 45%"
     anchor
-    detail="Friday 13 – Sunday 15 November 2026"
+    detail="Friday 13 to Sunday 15 November 2026"
     facts={[
       { label: 'Friday 13', value: 'Guests arrive from 14:00 · bonfire at 18:00' },
       { label: 'Saturday 14', value: 'The ceremony at 15:00 · reception at 18:00' },
-      { label: 'Sunday 15', value: 'Breakfast together · checkout at 10:00' },
+      { label: 'Sunday 15', value: 'Breakfast together · check-out at 10:00' },
     ]}
   >
     <p slot="foot" class="m-0 max-w-[44ch] font-display italic text-lead text-ink">
@@ -202,9 +205,9 @@ const content = 'lg:col-start-4 lg:col-span-8';
         </div>
 
         <p class="mt-10 max-w-[64ch] font-body text-body text-ink">
-          Staying the whole weekend includes the lodge's three-hour game drive, snacks and all. Saturday-only guests can add it for{' '}
-          {formatRand(GAME_DRIVE_CENTS)} per person — though if you are weighing it up, the full weekend gets you the drive, Friday's
-          bonfire dinner and a second night.
+          Staying the whole weekend includes the lodge's three-hour game drive, with snacks along the way. Saturday-only guests can add it for{' '}
+          {formatRand(GAME_DRIVE_CENTS)} per person. If you are weighing it up, the full weekend includes the drive, Friday's bonfire
+          dinner and a second night.
         </p>
 
         <p class="mt-6 max-w-[64ch] font-body text-body text-ink">

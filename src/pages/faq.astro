@@ -34,7 +34,7 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'Can I bring a partner or a friend who was not named on the invitation?',
-    a: 'We have carefully planned our guest list, but if you would like to bring someone, please reach out to us directly. We would be happy to chat about it.',
+    a: 'Invitations are addressed by name, but if you would like to bring someone, please reach out to us directly. We would be happy to chat about it.',
   },
   {
     q: 'Are children welcome?',
@@ -51,16 +51,16 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'What time is check-in and check-out?',
-    a: 'Check-in from 14:00 (2 pm) on Friday, or from 11:00 on Saturday. Check-out at 10:00 on Sunday, after breakfast.',
+    a: 'Check-in from 14:00 (2 pm) on Friday, or from 11:00 (11 am) on Saturday. Check-out at 10:00 (10 am) on Sunday, after breakfast.',
   },
   {
     q: 'What time is the ceremony?',
-    a: 'The ceremony is on Saturday at 15:00 (3 pm). Please be seated by 14:30. Light snacks follow at 16:00, the reception dinner starts at 18:00 (6 pm), and the last dance is at 23:30.',
+    a: 'The ceremony is on Saturday at 15:00 (3 pm). Please be seated by 14:30 (2:30 pm). Canapés follow at 16:00 (4 pm), the reception dinner starts at 18:00 (6 pm), and the last dance is at 23:30 (11:30 pm).',
     links: [{ label: 'See the full programme →', href: '/the-weekend' }],
   },
   {
     q: 'What is the dress code?',
-    a: 'Semi-formal, earth-toned and summery — think the colours of the bush: greens, browns, sand and rust. Please avoid black, white, red and purple.',
+    a: 'Semi-formal, earth-toned and summery. Think the colours of the bush: greens, browns, sand and rust. Please avoid black, white, red and purple.',
   },
   {
     q: 'What does the price include?',
@@ -73,7 +73,7 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'Is there a conservation fee?',
-    a: `Yes. ${CONSERVATION_FEE_NOTE} It is one fee of ${CONSERVATION_FEE_LABEL}, one per RSVP, however many of you there are or how many nights you stay, and you will see it as its own line in the total on the RSVP form.`,
+    a: `Yes. ${CONSERVATION_FEE_NOTE} It is one fee of ${CONSERVATION_FEE_LABEL}, however many of you there are, and you will see it as its own line in your total on the RSVP form.`,
     links: [{ label: 'See what it costs →', href: '/the-weekend#payment' }],
   },
   {
@@ -82,12 +82,12 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'How do I pay?',
-    a: `By bank transfer (EFT) into Pieter and Joanique's account, by ${PAYMENT_DEADLINE}. The banking details are on The Weekend page, beside the prices, and on the RSVP page. Please use your initials and surname as the payment reference — for example "JK Smith" — so we know the payment is from you.`,
+    a: `By bank transfer (EFT) into Pieter and Joanique's account, by ${PAYMENT_DEADLINE}. The banking details are on The Weekend page, beside the prices, and on the RSVP page. Please use your initials and surname as the payment reference, for example "JK Smith", so we know the payment is from you.`,
     links: [{ label: 'See the banking details →', href: '/the-weekend#banking' }],
   },
   {
     q: 'Can I bring my own food or drinks?',
-    a: 'No outside food or drinks are permitted. There is a cash bar, where you pay for your own drinks, and the on-site restaurant is open all weekend.',
+    a: 'No outside food or drinks are permitted. There is a cash bar, where you pay for your own drinks, and The Roots restaurant at the lodge is open all weekend.',
   },
   {
     q: 'I have dietary requirements. Who do I tell?',
@@ -114,7 +114,10 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
 ];
 ---
 
-<Base title="FAQ — Pieter & Joanique">
+<Base
+  title="FAQ · Pieter & Joanique"
+  description="Answers to the questions guests ask most about Pieter and Joanique's wedding weekend: RSVP, accommodation, prices, payment, dress code and directions to Tshikwalo Game Lodge."
+>
   <Nav />
 
   <PageIntro
@@ -165,7 +168,7 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
 </Base>
 
 <script>
-  // Collapsed on phones, where 18 answers is a long scroll; open on wider screens, where the
+  // Collapsed on phones, where 19 answers is a long scroll; open on wider screens, where the
   // whole list reads comfortably. Without JS every answer stays reachable behind its question.
   if (window.matchMedia('(min-width: 1024px)').matches) {
     document.querySelectorAll<HTMLDetailsElement>('details.faq').forEach((d) => (d.open = true));

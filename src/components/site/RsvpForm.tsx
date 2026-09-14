@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { rsvpSchema, type RsvpInput } from '../../lib/rsvp-schema';
 import {
   BANK_DETAILS,
+  CHILD_PER_NIGHT_CENTS,
   CONSERVATION_FEE_CENTS,
   CONSERVATION_FEE_NOTE,
   PAYMENT_DEADLINE,
@@ -271,7 +272,7 @@ export default function RsvpForm() {
           <Section title="Children">
             <div className="flex items-center justify-between gap-[1em] border-t border-rule py-[0.9em]">
               <label htmlFor="children" className="font-display text-ink text-[clamp(1.05rem,2.6cqw,1.2rem)]">
-                Children aged 2 to 12 · R270 per child per night
+                Children aged 2 to 12 · {formatRand(CHILD_PER_NIGHT_CENTS)} per child per night
               </label>
               <input
                 id="children"
@@ -305,7 +306,7 @@ export default function RsvpForm() {
             {/* The fee is the one line guests do not expect, so it gets its own ruled note under the total. */}
             <aside className="mt-[1.4em] border-t border-b border-ink py-[1.1em]" aria-label="About the conservation fee">
               <p className="m-0 font-display font-medium text-[1.05rem] leading-[1.35] text-ink">
-                Conservation fee — {formatRand(CONSERVATION_FEE_CENTS)} per household, already in your total
+                Conservation fee: {formatRand(CONSERVATION_FEE_CENTS)} per household, already in your total
               </p>
               <p className="mt-[0.5em] font-body text-[0.85rem] leading-[1.6] text-ink">{CONSERVATION_FEE_NOTE}</p>
             </aside>

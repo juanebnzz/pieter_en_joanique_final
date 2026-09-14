@@ -5,15 +5,21 @@ import { error, json, readJson } from '../../../lib/http';
 
 export const prerender = false;
 
-const createSchema = z.object({
-  name: z.string().trim().min(1).max(120),
-  email: z.email().trim().max(200).optional().or(z.literal('')),
-  phone: z.string().trim().max(40).optional().or(z.literal('')),
-  invite_code: z.string().trim().max(40).optional().or(z.literal('')),
-  max_guests: z.number().int().min(1).max(20).default(2),
-  amount_due_cents: z.number().int().min(0).default(0),
-  notes: z.string().trim().max(2000).optional().or(z.literal('')),
-});
+const createSchema = z
+  .object({
+    name: z.string().trim().min(1).max(120),
+    email: z.email().trim().max(200).optional().or(z.literal('')),
+    phone: z.string().trim().max(40).optional().or(z.literal('')),
+    invite_code: z.string().trim().max(40).optional().or(z.literal('')),
+    max_guests: z.number().int().min(1).max(20).default(2),
+    amount_due_cents: z.number().int().min(0).default(0),
+    conservation_fee_cents: z.number().int().min(0).default(0),
+    notes: z.string().trim().max(2000).optional().or(z.literal('')),
+  })
+  .refine((d) => d.conservation_fee_cents <= d.amount_due_cents, {
+    message: 'The conservation fee is part of the amount due, so it cannot be more than it',
+    path: ['conservation_fee_cents'],
+  });
 
 /** Admin pre-loads a household (invite list) before guests RSVP. */
 export const POST: APIRoute = async ({ request }) => {
@@ -30,6 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
       invite_code: d.invite_code ? d.invite_code.toUpperCase() : null,
       max_guests: d.max_guests,
       amount_due_cents: d.amount_due_cents,
+      conservation_fee_cents: d.conservation_fee_cents,
       notes: d.notes || null,
     })
     .select('*')

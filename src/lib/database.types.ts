@@ -64,6 +64,7 @@ export type Database = {
         Row: {
           amount_due_cents: number
           children_count: number
+          conservation_fee_cents: number
           dietary: string | null
           stay: Database["public"]["Enums"]["stay_option"] | null
           created_at: string
@@ -83,6 +84,7 @@ export type Database = {
         Insert: {
           amount_due_cents?: number
           children_count?: number
+          conservation_fee_cents?: number
           dietary?: string | null
           stay?: Database["public"]["Enums"]["stay_option"] | null
           created_at?: string
@@ -102,6 +104,7 @@ export type Database = {
         Update: {
           amount_due_cents?: number
           children_count?: number
+          conservation_fee_cents?: number
           dietary?: string | null
           stay?: Database["public"]["Enums"]["stay_option"] | null
           created_at?: string
@@ -251,6 +254,8 @@ export type Database = {
           attending_count: number | null
           child_count: number | null
           children_count: number | null
+          conservation_fee_cents: number | null
+          conservation_fee_outstanding_cents: number | null
           dietary: string | null
           stay: Database["public"]["Enums"]["stay_option"] | null
           created_at: string | null

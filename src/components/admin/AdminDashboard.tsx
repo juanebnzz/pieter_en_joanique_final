@@ -8,7 +8,7 @@ import AddHouseholdForm from './AddHouseholdForm';
  * Mobile-first; styled on the site's palette so it feels like the same product.
  */
 type RsvpFilter = 'all' | 'attending' | 'declined' | 'pending';
-type PayFilter = 'all' | 'paid' | 'partial' | 'unpaid';
+type PayFilter = 'all' | 'paid' | 'partial' | 'unpaid' | 'fee_owing';
 
 const btn = 'min-h-[40px] border border-rule bg-surface px-3 py-2 font-body text-sm text-ink transition-colors hover:border-ink';
 const btnDark = 'min-h-[40px] bg-ink px-3 py-2 font-body text-sm text-surface transition-colors hover:bg-accent';
@@ -58,7 +58,8 @@ export default function AdminDashboard() {
       if (rsvpFilter !== 'all' && h.rsvp_status !== rsvpFilter) return false;
       if (payFilter !== 'all') {
         if (payFilter === 'unpaid' && !(h.payment_status === 'unpaid' && (h.amount_due_cents ?? 0) > 0)) return false;
-        if (payFilter !== 'unpaid' && h.payment_status !== payFilter) return false;
+        if (payFilter === 'fee_owing' && !((h.conservation_fee_outstanding_cents ?? 0) > 0)) return false;
+        if (payFilter !== 'unpaid' && payFilter !== 'fee_owing' && h.payment_status !== payFilter) return false;
       }
       if (!q) return true;
       const hay = [h.name, h.email, h.phone, h.invite_code, h.notes, h.dietary, ...h.guests.map((g) => g.full_name)]
@@ -97,11 +98,16 @@ export default function AdminDashboard() {
       {showAdd && <AddHouseholdForm onDone={() => { setShowAdd(false); refresh(); }} onCancel={() => setShowAdd(false)} />}
 
       {s && (
-        <section className="mb-6 grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
+        <section className="mb-6 grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-3 lg:grid-cols-5">
           <Stat label="Attending" value={s.attending} sub={`${s.guests_attending} ${s.guests_attending === 1 ? "guest" : "guests"} · ${s.children_attending} ${s.children_attending === 1 ? "child" : "children"}`} />
           <Stat label="Fri + Sat / Sat only" value={`${s.friday_households} / ${s.saturday_households}`} sub="households" />
           <Stat label="Declined · No reply" value={`${s.declined} · ${s.pending}`} sub={`${s.households} on the list`} />
           <Stat label="Paid" value={rands(s.paid_cents)} sub={`of ${rands(s.due_cents)} · ${rands(s.outstanding_cents)} outstanding`} />
+          <Stat
+            label="Conservation fees"
+            value={rands(s.conservation_fee_cents)}
+            sub={`${s.conservation_fee_households} ${s.conservation_fee_households === 1 ? 'household' : 'households'} · ${rands(s.conservation_fee_cents - s.conservation_fee_outstanding_cents)} in · ${s.conservation_fee_owing} still owing`}
+          />
         </section>
       )}
 
@@ -124,6 +130,7 @@ export default function AdminDashboard() {
           <option value="paid">Paid</option>
           <option value="partial">Partially paid</option>
           <option value="unpaid">Unpaid (owing)</option>
+          <option value="fee_owing">Conservation fee owing</option>
         </select>
       </section>
 

@@ -15,24 +15,41 @@ export const STAY_OPTIONS: Record<
     adultCents: 210_000,
     nights: 2,
     smallPrint:
-      'Friday dinner, Friday accommodation, Saturday breakfast, wedding events, Saturday accommodation, Sunday breakfast, complimentary game drive.',
+      'Friday dinner, Friday accommodation, Saturday breakfast, wedding events, Saturday accommodation, Sunday breakfast, and a complimentary three-hour game drive with snacks.',
   },
   saturday: {
     label: 'Saturday Evening',
     priceLabel: 'R965 pp',
     adultCents: 96_500,
     nights: 1,
-    smallPrint: 'Wedding events, Saturday accommodation, Sunday breakfast.',
+    smallPrint: 'Wedding events, Saturday accommodation, Sunday breakfast. The game drive is not included, but can be added for R450 per person.',
   },
 };
 
 export const CHILD_PER_NIGHT_CENTS = 27_000;
 /**
- * Dinokeng Game Reserve conservation fee — charged once per household, not
- * per guest, and paid with the accommodation (it is a line in every quote).
+ * The lodge's three-hour game drive, snacks included. Complimentary for
+ * Friday & Saturday guests; Saturday-only guests can add it at this price.
+ * Not part of the RSVP total — it is arranged separately.
+ */
+export const GAME_DRIVE_CENTS = 45_000;
+/**
+ * Dinokeng Game Reserve conservation fee. Normally charged per visitor at the
+ * gate; for the wedding weekend it is a flat, discounted R100 per RSVP
+ * household (one fee per RSVP, however many people or nights), paid to the
+ * couple with the accommodation. It is a line in every attending quote and is
+ * stored separately on the household (conservation_fee_cents) so the admin can
+ * see it apart from the accommodation. Declines owe R0.
+ *
+ * Still to be confirmed with the reserve whether it is per household or per
+ * vehicle; the couple has chosen per household. If that changes, the copy
+ * below and the quote() line are the only places to touch.
  */
 export const CONSERVATION_FEE_CENTS = 10_000;
-export const CONSERVATION_FEE_LABEL = 'R100 per family';
+export const CONSERVATION_FEE_LABEL = 'R100 per household';
+/** One sentence used wherever the fee is mentioned so the story is the same everywhere. */
+export const CONSERVATION_FEE_NOTE =
+  'Dinokeng Game Reserve charges every visitor a conservation fee. For the wedding weekend it is a discounted flat R100 per household, whichever nights you stay, and it is added to your total so there is nothing to pay at the gate. Before you leave on Sunday, please have your gate slip stamped at reception.';
 
 export const RSVP_DEADLINE = 'Monday, 28 September 2026';
 export const PAYMENT_DEADLINE = 'Friday, 16 October 2026';
@@ -45,6 +62,8 @@ export type QuoteLine = { label: string; cents: number };
 
 export function quote(input: { stay: StayOption; adults: number; children: number }): {
   lines: QuoteLine[];
+  accommodationCents: number;
+  conservationFeeCents: number;
   totalCents: number;
 } {
   const opt = STAY_OPTIONS[input.stay];
@@ -63,9 +82,15 @@ export function quote(input: { stay: StayOption; adults: number; children: numbe
     });
   }
 
-  lines.push({ label: 'Dinokeng conservation fee, per family', cents: CONSERVATION_FEE_CENTS });
+  lines.push({ label: 'Dinokeng conservation fee, per household', cents: CONSERVATION_FEE_CENTS });
 
-  return { lines, totalCents: adultTotal + childTotal + CONSERVATION_FEE_CENTS };
+  const accommodationCents = adultTotal + childTotal;
+  return {
+    lines,
+    accommodationCents,
+    conservationFeeCents: CONSERVATION_FEE_CENTS,
+    totalCents: accommodationCents + CONSERVATION_FEE_CENTS,
+  };
 }
 
 /** Accommodation payment — shown on The Weekend beside the prices and on RSVP. Values marked copy get a copy button. */

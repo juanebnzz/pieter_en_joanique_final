@@ -5,39 +5,112 @@ import Grid from '../components/site/Grid.astro';
 import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
+import {
+  CHILD_PER_NIGHT_CENTS,
+  CONSERVATION_FEE_LABEL,
+  CONSERVATION_FEE_NOTE,
+  GAME_DRIVE_CENTS,
+  PAYMENT_DEADLINE,
+  RSVP_DEADLINE,
+  formatRand,
+} from '../lib/pricing';
 
 export const prerender = true;
 
-const faqs: { q: string; a: string; link?: { label: string; href: string } }[] = [
+type Link = { label: string; href: string; external?: boolean };
+const faqs: { q: string; a: string; links?: Link[] }[] = [
+  // Ordered the way a guest thinks: replying → the weekend itself → money → getting there → the rest.
+  // Written for the oldest guest in the room: no "plus-one", "EFT" and "cash bar" spelled out, every
+  // step in order, and a phone number wherever a form or a link might be a hurdle.
   {
-    q: 'Can I bring a plus-one?',
+    q: 'When do I need to RSVP by?',
+    a: `Please let us know by ${RSVP_DEADLINE}, using the form on the RSVP page. It only takes a minute: you tell us whether you are coming, who is coming with you and which nights you are staying, and the form works out your total for you.`,
+    links: [{ label: 'Go to the RSVP form →', href: '/rsvp' }],
+  },
+  {
+    q: 'I would rather not use the online form. Can I RSVP another way?',
+    a: 'Of course. Phone Pieter on 083 798 0144 and he will take your details down and fill the form in for you.',
+    links: [{ label: 'Call Pieter →', href: 'tel:+27837980144' }],
+  },
+  {
+    q: 'Can I bring a partner or a friend who was not named on the invitation?',
     a: 'We have carefully planned our guest list, but if you would like to bring someone, please reach out to us directly. We would be happy to chat about it.',
   },
-  { q: 'Are children welcome?', a: 'Yes. Children under 2 stay free, and children aged 2 to 12 are R270 per child per night.' },
+  {
+    q: 'Are children welcome?',
+    a: `Yes. Children under 2 stay free, and children aged 2 to 12 are ${formatRand(CHILD_PER_NIGHT_CENTS)} per child per night.`,
+  },
+  {
+    q: 'Can I change my RSVP after I have sent it?',
+    a: 'Yes. Simply fill in the RSVP form again using the same email address and your new answers will replace the old ones. Or phone Pieter and he will change it for you.',
+  },
+  {
+    q: 'Do I have to stay at the venue, or can I stay somewhere else?',
+    a: 'Please stay with us. Saturday night at the lodge is compulsory for every guest: we have booked out the whole of Tshikwalo for the weekend, at a rate that only works if we fill it, so everyone sleeps over on the Saturday. If that is genuinely not possible for you, phone Pieter before you RSVP and he will talk it through with you.',
+    links: [{ label: 'Call Pieter →', href: 'tel:+27837980144' }],
+  },
+  {
+    q: 'What time is check-in and check-out?',
+    a: 'Check-in from 14:00 (2 pm) on Friday, or from 11:00 on Saturday. Check-out at 10:00 on Sunday, after breakfast.',
+  },
+  {
+    q: 'What time is the ceremony?',
+    a: 'The ceremony is on Saturday at 15:00 (3 pm). Please be seated by 14:30. Light snacks follow at 16:00, the reception dinner starts at 18:00 (6 pm), and the last dance is at 23:30.',
+    links: [{ label: 'See the full programme →', href: '/the-weekend' }],
+  },
+  {
+    q: 'What is the dress code?',
+    a: 'Semi-formal, earth-toned and summery — think the colours of the bush: greens, browns, sand and rust. Please avoid black, white, red and purple.',
+  },
+  {
+    q: 'What does the price include?',
+    a: `Friday and Saturday guests get Friday dinner at the bonfire, two nights of accommodation, breakfast on both mornings, all the wedding events and the complimentary three-hour game drive. Saturday-only guests get the wedding events, Saturday night accommodation and Sunday breakfast; the game drive can be added for ${formatRand(GAME_DRIVE_CENTS)} per person. Drinks at the bar are for your own account.`,
+    links: [{ label: 'See the prices →', href: '/the-weekend#payment' }],
+  },
+  {
+    q: 'Is there a game drive?',
+    a: `Yes. The lodge runs a three-hour game drive through the reserve, with snacks along the way. It is complimentary if you stay the whole weekend, Friday and Saturday. If you only stay on Saturday you are welcome to join it, at ${formatRand(GAME_DRIVE_CENTS)} per person, arranged separately from your accommodation.`,
+  },
   {
     q: 'Is there a conservation fee?',
-    a: 'Yes. Dinokeng Game Reserve charges a conservation fee of R100 per family. It is included in your total, so you pay it with your accommodation rather than at the gate.',
+    a: `Yes. ${CONSERVATION_FEE_NOTE} It is one fee of ${CONSERVATION_FEE_LABEL}, one per RSVP, however many of you there are or how many nights you stay, and you will see it as its own line in the total on the RSVP form.`,
+    links: [{ label: 'See what it costs →', href: '/the-weekend#payment' }],
   },
   {
-    q: 'Is Saturday night compulsory?',
-    a: 'Yes, up to full capacity, as we are booking out the entire venue with accommodation on site. If you have other arrangements, please contact us directly.',
+    q: 'Do I pay when I RSVP?',
+    a: `No. First RSVP by ${RSVP_DEADLINE}; the form shows you your total. Then pay that amount by ${PAYMENT_DEADLINE}. The two dates are separate, so there is no rush to pay on the day you reply.`,
   },
-  { q: 'What time is check-in and check-out?', a: 'Check-in from 14:00 on Friday, or from 11:00 on Saturday. Check-out at 10:00 on Sunday.' },
   {
     q: 'How do I pay?',
-    a: 'Accommodation is paid directly to Pieter and Joanique by EFT, by 16 October 2026. The banking details are on The Weekend page, beside the prices, and on the RSVP page. Use your initials and surname as the reference.',
+    a: `By bank transfer (EFT) into Pieter and Joanique's account, by ${PAYMENT_DEADLINE}. The banking details are on The Weekend page, beside the prices, and on the RSVP page. Please use your initials and surname as the payment reference — for example "JK Smith" — so we know the payment is from you.`,
+    links: [{ label: 'See the banking details →', href: '/the-weekend#banking' }],
   },
   {
     q: 'Can I bring my own food or drinks?',
-    a: 'No outside food or drinks are permitted. A cash bar and the on-site restaurant are available all weekend.',
+    a: 'No outside food or drinks are permitted. There is a cash bar, where you pay for your own drinks, and the on-site restaurant is open all weekend.',
   },
-  { q: 'What is the road like?', a: 'The venue is accessed by a dirt road that is suitable for all vehicles. Secure parking is provided.' },
+  {
+    q: 'I have dietary requirements. Who do I tell?',
+    a: 'There is a space for dietary requirements on the RSVP form. Note them there for everyone in your household and we will pass them on to the kitchen. If you have already sent your RSVP, phone Pieter and he will add them.',
+  },
+  {
+    q: 'Where is the venue, and what is the road like?',
+    a: 'Tshikwalo Game Lodge, in the Dinokeng Game Reserve. The last stretch is a dirt road that is suitable for all vehicles, and secure parking is provided at the lodge. The link below opens the directions in Google Maps.',
+    links: [{ label: 'Open directions in Google Maps →', href: 'https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99', external: true }],
+  },
   {
     q: 'Can we give a gift?',
     a: 'Having you with us is the greatest gift. If you would like to give something extra, the details are on our gifts page.',
-    link: { label: 'Gift details →', href: '/gifts' },
+    links: [{ label: 'Gift details →', href: '/gifts' }],
   },
-  { q: 'Who do I contact with questions?', a: 'Pieter Kruger — 083 798 0144 — pieterkruger2911@gmail.com' },
+  {
+    q: 'Who do I contact with questions?',
+    a: 'Pieter Kruger. Phone or WhatsApp him on 083 798 0144, or email pieterkruger2911@gmail.com.',
+    links: [
+      { label: 'Call 083 798 0144 →', href: 'tel:+27837980144' },
+      { label: 'Email Pieter →', href: 'mailto:pieterkruger2911@gmail.com' },
+    ],
+  },
 ];
 ---
 
@@ -51,15 +124,31 @@ const faqs: { q: string; a: string; link?: { label: string; href: string } }[] =
       <div class="border-t border-rule lg:col-start-3 lg:col-span-7">
         {
           faqs.map((f) => (
-            <div data-reveal class="max-w-[64ch] border-b border-rule py-6">
-              <p class="mb-2 font-display font-medium text-title text-ink">{f.q}</p>
-              <p class="font-body text-body text-ink">{f.a}</p>
-              {f.link && (
-                <a href={f.link.href} class="mt-3 inline-block font-body font-medium text-small text-ink underline underline-offset-[0.15em] hover:opacity-75">
-                  {f.link.label}
-                </a>
-              )}
-            </div>
+            <details data-reveal class="faq group border-b border-rule">
+              <summary class="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-4 py-4 font-display font-medium text-title text-ink [&::-webkit-details-marker]:hidden">
+                <span>{f.q}</span>
+                <span aria-hidden="true" class="flex-none font-display text-[1.6rem] leading-none transition-transform duration-300 group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <div class="max-w-[64ch] pb-6">
+                <p class="m-0 font-body text-body text-ink">{f.a}</p>
+                {f.links && (
+                  <div class="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+                    {f.links.map((l) => (
+                      <a
+                        href={l.href}
+                        target={l.external ? '_blank' : undefined}
+                        rel={l.external ? 'noopener' : undefined}
+                        class="inline-flex min-h-[44px] items-center font-body font-medium text-small text-ink underline underline-offset-[0.15em] hover:opacity-75"
+                      >
+                        {l.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </details>
           ))
         }
       </div>
@@ -68,3 +157,11 @@ const faqs: { q: string; a: string; link?: { label: string; href: string } }[] =
 
   <Footer />
 </Base>
+
+<script>
+  // Collapsed on phones, where 18 answers is a long scroll; open on wider screens, where the
+  // whole list reads comfortably. Without JS every answer stays reachable behind its question.
+  if (window.matchMedia('(min-width: 1024px)').matches) {
+    document.querySelectorAll<HTMLDetailsElement>('details.faq').forEach((d) => (d.open = true));
+  }
+</script>

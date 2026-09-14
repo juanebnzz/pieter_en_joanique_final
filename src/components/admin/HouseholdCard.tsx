@@ -49,6 +49,7 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
         children_count: Number(f.get('children_count') || 0),
         dietary: f.get('dietary') || null,
         amount_due_cents: Math.round(Number(f.get('amount_due') || 0) * 100),
+        conservation_fee_cents: Math.round(Number(f.get('conservation_fee') || 0) * 100),
         notes: f.get('notes') || null,
       }),
     );
@@ -71,6 +72,8 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
 
   const owes = (h.amount_due_cents ?? 0) > 0;
   const payStatus = owes ? h.payment_status! : null;
+  const fee = h.conservation_fee_cents ?? 0;
+  const feeOwing = (h.conservation_fee_outstanding_cents ?? 0) > 0;
   const headcount = (h.attending_count ?? 0) + (h.children_count ?? 0);
 
   return (
@@ -91,6 +94,11 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
           {payStatus && (
             <span className={`px-2 py-0.5 ${badge[payStatus]}`}>
               {payStatus === 'paid' ? 'Paid' : `${rands(h.paid_cents)} / ${rands(h.amount_due_cents)}`}
+            </span>
+          )}
+          {fee > 0 && (
+            <span className={`px-2 py-0.5 ${feeOwing ? badge.unpaid : badge.paid}`}>
+              {rands(fee)} fee {feeOwing ? 'owing' : 'paid'}
             </span>
           )}
         </div>
@@ -147,9 +155,13 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
               <input name="children_count" type="number" min={0} defaultValue={h.children_count ?? 0} className={input} />
             </label>
             <input name="max_guests" type="number" min={1} defaultValue={h.max_guests ?? 2} placeholder="Max guests" className={input} />
-            <label className="flex items-center gap-2 font-body text-sm text-ink sm:col-span-2">
+            <label className="flex items-center gap-2 font-body text-sm text-ink">
               Due (R)
               <input name="amount_due" type="number" min={0} step="0.01" defaultValue={((h.amount_due_cents ?? 0) / 100).toFixed(2)} className={input} />
+            </label>
+            <label className="flex items-center gap-2 whitespace-nowrap font-body text-sm text-ink" title="Part of the amount due, not on top of it">
+              of which fee (R)
+              <input name="conservation_fee" type="number" min={0} step="0.01" defaultValue={(fee / 100).toFixed(2)} className={input} />
             </label>
             <textarea name="dietary" defaultValue={h.dietary ?? ''} placeholder="Dietary requirements" rows={2} className={`${input} sm:col-span-3`} />
             <textarea name="notes" defaultValue={h.notes ?? ''} placeholder="Private notes" rows={2} className={`${input} sm:col-span-3`} />
@@ -161,6 +173,7 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
           <div>
             <h3 className={h3}>
               Payments · {rands(h.paid_cents)} received{owes && ` · ${rands(h.outstanding_cents)} outstanding`}
+              {fee > 0 && ` · conservation fee ${feeOwing ? `${rands(h.conservation_fee_outstanding_cents)} owing` : 'paid'}`}
             </h3>
             {h.payments.length > 0 && (
               <ul className="mb-2 divide-y divide-rule font-body text-sm">

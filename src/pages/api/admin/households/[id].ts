@@ -14,12 +14,17 @@ const patchSchema = z
     max_guests: z.number().int().min(1).max(20),
     rsvp_status: z.enum(['pending', 'attending', 'declined']),
     amount_due_cents: z.number().int().min(0),
+    conservation_fee_cents: z.number().int().min(0),
     stay: z.enum(["friday_saturday", "saturday"]).nullable(),
     children_count: z.number().int().min(0).max(20),
     dietary: z.string().trim().max(1000).nullable(),
     notes: z.string().trim().max(2000).nullable(),
   })
-  .partial();
+  .partial()
+  .refine(
+    (d) => d.conservation_fee_cents == null || d.amount_due_cents == null || d.conservation_fee_cents <= d.amount_due_cents,
+    { message: 'The conservation fee is part of the amount due, so it cannot be more than it', path: ['conservation_fee_cents'] },
+  );
 
 export const PATCH: APIRoute = async ({ params, request }) => {
   const id = params.id!;

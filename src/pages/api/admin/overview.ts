@@ -54,6 +54,12 @@ export const GET: APIRoute = async () => {
     due_cents: rows.reduce((n, h) => n + (h.amount_due_cents ?? 0), 0),
     paid_cents: rows.reduce((n, h) => n + (h.paid_cents ?? 0), 0),
     outstanding_cents: rows.reduce((n, h) => n + (h.outstanding_cents ?? 0), 0),
+    // Conservation fee, apart from the accommodation: what the couple must pass on to the reserve,
+    // how much of it has come in, and how many households still owe theirs.
+    conservation_fee_cents: rows.reduce((n, h) => n + (h.conservation_fee_cents ?? 0), 0),
+    conservation_fee_outstanding_cents: rows.reduce((n, h) => n + (h.conservation_fee_outstanding_cents ?? 0), 0),
+    conservation_fee_households: rows.filter((h) => (h.conservation_fee_cents ?? 0) > 0).length,
+    conservation_fee_owing: rows.filter((h) => (h.conservation_fee_outstanding_cents ?? 0) > 0).length,
     paid: rows.filter((h) => h.payment_status === 'paid').length,
     partial: rows.filter((h) => h.payment_status === 'partial').length,
     unpaid: rows.filter((h) => h.payment_status === 'unpaid' && (h.amount_due_cents ?? 0) > 0).length,

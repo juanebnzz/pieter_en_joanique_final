@@ -15,6 +15,10 @@ export type Overview = {
     due_cents: number;
     paid_cents: number;
     outstanding_cents: number;
+    conservation_fee_cents: number;
+    conservation_fee_outstanding_cents: number;
+    conservation_fee_households: number;
+    conservation_fee_owing: number;
     paid: number;
     partial: number;
     unpaid: number;

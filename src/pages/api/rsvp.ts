@@ -12,8 +12,9 @@ export const prerender = false;
  *
  * Matching: email → existing household, otherwise create one. Guests are
  * replaced with what was submitted, so re-submitting corrects an answer.
- * The accommodation total is computed here (never trusted from the client)
- * and stored as amount_due_cents. Every submission is logged raw for audit.
+ * The total is computed here (never trusted from the client) and stored as
+ * amount_due_cents, with the conservation fee component kept separately in
+ * conservation_fee_cents. Every submission is logged raw for audit.
  */
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   const body = await readJson(request);
@@ -46,14 +47,17 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     message: input.message || null,
   };
 
-  const fields: Tables['households']['Insert'] = input.attending
+  const q = input.attending ? quote({ stay: input.stay, adults: input.guests.length, children: input.children }) : null;
+
+  const fields: Tables['households']['Insert'] = input.attending && q
     ? {
         ...common,
         rsvp_status: 'attending' as const,
         stay: input.stay,
         children_count: input.children,
         dietary: input.dietary || null,
-        amount_due_cents: quote({ stay: input.stay, adults: input.guests.length, children: input.children }).totalCents,
+        amount_due_cents: q.totalCents,
+        conservation_fee_cents: q.conservationFeeCents,
         max_guests: Math.max(1, input.guests.length),
       }
     : {
@@ -62,6 +66,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         stay: null,
         children_count: 0,
         amount_due_cents: 0,
+        conservation_fee_cents: 0,
       };
 
   if (householdId) {

@@ -13,6 +13,8 @@ import {
   BANK_DETAILS,
   CHILD_PER_NIGHT_CENTS,
   CONSERVATION_FEE_CENTS,
+  CONSERVATION_FEE_NOTE,
+  GAME_DRIVE_CENTS,
   PAYMENT_DEADLINE,
   RSVP_DEADLINE,
   STAY_OPTIONS,
@@ -70,7 +72,10 @@ const glance = [
   { label: 'Dress code', text: 'Semi-formal, earth-toned and summery. Please avoid black, white, red and purple.' },
   { label: 'Food & drink', text: 'A cash bar and The Roots restaurant, all weekend. No outside food or drinks, please.' },
   { label: 'Getting there', text: 'The last stretch is a dirt road, fine for any car. Secure parking at the lodge.' },
-  { label: 'In between', text: 'A game drive for Friday guests, the pool, and the boma and bonfire after the reception.' },
+  {
+    label: 'In between',
+    text: 'A three-hour game drive, free for weekend guests (R450 pp if you only stay Saturday), the pool, and the boma and bonfire after the reception.',
+  },
 ];
 
 const tiers = [
@@ -190,10 +195,25 @@ const content = 'lg:col-start-4 lg:col-span-8';
         </div>
 
         <p class="mt-10 max-w-[64ch] font-body text-body text-ink">
-          Children under 2 stay free; ages 2 to 12 are {formatRand(CHILD_PER_NIGHT_CENTS)} per child per night. Every household's
-          total includes the {formatRand(CONSERVATION_FEE_CENTS)} Dinokeng conservation fee, so there is nothing to pay at the gate.
-          Your total is worked out for you on the RSVP form.
+          Staying the whole weekend includes the lodge's three-hour game drive, snacks and all. Saturday-only guests can add it for{' '}
+          {formatRand(GAME_DRIVE_CENTS)} per person — though if you are weighing it up, the full weekend gets you the drive, Friday's
+          bonfire dinner and a second night.
         </p>
+
+        <p class="mt-6 max-w-[64ch] font-body text-body text-ink">
+          Children under 2 stay free; ages 2 to 12 are {formatRand(CHILD_PER_NIGHT_CENTS)} per child per night. Your total is worked
+          out for you on the RSVP form.
+        </p>
+
+        <!-- The conservation fee is the one line guests do not expect, so it gets the same poster treatment as the prices. -->
+        <div class="mt-10 border-t border-ink pt-8">
+          <p class="eyebrow m-0">Conservation fee</p>
+          <p class="m-0 mt-2 font-statement text-[clamp(3rem,6vw,5rem)] leading-none text-ink">
+            {formatRand(CONSERVATION_FEE_CENTS)}
+            <span class="ml-2 font-body font-medium text-small uppercase tracking-[0.14em] text-ink">per household</span>
+          </p>
+          <p class="m-0 mt-3 max-w-[64ch] font-body text-body leading-[1.6] text-ink">{CONSERVATION_FEE_NOTE}</p>
+        </div>
 
         <details id="banking" class="group mt-8 scroll-mt-8 border-t border-b border-ink">
           <summary class="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-4 py-3 font-display font-medium text-title text-ink [&::-webkit-details-marker]:hidden">

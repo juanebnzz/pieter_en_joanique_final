@@ -21,6 +21,7 @@ export default function AddHouseholdForm({ onDone, onCancel }: { onDone: () => v
         invite_code: f.get('invite_code') || '',
         max_guests: Number(f.get('max_guests') || 2),
         amount_due_cents: Math.round(Number(f.get('amount_due') || 0) * 100),
+        conservation_fee_cents: Math.round(Number(f.get('conservation_fee') || 0) * 100),
         notes: f.get('notes') || '',
       });
       onDone();
@@ -39,7 +40,8 @@ export default function AddHouseholdForm({ onDone, onCancel }: { onDone: () => v
       <input name="invite_code" placeholder="Invite code" className={input} />
       <input name="max_guests" type="number" min={1} defaultValue={2} placeholder="Max guests" className={input} />
       <input name="amount_due" type="number" min={0} step="0.01" placeholder="Amount due (R)" className={input} />
-      <input name="notes" placeholder="Notes" className={input} />
+      <input name="conservation_fee" type="number" min={0} step="0.01" placeholder="of which conservation fee (R)" title="Part of the amount due, not on top of it" className={input} />
+      <input name="notes" placeholder="Notes" className={`${input} sm:col-span-3`} />
       {err && <p className="font-body text-sm text-accent sm:col-span-3">{err}</p>}
       <div className="flex gap-2 sm:col-span-3">
         <button disabled={busy} className="min-h-[40px] bg-ink px-4 py-2 font-body text-sm text-surface disabled:opacity-50">Add household</button>

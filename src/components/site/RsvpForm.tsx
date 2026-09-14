@@ -3,7 +3,8 @@ import { z } from 'zod';
 import { rsvpSchema, type RsvpInput } from '../../lib/rsvp-schema';
 import {
   BANK_DETAILS,
-  CONSERVATION_FEE_LABEL,
+  CONSERVATION_FEE_CENTS,
+  CONSERVATION_FEE_NOTE,
   PAYMENT_DEADLINE,
   STAY_OPTIONS,
   formatRand,
@@ -300,9 +301,14 @@ export default function RsvpForm() {
               <span className="font-display font-medium text-[1.15rem] text-ink">Total</span>
               <span className="whitespace-nowrap font-display font-medium text-[1.5rem] text-ink">{formatRand(total.totalCents)}</span>
             </div>
-            <p className="mt-[1em] font-body text-[0.85rem] text-ink">
-              Includes the Dinokeng Game Reserve conservation fee of {CONSERVATION_FEE_LABEL}, charged once per household.
-            </p>
+
+            {/* The fee is the one line guests do not expect, so it gets its own ruled note under the total. */}
+            <aside className="mt-[1.4em] border-t border-b border-ink py-[1.1em]" aria-label="About the conservation fee">
+              <p className="m-0 font-display font-medium text-[1.05rem] leading-[1.35] text-ink">
+                Conservation fee — {formatRand(CONSERVATION_FEE_CENTS)} per household, already in your total
+              </p>
+              <p className="mt-[0.5em] font-body text-[0.85rem] leading-[1.6] text-ink">{CONSERVATION_FEE_NOTE}</p>
+            </aside>
           </Section>
 
           <Section title="Dietary Requirements">

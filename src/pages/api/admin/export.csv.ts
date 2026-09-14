@@ -19,7 +19,7 @@ export const GET: APIRoute = async () => {
   const header = [
     'Household', 'Invite code', 'Email', 'Phone', 'RSVP', 'Responded at', 'Nights', 'Children', 'Household dietary',
     'Guest', 'Child', 'Attending', 'Dietary',
-    'Amount due (R)', 'Paid (R)', 'Outstanding (R)', 'Payment status', 'Message', 'Notes',
+    'Amount due (R)', 'of which conservation fee (R)', 'Paid (R)', 'Outstanding (R)', 'Conservation fee owing (R)', 'Payment status', 'Message', 'Notes',
   ];
   const rows: string[][] = [header];
 
@@ -31,8 +31,10 @@ export const GET: APIRoute = async () => {
     ];
     const money = [
       ((h.amount_due_cents ?? 0) / 100).toFixed(2),
+      ((h.conservation_fee_cents ?? 0) / 100).toFixed(2),
       ((h.paid_cents ?? 0) / 100).toFixed(2),
       ((h.outstanding_cents ?? 0) / 100).toFixed(2),
+      ((h.conservation_fee_outstanding_cents ?? 0) / 100).toFixed(2),
       h.payment_status, h.message, h.notes,
     ];
     if (hg.length === 0) {

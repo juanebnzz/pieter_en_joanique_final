@@ -20,8 +20,7 @@ const current = Astro.url.pathname;
         <a href="/" aria-current={current === '/' ? 'page' : undefined} class="nav-link text-ink underline-offset-[0.3em] hover:underline">Home</a>
       </li>
       {
-        // Gifts is footer-only: reachable, never prominent.
-        [...NAV_LINKS, { label: 'Gifts', href: '/gifts' }].map((l) => (
+        NAV_LINKS.map((l) => (
           <li>
             <a href={l.href} aria-current={current === l.href ? 'page' : undefined} class="nav-link text-ink underline-offset-[0.3em] hover:underline">
               {l.label}

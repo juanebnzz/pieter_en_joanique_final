@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
 import Section from '../components/site/Section.astro';
 import Grid from '../components/site/Grid.astro';
@@ -9,8 +8,6 @@ import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 import introPhoto from '../assets/photos/gallery/g-16.jpg';
-import fridayPhoto from '../assets/photos/gallery/g-22.jpg';
-import lodgePhoto from '../assets/photos/gallery/g-34.jpg';
 import venueDrawing from '../assets/illustrations/ceremony-venue.png';
 import {
   BANK_DETAILS,
@@ -25,41 +22,20 @@ import {
 export const prerender = true;
 
 /*
- * Five movements: intro → the days → one wide photograph → the practicals as
- * a spec-sheet grid → everything money in one burlap block that ends on the
- * RSVP button. Lead-size serif is reserved for the intro and the ceremony;
- * every utilitarian fact sits at body size, and hairlines separate blocks,
- * not facts.
+ * The "magazine" direction (weekend-variations.html · C), with the intro kept
+ * in the same family as every other inner page so the site opens consistently.
+ * Movements: intro → the three days side by side as a programme → the ceremony
+ * pavilion, drawn in ink, at a modest size beside the lodge details → prices at
+ * poster scale on burlap → the practicals as an at-a-glance strip → the ask on
+ * olive. Bodoni (font-statement) is reserved for day names and prices, as on
+ * the home page; everything else is the site's Cormorant / Jost pairing.
  */
 
 type Row = { time: string; event: string; ceremony?: boolean };
-// Each day is a split: the day heading hangs beside its timeline and a picture
-// sits in the outer columns, alternating sides so the page zigzags. Friday's is
-// a photograph; Saturday's is the ceremony pavilion, drawn in ink, sitting
-// beside the Ceremony row — the picture for that day, at the same scale as
-// the photograph. Sunday is a coda: two rows, no picture. On a phone the
-// picture leads the day at full width, then the heading, then the timeline.
-// `phonePosition` is the crop focus for the photograph's 4/3 phone frame.
-const days: {
-  day: string;
-  date: string;
-  photo: ImageMetadata | null;
-  drawing?: boolean;
-  caption?: string;
-  alt: string;
-  position: string;
-  phonePosition: string;
-  photoLeft: boolean;
-  rows: Row[];
-}[] = [
+const days: { day: string; date: string; rows: Row[] }[] = [
   {
     day: 'Friday',
     date: '13 November',
-    photo: fridayPhoto,
-    alt: 'Pieter and Joanique walking away hand in hand along a green gallery wall of framed prints.',
-    position: '50% 50%',
-    phonePosition: '50% 92%',
-    photoLeft: false,
     rows: [
       { time: '14:00', event: 'Guests arrive' },
       { time: '18:00', event: 'Bonfire and burger night' },
@@ -68,13 +44,6 @@ const days: {
   {
     day: 'Saturday',
     date: '14 November',
-    photo: venueDrawing,
-    drawing: true,
-    caption: 'Where we say I do',
-    alt: 'Line drawing of the ceremony pavilion: a pitched timber roof on brick pillars, with an arched doorway between tall windows.',
-    position: '',
-    phonePosition: '',
-    photoLeft: true,
     rows: [
       { time: '08:00', event: 'Breakfast, for Friday guests' },
       { time: '11:00', event: 'Saturday guests arrive' },
@@ -87,11 +56,6 @@ const days: {
   {
     day: 'Sunday',
     date: '15 November',
-    photo: null,
-    alt: '',
-    position: '',
-    phonePosition: '',
-    photoLeft: false,
     rows: [
       { time: '08:00', event: 'Breakfast for all guests' },
       { time: '10:00', event: 'Checkout' },
@@ -99,42 +63,29 @@ const days: {
   },
 ];
 
-// The practicals — six cells, each a label and a line or two. Every fact once.
-const practicals = [
-  {
-    label: 'Check-in',
-    text: 'Friday from 14:00, or Saturday from 11:00. Saturday night is compulsory — we are booking out the whole lodge, so if you have other arrangements please talk to us.',
-  },
+// At a glance — six short cells. Every fact once.
+const glance = [
+  { label: 'Check-in', text: 'Friday from 14:00, or Saturday from 11:00. Saturday night is compulsory — we are booking out the whole lodge.' },
   { label: 'Check-out', text: 'Sunday at 10:00, after breakfast.' },
-  {
-    label: 'Dress code',
-    text: 'Semi-formal, earth-toned and summery to suit the bush. Please avoid black, white, red and purple where possible.',
-  },
-  {
-    label: 'Food & drink',
-    text: 'A cash bar and The Roots restaurant are open all weekend. No outside food or drinks, please.',
-  },
+  { label: 'Dress code', text: 'Semi-formal, earth-toned and summery. Please avoid black, white, red and purple.' },
+  { label: 'Food & drink', text: 'A cash bar and The Roots restaurant, all weekend. No outside food or drinks, please.' },
   { label: 'Getting there', text: 'The last stretch is a dirt road, fine for any car. Secure parking at the lodge.' },
-  {
-    label: 'In between',
-    text: 'A complimentary game drive for Friday guests, the pool (bring swimwear), and the boma and bonfire stay open after the reception.',
-  },
+  { label: 'In between', text: 'A game drive for Friday guests, the pool, and the boma and bonfire after the reception.' },
 ];
 
 const tiers = [
-  { title: 'Friday & Saturday', stayLabel: 'Two nights', ...STAY_OPTIONS.friday_saturday },
-  { title: 'Saturday only', stayLabel: 'One night', ...STAY_OPTIONS.saturday },
+  { title: 'Friday & Saturday', ...STAY_OPTIONS.friday_saturday },
+  { title: 'Saturday only', ...STAY_OPTIONS.saturday },
 ];
 
 const kicker = 'eyebrow m-0 mb-6 lg:col-start-2 lg:col-span-2 lg:mb-0 lg:pr-6';
 const content = 'lg:col-start-4 lg:col-span-8';
-const timeCell = 'font-body font-medium text-small lg:w-[8.5em] lg:flex-none';
 ---
 
 <Base title="The Weekend — Pieter & Joanique">
   <Nav />
 
-  <!-- 1 · INTRO · text and photograph share a top edge; the date is set on two deliberate lines -->
+  <!-- 1 · INTRO · same family as every inner page; the date set on two deliberate lines -->
   <PageIntro
     kicker="The Weekend"
     title={'Friday 13 — Sunday 15\nNovember 2026'}
@@ -150,154 +101,100 @@ const timeCell = 'font-body font-medium text-small lg:w-[8.5em] lg:flex-none';
     </p>
   </PageIntro>
 
-  <!-- 2 · THE DAYS -->
-  {
-    days.map((d) => (
-      <Section mode="linen" data-reveal class="py-8 md:py-10 lg:py-12">
-        <Grid class="gap-y-6 border-t border-rule pt-8 sm:grid-cols-12 sm:gap-x-6 md:pt-10 lg:gap-y-8 lg:pt-12">
-          {d.photo && d.drawing && (
-            <figure
-              class:list={[
-                'm-0 sm:self-center lg:row-start-1',
-                d.photoLeft ? 'sm:row-start-2 sm:col-start-1 sm:col-span-4' : 'sm:row-start-2 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3',
-              ]}
-            >
-              <Image src={d.photo} alt={d.alt} widths={[480, 800, 1200]} sizes="(min-width: 1680px) 540px, (min-width: 640px) 33vw, 100vw" class="h-auto w-full" />
-              {d.caption && <figcaption class="eyebrow mt-4">{d.caption}</figcaption>}
-            </figure>
-          )}
-          {d.photo && !d.drawing && (
-            <div
-              class:list={[
-                'relative aspect-[4/3] overflow-hidden sm:aspect-[4/5] lg:row-start-1',
-                d.photoLeft
-                  ? 'sm:row-start-2 sm:col-start-1 sm:col-span-4'
-                  : 'sm:row-start-2 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3',
-              ]}
-            >
-              <Image
-                src={d.photo}
-                alt={d.alt}
-                widths={[480, 800, 1200]}
-                sizes="(min-width: 1680px) 420px, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw"
-                class="absolute inset-0 h-full w-full object-cover [object-position:var(--phone)] sm:[object-position:var(--desk)]"
-                style={`--phone:${d.phonePosition};--desk:${d.position};`}
-              />
-            </div>
-          )}
-          <h2
-            class:list={[
-              'm-0 sm:row-start-1 sm:col-span-12',
-              d.photoLeft ? 'lg:col-start-6 lg:col-span-2' : 'lg:col-start-2 lg:col-span-2',
-            ]}
-          >
-            <span class="block font-display font-medium text-title text-ink">{d.day}</span>
-            <span class="eyebrow mt-2 block">{d.date}</span>
-          </h2>
-          <div
-            class:list={[
-              'sm:row-start-2 lg:row-start-1',
-              d.photoLeft ? 'sm:col-start-6 sm:col-span-7 lg:col-start-8 lg:col-span-5' : 'sm:col-start-1 sm:col-span-7 lg:col-start-4 lg:col-span-5',
-            ]}
-          >
+  <!-- 2 · THE PROGRAMME · three days side by side -->
+  <Section mode="linen" data-reveal class="py-10 md:py-14 lg:py-20">
+    <Grid class="gap-y-12 border-t border-rule pt-10 md:pt-12 lg:gap-x-12 lg:pt-16">
+      {
+        days.map((d) => (
+          <div class="lg:col-span-4">
+            <h2 class="m-0 mb-5">
+              <span class="block font-statement text-[2.4rem] leading-none text-ink">{d.day}</span>
+              <span class="eyebrow mt-3 block">{d.date}</span>
+            </h2>
             {d.rows.map((r) =>
               r.ceremony ? (
-                <div class="flex flex-col gap-y-1 border-t border-rule py-5 lg:flex-row lg:flex-wrap lg:gap-x-6">
-                  <div class:list={[timeCell, 'text-accent lg:pt-[0.35em]']}>{r.time}</div>
-                  <div class="lg:flex-[1_1_200px]">
+                <div class="my-1 flex flex-col gap-y-1 border-t border-b border-accent py-4 sm:flex-row sm:items-baseline sm:gap-x-4 [&+*]:border-t-0">
+                  <div class="font-body font-medium text-small text-accent sm:w-[8em] sm:flex-none">{r.time}</div>
+                  <div class="min-w-0">
                     <div class="font-display font-medium text-title text-ink">{r.event}</div>
                     <a
                       href="/pieter-joanique-ceremony.ics"
                       download="Pieter-Joanique-Ceremony.ics"
-                      class="mt-2 inline-flex min-h-[44px] items-center font-body font-medium text-small text-ink underline underline-offset-[0.15em] hover:opacity-75 sm:min-h-0"
+                      class="mt-1 inline-flex min-h-[44px] items-center font-body font-medium text-small text-ink underline underline-offset-[0.15em] hover:opacity-75 sm:min-h-0"
                     >
                       Add to calendar →
                     </a>
                   </div>
                 </div>
               ) : (
-                <div class="flex flex-col gap-y-1 border-t border-rule py-4 first:border-t-0 first:pt-0 lg:flex-row lg:flex-wrap lg:gap-x-6">
-                  <div class:list={[timeCell, 'text-ink']}>{r.time}</div>
-                  <div class="font-display text-lead text-ink lg:flex-[1_1_200px]">{r.event}</div>
+                <div class="flex flex-col gap-y-0.5 border-t border-rule py-3 sm:flex-row sm:items-baseline sm:gap-x-4">
+                  <div class="font-body font-medium text-small text-ink sm:w-[8em] sm:flex-none">{r.time}</div>
+                  <div class="font-display text-lead text-ink">{r.event}</div>
                 </div>
               ),
             )}
           </div>
-        </Grid>
-      </Section>
-    ))
-  }
+        ))
+      }
+    </Grid>
+  </Section>
 
-  <!-- 3 · BREATH · the page's one wide photograph, and where the lodge is -->
-  <Section mode="linen" data-reveal class="pt-6 md:pt-8 lg:pt-10">
-    <div class="relative aspect-[3/2] w-full overflow-hidden sm:aspect-[21/9]">
-      <Image
-        src={lodgePhoto}
-        alt="Black and white photograph of Pieter and Joanique walking towards each other across a wide gallery floor."
-        widths={[800, 1280, 1920, 2560]}
-        sizes="100vw"
-        class="absolute inset-0 h-full w-full object-cover object-[50%_60%]"
-      />
-    </div>
-    <Grid class="pt-6 md:pt-8">
-      <h2 class={kicker}>Finding Us</h2>
-      <div class={content}>
+  <!-- 3 · WHERE · the ceremony pavilion, drawn in ink — a modest figure beside the lodge details -->
+  <Section mode="linen" data-reveal class="pb-14 md:pb-20 lg:pb-24">
+    <Grid class="gap-y-8 lg:items-center">
+      <figure class="m-0 max-w-[320px] sm:max-w-[400px] lg:col-start-2 lg:col-span-4 lg:max-w-none">
+        <Image
+          src={venueDrawing}
+          alt="Line drawing of the ceremony pavilion: a pitched timber roof on brick pillars, with an arched doorway between tall windows."
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 1680px) 540px, (min-width: 1024px) 33vw, 400px"
+          class="h-auto w-full"
+        />
+      </figure>
+      <div class="lg:col-start-7 lg:col-span-5">
+        <div class="eyebrow mb-4">Where we say I do</div>
+        <h2 class="m-0 font-display font-medium text-title text-ink">Tshikwalo Game Lodge</h2>
+        <p class="mt-3 max-w-[40ch] font-display text-lead text-ink">
+          In the Dinokeng Game Reserve. The last stretch is a dirt road, fine for any car, with secure parking at the lodge.
+        </p>
         <a
           href="https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99"
           target="_blank"
           rel="noopener"
-          class="font-display italic text-title text-ink underline underline-offset-[0.2em] hover:opacity-75"
-          >Tshikwalo Game Lodge, Dinokeng Game Reserve →</a
+          class="mt-5 inline-flex min-h-[44px] items-center font-body font-medium text-small uppercase tracking-[0.14em] text-ink underline underline-offset-[0.3em] hover:opacity-75"
+          >Open in Maps →</a
         >
       </div>
     </Grid>
   </Section>
 
-  <!-- 4 · THE PRACTICALS · spec-sheet grid, no hairlines between facts -->
-  <Section mode="linen" class="py-12 md:py-14 lg:py-16">
-    <Grid class="border-t border-rule pt-8 md:pt-10 lg:pt-12">
-      <h2 class={kicker}>The Practicals</h2>
-      <dl class:list={['m-0 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-10', content]}>
-        {
-          practicals.map((p) => (
-            <div class="max-w-[34ch]">
-              <dt class="mb-2 font-body font-medium text-small text-ink">{p.label}</dt>
-              <dd class="m-0 font-display text-[1.15rem] leading-[1.55] text-ink">{p.text}</dd>
-            </div>
-          ))
-        }
-      </dl>
-    </Grid>
-  </Section>
-
-  <!-- 5 · MONEY · one burlap block: tiers, small print, banking (collapsed), the ask -->
-  <Section mode="burlap" id="payment" class="scroll-mt-8 py-12 md:py-14 lg:py-16">
+  <!-- 4 · WHAT IT COSTS · prices at poster scale on burlap; banking collapsed -->
+  <Section mode="burlap" id="payment" class="scroll-mt-8 py-14 md:py-16 lg:py-24">
     <Grid>
       <h2 class={kicker}>What It Costs</h2>
       <div class={content}>
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8">
           {
             tiers.map((t) => (
-              <div class="border border-rule p-5 sm:p-6 lg:p-8">
-                <p class="eyebrow m-0 mb-4">{t.stayLabel}</p>
-                <h3 class="m-0 font-display font-medium text-title text-ink">{t.title}</h3>
-                <p class="m-0 mt-3 font-display text-display leading-none text-ink">
+              <div>
+                <p class="eyebrow m-0">{t.title}</p>
+                <p class="m-0 mt-2 font-statement text-[clamp(3rem,6vw,5rem)] leading-none text-ink">
                   {formatRand(t.adultCents)}
-                  <span class="ml-1 font-body font-medium text-small text-ink">per person</span>
+                  <span class="ml-2 font-body font-medium text-small uppercase tracking-[0.14em] text-ink">per person</span>
                 </p>
-                <p class="m-0 mt-5 max-w-[34ch] font-body text-small leading-[1.6] text-ink">{t.smallPrint}</p>
+                <p class="m-0 mt-3 max-w-[38ch] font-body text-small leading-[1.6] text-ink">{t.smallPrint}</p>
               </div>
             ))
           }
         </div>
 
-        <p class="mt-6 max-w-[64ch] font-body text-body text-ink">
+        <p class="mt-10 max-w-[64ch] font-body text-body text-ink">
           Children under 2 stay free; ages 2 to 12 are {formatRand(CHILD_PER_NIGHT_CENTS)} per child per night. Every household's
           total includes the {formatRand(CONSERVATION_FEE_CENTS)} Dinokeng conservation fee, so there is nothing to pay at the gate.
           Your total is worked out for you on the RSVP form.
         </p>
 
-        <details id="banking" class="group mt-8 scroll-mt-8 border-t border-b border-rule">
+        <details id="banking" class="group mt-8 scroll-mt-8 border-t border-b border-ink">
           <summary class="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-4 py-3 font-display font-medium text-title text-ink [&::-webkit-details-marker]:hidden">
             Banking details
             <span aria-hidden="true" class="font-display text-[1.6rem] leading-none transition-transform duration-300 group-open:rotate-45">+</span>
@@ -310,17 +207,36 @@ const timeCell = 'font-body font-medium text-small lg:w-[8.5em] lg:flex-none';
             <DetailRows rows={BANK_DETAILS} />
           </div>
         </details>
-
-        <div class="mt-10 flex flex-col gap-y-5 sm:flex-row sm:items-center sm:justify-between sm:gap-x-8">
-          <p class="m-0 max-w-[24ch] font-display font-medium text-title text-ink">Kindly respond by {RSVP_DEADLINE}.</p>
-          <a
-            href="/rsvp"
-            class="flex min-h-[56px] w-full flex-none items-center justify-center bg-ink px-8 font-body font-medium text-[0.85rem] uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-85 sm:w-auto"
-            >RSVP now</a
-          >
-        </div>
       </div>
     </Grid>
+  </Section>
+
+  <!-- 5 · AT A GLANCE · six short cells in one strip -->
+  <Section mode="linen" class="py-12 md:py-14 lg:py-16">
+    <Grid>
+      <dl class="m-0 grid grid-cols-2 gap-x-6 gap-y-8 lg:col-span-12 lg:grid-cols-6 lg:gap-x-8">
+        {
+          glance.map((g) => (
+            <div>
+              <dt class="eyebrow mb-2">{g.label}</dt>
+              <dd class="m-0 font-body text-small leading-[1.6] text-ink">{g.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </Grid>
+  </Section>
+
+  <!-- 6 · THE ASK · olive band -->
+  <Section mode="olive" class="px-5 py-16 text-center md:px-10 lg:py-24">
+    <p class="mx-auto mb-8 max-w-[30ch] font-display italic text-[clamp(1.75rem,3.5vw,2.6rem)] leading-[1.2] text-ink">
+      Kindly respond by {RSVP_DEADLINE}.
+    </p>
+    <a
+      href="/rsvp"
+      class="inline-flex min-h-[52px] items-center justify-center border border-ink px-10 font-body font-medium text-[0.78rem] uppercase tracking-[0.18em] text-ink transition-colors hover:bg-ink hover:text-surface"
+      >RSVP now</a
+    >
   </Section>
 
   <Footer />

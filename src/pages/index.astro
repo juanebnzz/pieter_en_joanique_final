@@ -6,11 +6,12 @@ import Grid from '../components/site/Grid.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 import Interlude from '../components/site/Interlude.astro';
-import hero from '../assets/photos/hero.jpg';
+import hero from '../assets/photos/gallery/g-44.jpg';
 import storyPhoto from '../assets/photos/gallery/g-39.jpg';
-import moment1 from '../assets/photos/gallery/g-30.jpg';
-import moment2 from '../assets/photos/gallery/g-41.jpg';
-import moment3 from '../assets/photos/gallery/g-45.jpg';
+import moment1 from '../assets/photos/gallery/g-45.jpg';
+import moment2 from '../assets/photos/gallery/g-38.jpg';
+import moment3 from '../assets/photos/gallery/g-16.jpg';
+import venueDrawing from '../assets/illustrations/ceremony-venue.png';
 
 export const prerender = true;
 
@@ -22,9 +23,6 @@ const heroScrim =
   'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 0%, transparent) 35%, color-mix(in srgb, var(--color-surface) 55%, transparent) 70%, color-mix(in srgb, var(--color-surface) 85%, transparent) 100%);';
 const navScrim =
   'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 45%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);';
-// Variation B only: the names sit over the busy top of the photo, so it gets its own ground.
-const heroTopScrim =
-  'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 78%, transparent) 0%, color-mix(in srgb, var(--color-surface) 55%, transparent) 55%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);';
 const orientation = [
   { label: 'The Weekend', detail: 'Friday 13 to Sunday 15 November 2026' },
   { label: 'The Place', detail: 'Tshikwalo Game Lodge, Dinokeng Game Reserve' },
@@ -34,9 +32,9 @@ const orientation = [
 const storyAlt = 'Black and white photograph of Pieter and Joanique standing close, looking at a single framed print on a wide white gallery wall.';
 
 const moments = [
-  { src: moment1, alt: 'Pieter and Joanique holding hands in a doorway, framed by white walls with a parquet floor beneath them.' },
-  { src: moment2, alt: 'Black and white photograph of Pieter and Joanique kissing, her hair over her shoulder, beside framed prints.' },
-  { src: moment3, alt: 'Pieter dipping Joanique in a dance in front of a teal gallery wall, her heel kicked up behind her.' },
+  { src: moment1, alt: 'Pieter dipping Joanique in a dance in front of a teal gallery wall, her heel kicked up behind her.' },
+  { src: moment2, alt: 'Black and white photograph of Pieter from behind, Joanique hidden in his arms, her hand at the back of his neck, a framed print ahead of them.' },
+  { src: moment3, alt: 'Pieter spinning Joanique out by the hand in front of a dark green gallery wall hung with paintings.' },
 ];
 ---
 
@@ -44,34 +42,25 @@ const moments = [
   <!-- Sticky overlay nav: a sibling of the hero, not a child, because the hero clips overflow -->
   <Nav variant="overlay" mode="olive" />
 
-  <!-- HERO · olive (IMG_9093), full bleed under the overlay nav — kept exactly as the couple want it.
-       The couple sit bottom-left of a portrait frame, so from md the photo is oversized and shifted so they
-       sit to the left of the names rather than behind them. On mobile the photo is anchored to the foot and
-       enlarged (172%) so the couple rise above the names instead of sitting behind them.
-       Variation B (?hero=b, mobile only): names/date/venue move to the top in the launch font, RSVP stays at the
-       foot, and the photo returns to a full-height fit since the middle of the frame is clear. -->
-  <Section mode="olive" class="relative m-0 h-[84svh] min-h-[600px] w-full overflow-hidden md:h-[100svh]">
+  <!-- HERO · olive (g-44, the monochrome kiss on the gallery bench), full bleed under the overlay nav and
+       fading into the olive ground at the foot — kept exactly as the couple want it. Names on one line in the
+       launch face; the date keeps its hairline invitation treatment. -->
+  <Section mode="olive" class="relative m-0 h-[84svh] min-h-[600px] w-full overflow-hidden">
     <Image
       src={hero}
-      alt="Pieter and Joanique"
-      widths={[640, 1024, 1600, 2400, 3000]}
-      sizes="(min-width: 768px) 125vw, 100vw"
+      alt="Black and white photograph of Pieter and Joanique seated on a gallery bench, noses touching, framed prints behind them."
+      widths={[640, 1024, 1600, 2400]}
+      sizes="100vw"
       quality={85}
       loading="eager"
       fetchpriority="high"
-      class="absolute inset-x-0 bottom-0 block h-[172%] w-full object-cover object-[35%_100%] max-md:hero-b:inset-0 max-md:hero-b:h-full max-md:hero-b:object-[40%_80%] md:inset-0 md:-left-[22%] md:h-full md:w-[125%] md:max-w-none md:object-[50%_79%]"
+      class="absolute inset-0 block h-full w-full object-cover"
     />
     <div class="pointer-events-none absolute inset-0" style={heroScrim}></div>
     <div class="pointer-events-none absolute left-0 right-0 top-0 h-[26cqw] min-h-[120px]" style={navScrim}></div>
-    <div class="pointer-events-none absolute left-0 right-0 top-0 hidden h-[58%] max-md:hero-b:block" style={heroTopScrim}></div>
-    <div class="pointer-events-none absolute bottom-0 left-0 right-0 px-5 pb-7 pt-[8cqw] text-center md:px-[6cqw] md:pb-[6cqw] max-md:hero-b:top-0 max-md:hero-b:flex max-md:hero-b:flex-col max-md:hero-b:pt-24">
-      <!-- Names stacked on three lines: statement / script ampersand / statement. Pieter first, always. -->
-      <!-- text-indent equals the tracking so the last letter's trailing space doesn't pull the word off-centre. -->
-      <!-- Variation B on mobile: the same three spans flow onto one line in the launch face (Cormorant). -->
-      <h1 class="mb-5 flex flex-col items-center gap-y-[0.05em] text-ink md:mb-7 max-md:hero-b:flex-row max-md:hero-b:justify-center max-md:hero-b:gap-x-[0.28em]">
-        <span class="font-statement font-medium uppercase leading-none tracking-[0.12em] [text-indent:0.12em] text-[clamp(2rem,8cqw,4.25rem)] max-md:hero-b:font-display max-md:hero-b:tracking-[0.02em] max-md:hero-b:[text-indent:0] max-md:hero-b:text-[clamp(1.6rem,7.4cqw,2.4rem)]">Pieter</span>
-        <span class="font-script leading-none text-[clamp(2.1rem,8cqw,4.25rem)] max-md:hero-b:font-display max-md:hero-b:font-medium max-md:hero-b:text-[clamp(1.6rem,7.4cqw,2.4rem)]">&amp;</span>
-        <span class="font-statement font-medium uppercase leading-none tracking-[0.12em] [text-indent:0.12em] text-[clamp(2rem,8cqw,4.25rem)] max-md:hero-b:font-display max-md:hero-b:tracking-[0.02em] max-md:hero-b:[text-indent:0] max-md:hero-b:text-[clamp(1.6rem,7.4cqw,2.4rem)]">Joanique</span>
+    <div class="pointer-events-none absolute bottom-0 left-0 right-0 px-5 pb-7 pt-[8cqw] text-center md:px-[6cqw] md:pb-[6cqw]">
+      <h1 class="mb-5 font-display font-medium uppercase leading-[1.05] tracking-[0.02em] [text-indent:0.02em] text-ink text-[clamp(2.2rem,9cqw,5rem)] md:mb-7">
+        Pieter &amp; Joanique
       </h1>
       <!-- Date as an invitation line: tracked caps between two short hairlines. -->
       <p class="mb-3 flex items-center justify-center gap-x-3 whitespace-nowrap font-body font-medium uppercase tracking-[0.14em] [text-indent:0.14em] text-ink text-[clamp(0.75rem,2cqw,0.95rem)] md:mb-4 md:gap-x-4 md:tracking-[0.18em] md:[text-indent:0.18em]">
@@ -82,10 +71,10 @@ const moments = [
       <p class="mb-7 font-body tracking-[0.04em] text-ink text-[clamp(0.95rem,2.2cqw,1.15rem)] md:mb-9 md:whitespace-nowrap">
         Tshikwalo Game Lodge,<br class="md:hidden" /> Dinokeng Game Reserve
       </p>
-      <!-- One primary CTA, hairline-bordered rather than a filled slab — the nav already carries a second RSVP. -->
+      <!-- One primary CTA. A filled slab on phones (no hover there); from md a hairline frame that fills on hover. -->
       <a
         href="/rsvp"
-        class="pointer-events-auto mx-auto flex min-h-[64px] w-full max-w-[320px] flex-col items-center justify-center gap-[0.15em] border border-ink px-[1.5em] py-[0.9em] text-ink transition-colors hover:bg-ink hover:text-surface max-md:hero-b:mt-auto"
+        class="pointer-events-auto mx-auto flex min-h-[64px] w-full max-w-[520px] flex-col items-center justify-center gap-[0.15em] border border-ink bg-ink px-[1.5em] py-[0.9em] text-surface transition-colors md:max-w-[320px] md:bg-transparent md:text-ink md:hover:bg-ink md:hover:text-surface"
       >
         <span class="font-body font-medium uppercase tracking-[0.18em] [text-indent:0.18em] text-[clamp(1rem,2.6cqw,1.15rem)]">RSVP</span>
         <span class="font-body text-[0.78rem] tracking-[0.05em]">Kindly respond by 28 September 2026</span>
@@ -109,6 +98,15 @@ const moments = [
           look forward to seeing you all. We cannot wait to build lasting memories and have you be part of them.
         </p>
         <p class="font-display italic text-title text-ink">With love, Pieter &amp; Joanique</p>
+        <!-- The ceremony pavilion from The Weekend, as a small closing flourish. Multiply lets the linen show through. -->
+        <Image
+          src={venueDrawing}
+          alt=""
+          aria-hidden="true"
+          widths={[240, 480]}
+          sizes="140px"
+          class="mx-auto mt-10 h-auto w-[120px] opacity-80 mix-blend-multiply md:mt-12 md:w-[140px]"
+        />
       </div>
     </Grid>
   </Section>
@@ -141,15 +139,23 @@ const moments = [
     quote="Officially, it was just coffee."
     link={{ href: '/our-story', label: 'Read our story →' }}
   />
+  <!-- From sm: an editorial spread. Text inset to columns 2–5 and centred on the photo; the quote is sized to
+       break as two even lines, one line of the story follows it, and the photo carries the Interlude's inset
+       hairline so the phone band and this spread read as the same object. -->
   <Section mode="burlap" data-reveal class="hidden py-14 sm:block md:py-20 lg:py-24">
     <Grid class="gap-y-8 sm:grid-cols-12 sm:gap-x-6 lg:gap-y-10">
-      <div class="order-2 sm:order-1 sm:col-span-5 sm:self-center lg:pt-24">
-        <div class="eyebrow mb-6">Our Story</div>
-        <p class="mb-8 max-w-[22ch] font-display italic font-medium text-quote text-ink">Officially, it was just coffee.</p>
+      <div class="order-2 sm:order-1 sm:col-span-5 sm:self-center lg:col-start-2 lg:col-span-4">
+        <div class="mb-6 flex items-center gap-x-4 lg:mb-8">
+          <span aria-hidden="true" class="h-px w-8 flex-none bg-ink"></span>
+          <div class="eyebrow">Our Story</div>
+        </div>
+        <p class="mb-6 max-w-[15ch] font-display italic font-medium text-quote text-ink lg:mb-7 lg:text-display">Officially, it was just coffee.</p>
+        <p class="mb-8 max-w-[30ch] font-display text-lead text-ink lg:mb-10">Unofficially, it was an excuse to spend a little more time together.</p>
         <a href="/our-story" class="nav-link inline-flex text-ink underline underline-offset-[0.3em] hover:opacity-75">Read our story →</a>
       </div>
-      <div class="relative order-1 aspect-[4/5] overflow-hidden sm:order-2 sm:col-start-7 sm:col-span-6">
-        <Image src={storyPhoto} alt={storyAlt} widths={[640, 1024, 1600]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" />
+      <div class="relative order-1 aspect-[4/5] overflow-hidden sm:order-2 sm:col-start-7 sm:col-span-6 lg:col-start-7 lg:col-span-5">
+        <Image src={storyPhoto} alt={storyAlt} widths={[640, 1024, 1600]} sizes="(min-width: 1024px) 42vw, 50vw" class="absolute inset-0 h-full w-full object-cover" />
+        <div class="pointer-events-none absolute inset-3 border lg:inset-5" style="border-color:color-mix(in srgb, var(--color-surface) 70%, transparent);"></div>
       </div>
     </Grid>
   </Section>

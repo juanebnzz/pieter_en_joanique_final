@@ -4,4 +4,5 @@ export const NAV_LINKS = [
   { label: 'The Weekend', href: '/the-weekend' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'FAQ', href: '/faq' },
+  { label: 'Gifts', href: '/gifts' },
 ] as const;

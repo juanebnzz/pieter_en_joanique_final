@@ -32,14 +32,6 @@ const {
       // Scroll-reveal fails open: [data-reveal] content is visible by default and
       // only starts hidden once this class proves JS is running (see global.css).
       document.documentElement.classList.add('js-enabled');
-      // Hero variations for client review: ?hero=b switches the home hero; ?hero=a (or
-      // no param) is the default. Remembered for the tab so the choice survives navigation.
-      try {
-        var heroParam = new URLSearchParams(location.search).get('hero');
-        if (heroParam) sessionStorage.setItem('hero', heroParam);
-        var heroVariant = heroParam || sessionStorage.getItem('hero');
-        if (heroVariant && heroVariant !== 'a') document.documentElement.dataset.hero = heroVariant;
-      } catch (e) {}
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

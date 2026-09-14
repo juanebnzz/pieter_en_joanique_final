@@ -2,9 +2,6 @@
 
 @config "../../tailwind.config.mjs";
 
-/* Hero variation B (client review) — set on <html> by the inline script in Base.astro. */
-@custom-variant hero-b (&:where([data-hero="b"], [data-hero="b"] *));
-
 /* ---------------------------------------------------------------------------
    TOKEN LAYER — the only place a colour literal may appear.
 
@@ -116,6 +113,27 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+}
+
+/* Page tabs: a hairline the width of the word, a few px below it. Always on for the
+   current page; on pointer devices it also rises on hover. */
+@utility nav-tab {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  &[aria-current='page']::after { opacity: 1; }
+  @media (hover: hover) {
+    &:hover::after { opacity: 1; }
+  }
 }
 
 /* Horizontal snap strips (phone-only image rows): no visible scrollbar. */

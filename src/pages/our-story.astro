@@ -1,99 +1,109 @@
 ---
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
-import Base from '../layouts/Base.astro';
-import Section from '../components/site/Section.astro';
-import Grid from '../components/site/Grid.astro';
-import PageIntro from '../components/site/PageIntro.astro';
-import Nav from '../components/site/Nav.astro';
-import Footer from '../components/site/Footer.astro';
-import Interlude from '../components/site/Interlude.astro';
-import ch1 from '../assets/photos/gallery/g-37.jpg';
-import ch2 from '../assets/photos/gallery/g-02.jpg';
-import ch3 from '../assets/photos/gallery/g-04.jpg';
-import ch4 from '../assets/photos/gallery/g-32.jpg';
-import ch5 from '../assets/photos/gallery/g-25.jpg';
-import bandPhoto from '../assets/photos/gallery/g-11.jpg';
-import introPhoto from '../assets/photos/gallery/g-21.jpg';
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Base from "../layouts/Base.astro";
+import Section from "../components/site/Section.astro";
+import Grid from "../components/site/Grid.astro";
+import PageIntro from "../components/site/PageIntro.astro";
+import Nav from "../components/site/Nav.astro";
+import Footer from "../components/site/Footer.astro";
+import Interlude from "../components/site/Interlude.astro";
+import ch1 from "../assets/photos/gallery/g-37.jpg";
+import ch2 from "../assets/photos/gallery/g-02.jpg";
+import ch3 from "../assets/photos/gallery/g-04.jpg";
+import ch4 from "../assets/photos/gallery/g-32.jpg";
+import ch5 from "../assets/photos/gallery/g-25.jpg";
+import bandPhoto from "../assets/photos/gallery/g-11.jpg";
+import introPhoto from "../assets/photos/gallery/g-21.jpg";
 
 export const prerender = true;
 
 // Chapters are asymmetric splits that alternate image side so the page
 // zigzags — a 5/7 split from sm, 6/5 with the text offset from lg. The "01 · date" kicker is the spine. `body` is the couple's own
 // telling, in short paragraphs; it is meant to be read, and to be kept.
-const chapters: { label: string; oversized: string; body: string[]; src: ImageMetadata; alt: string; position: string; bandAfter: boolean }[] = [
+const chapters: {
+  label: string;
+  oversized: string;
+  body: string[];
+  src: ImageMetadata;
+  alt: string;
+  position: string;
+  bandAfter: boolean;
+}[] = [
   {
-    label: '01 · 25 June 2024',
-    oversized: 'There was really no need to slap him with her sleeve. All she had to do was say hi.',
+    label: "01 · 25 June 2024",
+    oversized:
+      "There was really no need to slap him with her sleeve. All she had to do was say hi.",
     body: [
-      'On a chilly evening on 25 June 2024, Pieter and Joanique found themselves attending the same church course. Neither of them knew it at the time, but that ordinary evening would become the beginning of a story neither could have written for themselves.',
-      'Pieter happened to sit directly behind Joanique. As the room began to warm up, Joanique decided to take off her jacket and, in the process, accidentally slapped Pieter across the face with her sleeve. Not quite the elegant first impression she had imagined.',
-      'Rather than being offended, Pieter saw an opportunity. With a cheeky grin, he told her that there was really no need to slap him across the face with her sleeve; all she had to do was say hi. The comment completely caught Joanique off guard, and she spent much of the rest of the evening trying not to smile.',
-      'Pieter still claims that he remembers very little of what was actually taught that evening. His attention was far more occupied by the beautiful girl sitting in front of him.',
-      'Joanique still reminds him that paying attention in church is important.',
+      "On a chilly evening on 25 June 2024, Pieter and Joanique found themselves attending the same church course. Neither of them knew it at the time, but that ordinary evening would become the beginning of a story neither could have written for themselves.",
+      "Pieter happened to sit directly behind Joanique. As the room began to warm up, Joanique decided to take off her jacket and, in the process, accidentally slapped Pieter across the face with her sleeve. Not quite the elegant first impression she had imagined.",
+      "Rather than being offended, Pieter saw an opportunity. With a cheeky grin, he told her that there was really no need to slap him across the face with her sleeve; all she had to do was say hi. The comment completely caught Joanique off guard, and she spent much of the rest of the evening trying not to smile.",
+      "Pieter still claims that he remembers very little of what was actually taught that evening. His attention was far more occupied by the beautiful girl sitting in front of him.",
+      "Joanique still reminds him that paying attention in church is important.",
     ],
     src: ch1,
-    alt: 'Black and white close-up of Pieter and Joanique nose to nose, her hand resting on his cheek.',
-    position: '50% 40%',
+    alt: "Black and white close-up of Pieter and Joanique nose to nose, her hand resting on his cheek.",
+    position: "50% 40%",
     bandAfter: false,
   },
   {
-    label: '02 · The Coffees',
-    oversized: 'Officially, it was just coffee.',
+    label: "02 · The Coffees",
+    oversized: "Officially, it was just coffee.",
     body: [
-      'After the course, Joanique was not entirely convinced that what was happening was real. The first few weeks included a handful of blue-ticked messages as she carefully considered whether she was ready to open her heart again. Thankfully, Pieter was patient, kind and, perhaps most importantly, very persistent.',
-      'Pieter, on the other hand, was convinced from the beginning. He was constantly having to restrain himself, trying desperately to appear cool and composed when, in reality, he was already completely smitten. Joanique, of course, saw straight through him. Fortunately, she found it rather sweet.',
-      'As they began getting to know each other, Pieter started inviting Joanique for an after-church coffee every Sunday. Officially, it was just coffee. Unofficially, it was simply an excuse to spend a little more time together. With every coffee, Joanique found herself falling a little more for Pieter.',
-      'Then came their first official coffee date, and everything changed.',
-      'At Tashas, on a cool Friday evening, somewhere between the coffee, easy conversation and plenty of laughter, they both began to realise that something special was happening. Neither of them could have planned it, but it felt as though God was writing a story far more beautiful than either of them had expected.',
+      "After the course, Joanique was not entirely convinced that what was happening was real. The first few weeks included a handful of blue-ticked messages as she carefully considered whether she was ready to open her heart again. Thankfully, Pieter was patient, kind and, perhaps most importantly, very persistent.",
+      "Pieter, on the other hand, was convinced from the beginning. He was constantly having to restrain himself, trying desperately to appear cool and composed when, in reality, he was already completely smitten. Joanique, of course, saw straight through him. Fortunately, she found it rather sweet.",
+      "As they began getting to know each other, Pieter started inviting Joanique for an after-church coffee every Sunday. Officially, it was just coffee. Unofficially, it was simply an excuse to spend a little more time together. With every coffee, Joanique found herself falling a little more for Pieter.",
+      "Then came their first official coffee date, and everything changed.",
+      "At Tashas, on a cool Friday evening, somewhere between the coffee, easy conversation and plenty of laughter, they both began to realise that something special was happening. Neither of them could have planned it, but it felt as though God was writing a story far more beautiful than either of them had expected.",
     ],
     src: ch2,
-    alt: 'Pieter and Joanique walking hand in hand through a white gallery hung with colourful paintings.',
-    position: '50% 50%',
+    alt: "Pieter and Joanique walking hand in hand through a white gallery hung with colourful paintings.",
+    position: "50% 50%",
     bandAfter: false,
   },
   {
-    label: '03 · A Few More Dates',
-    oversized: 'She outdrove him. He has never been allowed to forget it.',
+    label: "03 · A Few More Dates",
+    oversized: "She outdrove him. He has never been allowed to forget it.",
     body: [
-      'Joanique fell in love with Pieter\'s unwavering confidence in the Lord, his kind heart, and the joy he brings wherever he goes.',
-      'Pieter fell in love with Joanique\'s genuinely pure relationship with God, her loving demeanour, her sharp one-liners, and her authentic, caring heart.',
-      'Pieter knew immediately that he was going to marry her. So much so that he excitedly called his best friend to share the news, convinced that he had just met his future wife.',
-      'There were still a few more dates to enjoy before that became official. There was a driving-range date where Joanique proceeded to outdrive Pieter, a fact she has never allowed him to forget. Then there was a go-karting date, which Pieter won hands down, largely thanks to the fact that he had watched YouTube videos on the ideal racing line moments before the date.',
+      "Joanique fell in love with Pieter's unwavering confidence in the Lord, his kind heart, and the joy he brings wherever he goes.",
+      "Pieter fell in love with Joanique's genuinely pure relationship with God, her loving demeanour, her sharp one-liners, and her authentic, caring heart.",
+      "Pieter knew immediately that he was going to marry her. So much so that he excitedly called his best friend to share the news, convinced that he had just met his future wife.",
+      "There were still a few more dates to enjoy before that became official. There was a driving-range date where Joanique proceeded to outdrive Pieter, a fact she has never allowed him to forget. Then there was a go-karting date, which Pieter won hands down, largely thanks to the fact that he had watched YouTube videos on the ideal racing line moments before the date.",
     ],
     src: ch3,
-    alt: 'Joanique twirling in a white dress in front of a wall of colourful paintings while Pieter watches.',
-    position: '50% 50%',
+    alt: "Joanique twirling in a white dress in front of a wall of colourful paintings while Pieter watches.",
+    position: "50% 50%",
     bandAfter: false,
   },
   {
-    label: '04 · The Proposal',
-    oversized: 'There was one small problem. Joanique does not like cheese.',
+    label: "04 · The Proposal",
+    oversized: "There was one small problem. Joanique does not like cheese.",
     body: [
-      'Eventually, Pieter decided it was time to make official what was already taking place in both their hearts.',
-      'He made the arrangements and booked a day at Van Gaalen Cheese Farm. The plan was simple: an intimate cheese-tasting tour followed by a romantic picnic beside a tranquil stream.',
-      'There was, however, one small problem. Joanique does not actually like cheese.',
-      'Nevertheless, the day was still filled with laughter and fun. After the cheese tasting, Pieter accompanied Joanique to the picnic spot, where another cheese platter was waiting for her, along with a large stuffed penguin who affectionately received the name Frik.',
-      'And there, beside the stream, Pieter asked Joanique to be his.',
-      'Her answer was immediate. Yes.',
+      "Eventually, Pieter decided it was time to make official what was already taking place in both their hearts.",
+      "He made the arrangements and booked a day at Van Gaalen Cheese Farm. The plan was simple: an intimate cheese-tasting tour followed by a romantic picnic beside a tranquil stream.",
+      "There was, however, one small problem. Joanique does not actually like cheese.",
+      "Nevertheless, the day was still filled with laughter and fun. After the cheese tasting, Pieter accompanied Joanique to the picnic spot, where another cheese platter was waiting for her, along with a large stuffed penguin who affectionately received the name Frik.",
+      "And there, beside the stream, Pieter asked Joanique to be his.",
+      "Her answer was immediate. Yes.",
     ],
     src: ch4,
     alt: "Pieter's hand reaching for Joanique's across a parquet floor, her engagement ring catching the light.",
-    position: '50% 50%',
+    position: "50% 50%",
     bandAfter: true,
   },
   {
-    label: '05 · Since Then',
-    oversized: 'In the Kruger, she began to suspect the birds were getting more attention than she was.',
+    label: "05 · Since Then",
+    oversized:
+      "In the Kruger, she began to suspect the birds were getting more attention than she was.",
     body: [
-      'From that moment, their story continued to grow through countless adventures, ordinary days, inside jokes and memories that would become precious to them both.',
-      'Their first holiday together took them to Cape Town in a tiny Hyundai i10 named Elsie. Not long after came a Kruger National Park adventure, where Joanique began to suspect that Pieter might actually be more excited about spotting a rare bird than spending time with her.',
-      'There were murder mystery date nights, hours spent supporting Pieter at his squash tournaments, and late-night drives together while Joanique was on call.',
-      'There were pizza dinners, Aroma ice creams, Boeremark coffees, Warrior Race and Clivia Market adventures, padel sessions, and countless other moments that, individually, may have seemed ordinary, but together became the memories that shaped their relationship.',
+      "From that moment, their story continued to grow through countless adventures, ordinary days, inside jokes and memories that would become precious to them both.",
+      "Their first holiday together took them to Cape Town in a tiny Hyundai i10 named Elsie. Not long after came a Kruger National Park adventure, where Joanique began to suspect that Pieter might actually be more excited about spotting a rare bird than spending time with her.",
+      "There were murder mystery date nights, hours spent supporting Pieter at his squash tournaments, and late-night drives together while Joanique was on call.",
+      "There were pizza dinners, Aroma ice creams, Boeremark coffees, Warrior Race and Clivia Market adventures, padel sessions, and countless other moments that, individually, may have seemed ordinary, but together became the memories that shaped their relationship.",
     ],
     src: ch5,
-    alt: 'Joanique laughing with her arms around Pieter\'s neck in a bright gallery corridor.',
-    position: '50% 35%',
+    alt: "Joanique laughing with her arms around Pieter's neck in a bright gallery corridor.",
+    position: "50% 35%",
     bandAfter: false,
   },
 ];
@@ -104,7 +114,7 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
 
   <PageIntro
     kicker="Our Story"
-    title={'How it\nhappened'}
+    title={"How it\nhappened"}
     lead="Five chapters, in our own words."
     photo={introPhoto}
     alt="Joanique looking back over her shoulder at Pieter, smiling, in front of a green gallery wall of framed prints."
@@ -113,7 +123,12 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
     anchor
     detail="Since 25 June 2024"
   >
-    <p slot="foot" class="m-0 max-w-[44ch] font-display italic text-lead text-ink">It started with a sleeve, one chilly evening in June.</p>
+    <p
+      slot="foot"
+      class="m-0 max-w-[44ch] font-display italic text-lead text-ink"
+    >
+      It started with a sleeve, one chilly evening in June.
+    </p>
   </PageIntro>
 
   {
@@ -121,27 +136,46 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
       const photoLeft = i % 2 === 0;
       return (
         <>
-          <Section mode="linen" data-reveal="lift" class="py-10 md:py-14 lg:py-16">
+          <Section
+            mode="linen"
+            data-reveal="lift"
+            class="py-10 md:py-14 lg:py-16"
+          >
             <Grid class="gap-y-6 border-t border-rule pt-8 sm:grid-cols-12 sm:gap-x-6 md:pt-10 lg:gap-y-8 lg:pt-14">
               <div
                 class:list={[
-                  'relative aspect-[4/5] overflow-hidden sm:row-start-1 sm:aspect-[2/3]',
-                  photoLeft ? 'sm:col-start-1 sm:col-span-5 lg:col-span-6' : 'sm:col-start-8 sm:col-span-5 lg:col-start-7 lg:col-span-6',
+                  "relative aspect-[4/5] overflow-hidden sm:row-start-1 sm:aspect-[2/3]",
+                  photoLeft
+                    ? "sm:col-start-1 sm:col-span-5 lg:col-span-6"
+                    : "sm:col-start-8 sm:col-span-5 lg:col-start-7 lg:col-span-6",
                 ]}
               >
-                <Image src={c.src} alt={c.alt} widths={[640, 1024, 1600]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" style={`object-position:${c.position};`} />
+                <Image
+                  src={c.src}
+                  alt={c.alt}
+                  widths={[640, 1024, 1600]}
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  class="absolute inset-0 h-full w-full object-cover"
+                  style={`object-position:${c.position};`}
+                />
               </div>
               {/* The text block sits below the image top — the offset is what keeps it from reading as a template. */}
               <div
                 class:list={[
-                  'sm:row-start-1 sm:self-start sm:pt-6 md:pt-10 lg:pt-24',
-                  photoLeft ? 'sm:col-start-7 sm:col-span-6 lg:col-start-8 lg:col-span-5' : 'sm:col-start-1 sm:col-span-6 lg:col-span-5',
+                  "sm:row-start-1 sm:self-start sm:pt-6 md:pt-10 lg:pt-24",
+                  photoLeft
+                    ? "sm:col-start-7 sm:col-span-6 lg:col-start-8 lg:col-span-5"
+                    : "sm:col-start-1 sm:col-span-6 lg:col-span-5",
                 ]}
               >
                 <div class="eyebrow mb-5 lg:mb-6">{c.label}</div>
-                <p class="mb-6 max-w-[24ch] font-display italic font-medium text-quote text-ink lg:mb-8">{c.oversized}</p>
+                <p class="mb-6 max-w-[24ch] font-display italic font-medium text-quote text-ink lg:mb-8">
+                  {c.oversized}
+                </p>
                 {c.body.map((para) => (
-                  <p class="mb-5 max-w-[60ch] font-display text-lead text-ink last:mb-0">{para}</p>
+                  <p class="mb-5 max-w-[60ch] font-display text-lead text-ink last:mb-0">
+                    {para}
+                  </p>
                 ))}
               </div>
             </Grid>
@@ -167,12 +201,14 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
   <!-- CLOSING · burlap — the one interlude, and the line stands alone -->
   <Section mode="burlap" data-reveal="lift" class="py-16 md:py-24 lg:py-32">
     <Grid>
-      <p class="mb-8 max-w-[60ch] font-display text-lead text-ink lg:col-start-3 lg:col-span-8 lg:mb-10">
-        And now, after all the coffees, dates, adventures, laughter and memories, Pieter and Joanique find themselves standing
-        on the doorstep of the next chapter of their story, one that they never could have planned for themselves, but one
-        that God had been writing all along.
+      <p
+        class="mb-8 max-w-[60ch] font-display text-lead text-ink lg:col-start-3 lg:col-span-8 lg:mb-10"
+      >
+        And now, after all the coffees, dates, adventures, laughter and
+        memories, Pieter and Joanique find themselves standing on the doorstep
+        of the next chapter of their story, one that they never could have
+        planned for themselves, but one that God had been writing all along.
       </p>
-      <p class="font-display italic text-display text-ink lg:col-start-3 lg:col-span-8">Slegs goeie besluite</p>
     </Grid>
   </Section>
 

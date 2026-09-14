@@ -1,12 +1,12 @@
 ---
-import { Image, getImage } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
-import Base from '../layouts/Base.astro';
-import Section from '../components/site/Section.astro';
-import Grid from '../components/site/Grid.astro';
-import PageIntro from '../components/site/PageIntro.astro';
-import Nav from '../components/site/Nav.astro';
-import Footer from '../components/site/Footer.astro';
+import { Image, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Base from "../layouts/Base.astro";
+import Section from "../components/site/Section.astro";
+import Grid from "../components/site/Grid.astro";
+import PageIntro from "../components/site/PageIntro.astro";
+import Nav from "../components/site/Nav.astro";
+import Footer from "../components/site/Footer.astro";
 
 export const prerender = true;
 
@@ -15,106 +15,203 @@ export const prerender = true;
 // folder — check before adding one here). Roughly in shoot order; one black
 // and white frame in every block so the monochrome is spread evenly rather
 // than bunched. g-NN numbering follows the photographer's export.
-import g05 from '../assets/photos/gallery/g-05.jpg';
-import g03 from '../assets/photos/gallery/g-03.jpg';
-import g06 from '../assets/photos/gallery/g-06.jpg';
-import g14 from '../assets/photos/gallery/g-14.jpg';
-import g12 from '../assets/photos/gallery/g-12.jpg';
-import g17 from '../assets/photos/gallery/g-17.jpg';
-import g20 from '../assets/photos/gallery/g-20.jpg';
-import g23 from '../assets/photos/gallery/g-23.jpg';
-import g43 from '../assets/photos/gallery/g-43.jpg';
-import g28 from '../assets/photos/gallery/g-28.jpg';
-import g27 from '../assets/photos/gallery/g-27.jpg';
-import g26 from '../assets/photos/gallery/g-26.jpg';
-import g29 from '../assets/photos/gallery/g-29.jpg';
-import g30 from '../assets/photos/gallery/g-30.jpg';
-import g36 from '../assets/photos/gallery/g-36.jpg';
-import g41 from '../assets/photos/gallery/g-41.jpg';
-import g42 from '../assets/photos/gallery/g-42.jpg';
+import g05 from "../assets/photos/gallery/g-05.jpg";
+import g03 from "../assets/photos/gallery/g-03.jpg";
+import g06 from "../assets/photos/gallery/g-06.jpg";
+import g14 from "../assets/photos/gallery/g-14.jpg";
+import g12 from "../assets/photos/gallery/g-12.jpg";
+import g17 from "../assets/photos/gallery/g-17.jpg";
+import g20 from "../assets/photos/gallery/g-20.jpg";
+import g23 from "../assets/photos/gallery/g-23.jpg";
+import g43 from "../assets/photos/gallery/g-43.jpg";
+import g28 from "../assets/photos/gallery/g-28.jpg";
+import g27 from "../assets/photos/gallery/g-27.jpg";
+import g26 from "../assets/photos/gallery/g-26.jpg";
+import g29 from "../assets/photos/gallery/g-29.jpg";
+import g30 from "../assets/photos/gallery/g-30.jpg";
+import g36 from "../assets/photos/gallery/g-36.jpg";
+import g41 from "../assets/photos/gallery/g-41.jpg";
+import g42 from "../assets/photos/gallery/g-42.jpg";
 
 const gallery: { src: ImageMetadata; alt: string }[] = [
   // three
-  { src: g05, alt: 'Pieter and Joanique laughing as they walk hand in hand past a wall of bright paintings in a white gallery.' },
-  { src: g03, alt: 'Black and white photograph of Pieter and Joanique from behind, walking hand in hand down a white gallery corridor.' },
-  { src: g06, alt: 'Pieter and Joanique from behind, her head on his shoulder, looking at framed prints under track lighting.' },
+  {
+    src: g05,
+    alt: "Pieter and Joanique laughing as they walk hand in hand past a wall of bright paintings in a white gallery.",
+  },
+  {
+    src: g03,
+    alt: "Black and white photograph of Pieter and Joanique from behind, walking hand in hand down a white gallery corridor.",
+  },
+  {
+    src: g06,
+    alt: "Pieter and Joanique from behind, her head on his shoulder, looking at framed prints under track lighting.",
+  },
   // pair
-  { src: g14, alt: 'Pieter and Joanique from behind, sitting close on a bench before a teal wall of framed prints.' },
-  { src: g12, alt: 'Black and white view from above of Pieter and Joanique kissing on a bench beneath a wall of framed drawings.' },
+  {
+    src: g14,
+    alt: "Pieter and Joanique from behind, sitting close on a bench before a teal wall of framed prints.",
+  },
+  {
+    src: g12,
+    alt: "Black and white view from above of Pieter and Joanique kissing on a bench beneath a wall of framed drawings.",
+  },
   // three
-  { src: g17, alt: 'Pieter lifting Joanique\'s hand as if to spin her, both laughing, in the green gallery.' },
-  { src: g20, alt: 'Joanique studying a framed print on the green wall while Pieter, seated, watches her.' },
-  { src: g23, alt: 'Black and white photograph of Joanique alone at the far end of a charcoal-walled gallery.' },
+  {
+    src: g17,
+    alt: "Pieter lifting Joanique's hand as if to spin her, both laughing, in the green gallery.",
+  },
+  {
+    src: g20,
+    alt: "Joanique studying a framed print on the green wall while Pieter, seated, watches her.",
+  },
+  {
+    src: g23,
+    alt: "Black and white photograph of Joanique alone at the far end of a charcoal-walled gallery.",
+  },
   // wide
-  { src: g43, alt: 'Joanique at a painting on the left and Pieter leaning against the teal wall on the right, a row of framed drawings between them.' },
+  {
+    src: g43,
+    alt: "Joanique at a painting on the left and Pieter leaning against the teal wall on the right, a row of framed drawings between them.",
+  },
   // three
-  { src: g28, alt: 'Joanique glancing back over her shoulder with a smile, in a white dress against a teal gallery wall lined with framed drawings.' },
-  { src: g27, alt: 'Black and white photograph of Joanique from behind, hands clasped, before a row of framed drawings.' },
-  { src: g26, alt: 'Joanique smiling with her arms around Pieter\'s neck beneath a red-beamed ceiling.' },
+  {
+    src: g28,
+    alt: "Joanique glancing back over her shoulder with a smile, in a white dress against a teal gallery wall lined with framed drawings.",
+  },
+  {
+    src: g27,
+    alt: "Black and white photograph of Joanique from behind, hands clasped, before a row of framed drawings.",
+  },
+  {
+    src: g26,
+    alt: "Joanique smiling with her arms around Pieter's neck beneath a red-beamed ceiling.",
+  },
   // pair
-  { src: g29, alt: 'Black and white photograph of Joanique mid-stride past a row of small framed drawings.' },
-  { src: g30, alt: 'Pieter and Joanique walking hand in hand through a bright white hall with a parquet floor, glancing back at each other.' },
+  {
+    src: g29,
+    alt: "Black and white photograph of Joanique mid-stride past a row of small framed drawings.",
+  },
+  {
+    src: g30,
+    alt: "Pieter and Joanique walking hand in hand through a bright white hall with a parquet floor, glancing back at each other.",
+  },
   // three
-  { src: g36, alt: 'Pieter kissing Joanique\'s cheek as they sit together on a bench in a white gallery.' },
-  { src: g41, alt: 'Black and white photograph of Pieter and Joanique nose to nose in an embrace against a wall of framed drawings.' },
-  { src: g42, alt: 'Pieter grinning, hands in his pockets, in a black shirt against a teal gallery wall lined with framed drawings.' },
+  {
+    src: g36,
+    alt: "Pieter kissing Joanique's cheek as they sit together on a bench in a white gallery.",
+  },
+  {
+    src: g41,
+    alt: "Black and white photograph of Pieter and Joanique nose to nose in an embrace against a wall of framed drawings.",
+  },
+  {
+    src: g42,
+    alt: "Pieter grinning, hands in his pockets, in a black shirt against a teal gallery wall lined with framed drawings.",
+  },
 ];
 const photos = gallery.map((g) => g.src);
 
-const full = await Promise.all(photos.map((p) => getImage({ src: p, width: 2400, format: 'webp', quality: 90 })));
+const full = await Promise.all(
+  photos.map((p) =>
+    getImage({ src: p, width: 2400, format: "webp", quality: 90 }),
+  ),
+);
 const fullSrcs = full.map((f) => f.src);
 
 // Layout: rows of three portraits, an offset pair, and one landscape frame.
 // Below sm the block wrappers dissolve (display: contents) and every frame
 // flows into one two-column grid, the landscape frame spanning both columns —
 // a phone gets a proper contact-sheet rather than seventeen stacked portraits.
-type Block = { kind: 'three' | 'pair' | 'wide'; i: number[] };
+type Block = { kind: "three" | "pair" | "wide"; i: number[] };
 const blocks: Block[] = [
-  { kind: 'three', i: [0, 1, 2] },
-  { kind: 'pair', i: [3, 4] },
-  { kind: 'three', i: [5, 6, 7] },
-  { kind: 'wide', i: [8] },
-  { kind: 'three', i: [9, 10, 11] },
-  { kind: 'pair', i: [12, 13] },
-  { kind: 'three', i: [14, 15, 16] },
+  { kind: "three", i: [0, 1, 2] },
+  { kind: "pair", i: [3, 4] },
+  { kind: "three", i: [5, 6, 7] },
+  { kind: "wide", i: [8] },
+  { kind: "three", i: [9, 10, 11] },
+  { kind: "pair", i: [12, 13] },
+  { kind: "three", i: [14, 15, 16] },
 ];
 
-const img = 'absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]';
+const img =
+  "absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]";
 ---
 
 <Base title="Gallery — Pieter & Joanique">
   <Nav />
 
-  <PageIntro kicker="Gallery" title="A Few Moments So Far" lead="Our engagement shoot, in a gallery of cream, white, emerald and charcoal walls." />
+  <PageIntro
+    kicker="Gallery"
+    title="A Few Moments So Far"
+    lead="Our engagement shoot, in a gallery of cream, white, emerald and charcoal walls."
+  />
 
   <!-- GRID · linen; gutters are the ground showing through -->
   <Section mode="linen" class="pb-12 lg:pb-16">
-    <Grid grid={false} class="grid grid-cols-2 gap-3 sm:flex sm:flex-col sm:gap-5 lg:gap-6">
+    <Grid
+      grid={false}
+      class="grid grid-cols-2 gap-3 sm:flex sm:flex-col sm:gap-5 lg:gap-6"
+    >
       {
         blocks.map((b) =>
-          b.kind === 'wide' ? (
-            <div data-reveal class="relative col-span-2 aspect-[3/2] overflow-hidden lg:aspect-[16/9]">
-              <button type="button" data-lightbox={b.i[0]} class="block h-full w-full" aria-label={`Open photo ${b.i[0] + 1} of ${photos.length}`}>
-                <Image src={photos[b.i[0]]} alt={gallery[b.i[0]].alt} widths={[800, 1400, 2400]} sizes="100vw" quality={90} class={img} />
+          b.kind === "wide" ? (
+            <div
+              data-reveal
+              class="relative col-span-2 aspect-[3/2] overflow-hidden lg:aspect-[16/9]"
+            >
+              <button
+                type="button"
+                data-lightbox={b.i[0]}
+                class="block h-full w-full"
+                aria-label={`Open photo ${b.i[0] + 1} of ${photos.length}`}
+              >
+                <Image
+                  src={photos[b.i[0]]}
+                  alt={gallery[b.i[0]].alt}
+                  widths={[800, 1400, 2400]}
+                  sizes="100vw"
+                  quality={90}
+                  class={img}
+                />
               </button>
             </div>
           ) : (
-            <div class:list={['contents sm:grid sm:gap-5 lg:gap-6', b.kind === 'three' ? 'sm:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-12']}>
+            <div
+              class:list={[
+                "contents sm:grid sm:gap-5 lg:gap-6",
+                b.kind === "three"
+                  ? "sm:grid-cols-3"
+                  : "sm:grid-cols-2 lg:grid-cols-12",
+              ]}
+            >
               {b.i.map((idx, n) => (
                 <div
                   data-reveal
                   class:list={[
-                    'relative aspect-[4/5] overflow-hidden',
-                    b.kind === 'pair' && (n === 0 ? 'lg:col-start-2 lg:col-span-5' : 'lg:col-start-7 lg:col-span-5 lg:mt-24'),
+                    "relative aspect-[4/5] overflow-hidden",
+                    b.kind === "pair" &&
+                      (n === 0
+                        ? "lg:col-start-2 lg:col-span-5"
+                        : "lg:col-start-7 lg:col-span-5 lg:mt-24"),
                   ]}
                 >
-                  <button type="button" data-lightbox={idx} class="block h-full w-full" aria-label={`Open photo ${idx + 1} of ${photos.length}`}>
+                  <button
+                    type="button"
+                    data-lightbox={idx}
+                    class="block h-full w-full"
+                    aria-label={`Open photo ${idx + 1} of ${photos.length}`}
+                  >
                     <Image
                       src={photos[idx]}
                       alt={gallery[idx].alt}
                       widths={[640, 1024, 1600]}
                       quality={90}
-                      sizes={b.kind === 'three' ? '(min-width: 640px) 33vw, 50vw' : '(min-width: 1024px) 42vw, 50vw'}
+                      sizes={
+                        b.kind === "three"
+                          ? "(min-width: 640px) 33vw, 50vw"
+                          : "(min-width: 1024px) 42vw, 50vw"
+                      }
                       class={img}
                     />
                   </button>
@@ -130,7 +227,9 @@ const img = 'absolute inset-0 h-full w-full object-cover transition-transform du
   <!-- CREDIT · linen -->
   <Section mode="linen" class="pb-20 lg:pb-28">
     <Grid grid={false} class="border-t border-rule pt-6">
-      <p class="font-body text-small tracking-[0.04em] text-ink">Photography by Bitiah</p>
+      <p class="font-body text-small tracking-[0.04em] text-ink">
+        Photography by Noeline from Bithiah
+      </p>
     </Grid>
   </Section>
 
@@ -149,20 +248,36 @@ const img = 'absolute inset-0 h-full w-full object-cover transition-transform du
     data-srcs={JSON.stringify(fullSrcs)}
     data-alts={JSON.stringify(gallery.map((g) => g.alt))}
   >
-    <img id="lightbox-img" alt="" class="pointer-events-none max-h-[78%] max-w-[92%] object-contain" />
-    <div id="lightbox-counter" class="pointer-events-none absolute bottom-[calc(1.6em+env(safe-area-inset-bottom,0px))] left-0 right-0 text-center font-body text-[0.85rem] tracking-[0.08em] text-ink"></div>
-    <button type="button" id="lightbox-close" class="absolute top-[calc(0.5rem+env(safe-area-inset-top,0px))] right-2 flex h-[44px] w-[44px] items-center justify-center text-ink">
+    <img
+      id="lightbox-img"
+      alt=""
+      class="pointer-events-none max-h-[78%] max-w-[92%] object-contain"
+    />
+    <div
+      id="lightbox-counter"
+      class="pointer-events-none absolute bottom-[calc(1.6em+env(safe-area-inset-bottom,0px))] left-0 right-0 text-center font-body text-[0.85rem] tracking-[0.08em] text-ink"
+    >
+    </div>
+    <button
+      type="button"
+      id="lightbox-close"
+      class="absolute top-[calc(0.5rem+env(safe-area-inset-top,0px))] right-2 flex h-[44px] w-[44px] items-center justify-center text-ink"
+    >
       <span class="sr-only">Close</span>
-      <span aria-hidden="true" class="font-display text-[1.9rem] leading-none">×</span>
+      <span aria-hidden="true" class="font-display text-[1.9rem] leading-none"
+        >×</span
+      >
     </button>
   </Section>
 
   <script>
-    const box = document.getElementById('lightbox') as HTMLDivElement;
-    const img = document.getElementById('lightbox-img') as HTMLImageElement;
-    const counter = document.getElementById('lightbox-counter') as HTMLDivElement;
-    const srcs: string[] = JSON.parse(box.dataset.srcs ?? '[]');
-    const alts: string[] = JSON.parse(box.dataset.alts ?? '[]');
+    const box = document.getElementById("lightbox") as HTMLDivElement;
+    const img = document.getElementById("lightbox-img") as HTMLImageElement;
+    const counter = document.getElementById(
+      "lightbox-counter",
+    ) as HTMLDivElement;
+    const srcs: string[] = JSON.parse(box.dataset.srcs ?? "[]");
+    const alts: string[] = JSON.parse(box.dataset.alts ?? "[]");
     const n = srcs.length;
     let idx = -1;
     let startX = 0;
@@ -173,34 +288,40 @@ const img = 'absolute inset-0 h-full w-full object-cover transition-transform du
     function show(i: number) {
       idx = (i + n) % n;
       img.src = srcs[idx];
-      img.alt = alts[idx] ?? '';
-      counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
+      img.alt = alts[idx] ?? "";
+      counter.textContent = `${String(idx + 1).padStart(2, "0")} / ${String(n).padStart(2, "0")}`;
       box.hidden = false;
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
       preload(idx + 1);
       preload(idx - 1);
     }
     function close() {
       box.hidden = true;
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
 
-    document.querySelectorAll<HTMLElement>('[data-lightbox]').forEach((el) => {
-      el.addEventListener('click', () => show(Number(el.dataset.lightbox)));
+    document.querySelectorAll<HTMLElement>("[data-lightbox]").forEach((el) => {
+      el.addEventListener("click", () => show(Number(el.dataset.lightbox)));
     });
-    box.addEventListener('click', close);
-    box.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
-    box.addEventListener('touchend', (e) => {
+    box.addEventListener("click", close);
+    box.addEventListener(
+      "touchstart",
+      (e) => {
+        startX = e.touches[0].clientX;
+      },
+      { passive: true },
+    );
+    box.addEventListener("touchend", (e) => {
       e.preventDefault();
       const dx = e.changedTouches[0].clientX - startX;
       if (Math.abs(dx) > 40) show(dx < 0 ? idx + 1 : idx - 1);
       else close();
     });
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener("keydown", (e) => {
       if (box.hidden) return;
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowRight') show(idx + 1);
-      if (e.key === 'ArrowLeft') show(idx - 1);
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") show(idx + 1);
+      if (e.key === "ArrowLeft") show(idx - 1);
     });
   </script>
 </Base>

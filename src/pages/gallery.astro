@@ -10,44 +10,54 @@ import Footer from '../components/site/Footer.astro';
 
 export const prerender = true;
 
-// Seventeen frames, none of which appear on another page, in a loose
-// narrative order. g-NN numbering follows the photographer's export.
+// Seventeen frames, none of which appear on another page (index, Our Story,
+// The Weekend, RSVP, Gifts and the Interlude band all draw from the same
+// folder — check before adding one here). Roughly in shoot order; one black
+// and white frame in every block so the monochrome is spread evenly rather
+// than bunched. g-NN numbering follows the photographer's export.
 import g05 from '../assets/photos/gallery/g-05.jpg';
+import g03 from '../assets/photos/gallery/g-03.jpg';
 import g06 from '../assets/photos/gallery/g-06.jpg';
-import g09 from '../assets/photos/gallery/g-09.jpg';
+import g14 from '../assets/photos/gallery/g-14.jpg';
 import g12 from '../assets/photos/gallery/g-12.jpg';
 import g17 from '../assets/photos/gallery/g-17.jpg';
 import g20 from '../assets/photos/gallery/g-20.jpg';
 import g23 from '../assets/photos/gallery/g-23.jpg';
-import g26 from '../assets/photos/gallery/g-26.jpg';
 import g43 from '../assets/photos/gallery/g-43.jpg';
-import g27 from '../assets/photos/gallery/g-27.jpg';
 import g28 from '../assets/photos/gallery/g-28.jpg';
+import g27 from '../assets/photos/gallery/g-27.jpg';
+import g26 from '../assets/photos/gallery/g-26.jpg';
 import g29 from '../assets/photos/gallery/g-29.jpg';
-import g34 from '../assets/photos/gallery/g-34.jpg';
-import g39 from '../assets/photos/gallery/g-39.jpg';
-import g40 from '../assets/photos/gallery/g-40.jpg';
+import g30 from '../assets/photos/gallery/g-30.jpg';
+import g36 from '../assets/photos/gallery/g-36.jpg';
+import g41 from '../assets/photos/gallery/g-41.jpg';
 import g42 from '../assets/photos/gallery/g-42.jpg';
-import g24 from '../assets/photos/gallery/g-24.jpg';
 
 const gallery: { src: ImageMetadata; alt: string }[] = [
+  // three
   { src: g05, alt: 'Pieter and Joanique laughing as they walk hand in hand past a wall of bright paintings in a white gallery.' },
+  { src: g03, alt: 'Black and white photograph of Pieter and Joanique from behind, walking hand in hand down a white gallery corridor.' },
   { src: g06, alt: 'Pieter and Joanique from behind, her head on his shoulder, looking at framed prints under track lighting.' },
-  { src: g09, alt: 'Seen from above, Pieter and Joanique sit close on a wooden bench in a green-walled room of framed paintings.' },
+  // pair
+  { src: g14, alt: 'Pieter and Joanique from behind, sitting close on a bench before a teal wall of framed prints.' },
   { src: g12, alt: 'Black and white view from above of Pieter and Joanique kissing on a bench beneath a wall of framed drawings.' },
+  // three
   { src: g17, alt: 'Pieter lifting Joanique\'s hand as if to spin her, both laughing, in the green gallery.' },
   { src: g20, alt: 'Joanique studying a framed print on the green wall while Pieter, seated, watches her.' },
   { src: g23, alt: 'Black and white photograph of Joanique alone at the far end of a charcoal-walled gallery.' },
-  { src: g26, alt: 'Joanique smiling with her arms around Pieter\'s neck beneath a red-beamed ceiling.' },
+  // wide
   { src: g43, alt: 'Joanique at a painting on the left and Pieter leaning against the teal wall on the right, a row of framed drawings between them.' },
-  { src: g27, alt: 'Black and white photograph of Joanique from behind, hands clasped, before a row of framed drawings.' },
+  // three
   { src: g28, alt: 'Joanique glancing back over her shoulder with a smile, in a white dress against a teal gallery wall lined with framed drawings.' },
+  { src: g27, alt: 'Black and white photograph of Joanique from behind, hands clasped, before a row of framed drawings.' },
+  { src: g26, alt: 'Joanique smiling with her arms around Pieter\'s neck beneath a red-beamed ceiling.' },
+  // pair
   { src: g29, alt: 'Black and white photograph of Joanique mid-stride past a row of small framed drawings.' },
-  { src: g34, alt: 'Long-exposure black and white frame of Pieter and Joanique blurring across a gallery towards each other.' },
-  { src: g39, alt: 'Pieter and Joanique standing close before a single large framed print on a white wall.' },
-  { src: g40, alt: 'Pieter and Joanique sitting close together in a wooden chair, watching a vintage television in a dim exhibition room.' },
+  { src: g30, alt: 'Pieter and Joanique walking hand in hand through a bright white hall with a parquet floor, glancing back at each other.' },
+  // three
+  { src: g36, alt: 'Pieter kissing Joanique\'s cheek as they sit together on a bench in a white gallery.' },
+  { src: g41, alt: 'Black and white photograph of Pieter and Joanique nose to nose in an embrace against a wall of framed drawings.' },
   { src: g42, alt: 'Pieter grinning, hands in his pockets, in a black shirt against a teal gallery wall lined with framed drawings.' },
-  { src: g24, alt: 'Pieter and Joanique in a tight embrace, her arms around his neck, beneath a red-beamed ceiling.' },
 ];
 const photos = gallery.map((g) => g.src);
 

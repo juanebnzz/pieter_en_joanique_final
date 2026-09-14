@@ -15,24 +15,18 @@ export const STAY_OPTIONS: Record<
     adultCents: 210_000,
     nights: 2,
     smallPrint:
-      "Two nights at the lodge. Includes Friday's bonfire dinner, breakfast on Saturday and Sunday, all the wedding events, and the complimentary three-hour game drive with snacks.",
+      "Two nights at the lodge. Includes Friday's bonfire dinner, breakfast on Saturday and Sunday, all the wedding events, and the lodge's complimentary game drive.",
   },
   saturday: {
     label: 'Saturday night only',
     priceLabel: 'R965 per person',
     adultCents: 96_500,
     nights: 1,
-    smallPrint: 'One night at the lodge. Includes all the wedding events, Saturday night\'s accommodation and Sunday breakfast. The game drive can be added for R450 per person.',
+    smallPrint: 'One night at the lodge. Includes all the wedding events, Saturday night\'s accommodation and a complimentary breakfast on Sunday. The game drive is available at your own expense.',
   },
 };
 
 export const CHILD_PER_NIGHT_CENTS = 27_000;
-/**
- * The lodge's three-hour game drive, snacks included. Complimentary for
- * Friday & Saturday guests; Saturday-only guests can add it at this price.
- * Not part of the RSVP total — it is arranged separately.
- */
-export const GAME_DRIVE_CENTS = 45_000;
 /**
  * Dinokeng Game Reserve conservation fee. Normally charged per visitor at the
  * gate; for the wedding weekend it is a flat, discounted R100 per RSVP
@@ -49,7 +43,7 @@ export const CONSERVATION_FEE_CENTS = 10_000;
 export const CONSERVATION_FEE_LABEL = 'R100 per household';
 /** One sentence used wherever the fee is mentioned so the story is the same everywhere. */
 export const CONSERVATION_FEE_NOTE =
-  'Dinokeng Game Reserve charges every visitor a conservation fee. For the wedding weekend it is a discounted flat R100 per household, whichever nights you stay, and it is added to your total so there is nothing to pay at the gate. Before you leave on Sunday, please have your gate slip stamped at reception.';
+  'Dinokeng Game Reserve charges every visitor a conservation fee. For the wedding weekend it is a discounted flat rate of R100 per household, whichever nights you stay, and it is added to your total so there is nothing to pay at the gate. Before you leave on Sunday, please have your gate slip stamped at reception.';
 
 export const RSVP_DEADLINE = 'Monday, 28 September 2026';
 export const PAYMENT_DEADLINE = 'Friday, 16 October 2026';

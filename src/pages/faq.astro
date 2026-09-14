@@ -9,7 +9,6 @@ import {
   CHILD_PER_NIGHT_CENTS,
   CONSERVATION_FEE_LABEL,
   CONSERVATION_FEE_NOTE,
-  GAME_DRIVE_CENTS,
   PAYMENT_DEADLINE,
   RSVP_DEADLINE,
   formatRand,
@@ -34,7 +33,7 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'Can I bring a partner or a friend who was not named on the invitation?',
-    a: 'Invitations are addressed by name, but if you would like to bring someone, please reach out to us directly. We would be happy to chat about it.',
+    a: 'Invitations are addressed by name, and we have planned the weekend around the guests on our list. Thank you for understanding.',
   },
   {
     q: 'Are children welcome?',
@@ -46,7 +45,7 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'Do I have to stay at the venue, or can I stay somewhere else?',
-    a: 'Saturday night at Tshikwalo is part of the invitation. The lodge is inside the Dinokeng Game Reserve and the reserve gates close in the evening, so there is no driving out after the reception. The reception also runs late, and we have breakfast together on Sunday morning, so we would love you to stay over with us. If that is tricky for you, give Pieter a call and we will find a way.',
+    a: 'We would prefer that you stay with us at Tshikwalo on the Saturday night — there is enough space for everyone. If you would like to arrange something else, please message Pieter.',
     links: [{ label: 'Call Pieter →', href: 'tel:+27837980144' }],
   },
   {
@@ -55,7 +54,7 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'What time is the ceremony?',
-    a: 'The ceremony is on Saturday at 15:00. Please be seated by 14:30. Canapés follow at 16:00, the reception dinner starts at 18:00, and the last dance is at 23:30.',
+    a: 'The ceremony is on Saturday at 15:00. Please be seated by 14:30. Canapés follow at 16:00, the reception dinner starts at 18:00, and the last dance is at 23:30. After the reception there will also be a bonfire.',
     links: [{ label: 'See the full programme →', href: '/the-weekend' }],
   },
   {
@@ -64,12 +63,12 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'What does the price include?',
-    a: `If you stay both nights, Friday and Saturday, your price includes Friday's bonfire dinner, two nights of accommodation, breakfast on both mornings, all the wedding events and the complimentary three-hour game drive. If you stay Saturday night only, it includes all the wedding events, Saturday night's accommodation and Sunday breakfast, and the game drive can be added for ${formatRand(GAME_DRIVE_CENTS)} per person. Drinks at the bar are for your own account.`,
+    a: "If you stay both nights, Friday and Saturday, your price includes Friday's bonfire dinner, two nights of accommodation, breakfast on both mornings, all the wedding events and the complimentary game drive. If you stay Saturday night only, it includes all the wedding events, Saturday night's accommodation and Sunday breakfast. Drinks are for your own account all weekend.",
     links: [{ label: 'See the prices →', href: '/the-weekend#payment' }],
   },
   {
     q: 'Is there a game drive?',
-    a: `Yes. The lodge runs a three-hour game drive through the reserve, with snacks along the way. It is complimentary if you stay both nights, Friday and Saturday. If you stay Saturday night only, you are welcome to join it at ${formatRand(GAME_DRIVE_CENTS)} per person, arranged separately from your accommodation.`,
+    a: 'Yes. The lodge runs a game drive through the reserve. It is complimentary if you stay both nights, Friday and Saturday. If you stay Saturday night only, you are welcome to join it at your own expense, arranged separately from your accommodation.',
   },
   {
     q: 'Is there a conservation fee?',

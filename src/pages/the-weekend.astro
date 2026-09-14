@@ -14,7 +14,6 @@ import {
   CHILD_PER_NIGHT_CENTS,
   CONSERVATION_FEE_CENTS,
   CONSERVATION_FEE_NOTE,
-  GAME_DRIVE_CENTS,
   PAYMENT_DEADLINE,
   RSVP_DEADLINE,
   STAY_OPTIONS,
@@ -70,11 +69,11 @@ const glance = [
   { label: 'Check-in', text: 'Friday from 14:00, or Saturday from 11:00. Saturday night at the lodge is part of the invitation for every guest.' },
   { label: 'Check-out', text: 'Sunday at 10:00, after breakfast.' },
   { label: 'Dress code', text: 'Semi-formal, earth-toned and summery. Please avoid black, white, red and purple.' },
-  { label: 'Food & drink', text: 'A cash bar and The Roots restaurant, all weekend. No outside food or drinks, please.' },
+  { label: 'Food & drink', text: 'A cash bar and The Roots restaurant, all weekend; drinks are for your own account. No outside food or drinks, please.' },
   { label: 'Getting there', text: 'Directions are in the Maps link above. The reserve gates close in the evening, so please arrive in daylight.' },
   {
     label: 'In between',
-    text: `A three-hour game drive, free if you stay both nights (${formatRand(GAME_DRIVE_CENTS)} per person if you stay Saturday night only), the pool, and the boma and bonfire after the reception.`,
+    text: 'A game drive, complimentary if you stay both nights and at your own expense if you stay Saturday night only, the pool, and the boma and bonfire after the reception.',
   },
 ];
 
@@ -202,12 +201,6 @@ const content = 'lg:col-start-4 lg:col-span-8';
         </div>
 
         <p class="mt-10 max-w-[64ch] font-body text-body text-ink">
-          Staying both nights includes the lodge's three-hour game drive, with snacks along the way. If you stay Saturday night only, you
-          can add it for {formatRand(GAME_DRIVE_CENTS)} per person. If you are weighing it up, both nights get you the drive, Friday's
-          bonfire dinner and a second night at the lodge.
-        </p>
-
-        <p class="mt-6 max-w-[64ch] font-body text-body text-ink">
           Children under 2 stay free; ages 2 to 12 are {formatRand(CHILD_PER_NIGHT_CENTS)} per child per night. Your total is worked
           out for you on the RSVP form.
         </p>

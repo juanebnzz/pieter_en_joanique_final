@@ -165,11 +165,3 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
 
   <Footer />
 </Base>
-
-<script>
-  // Collapsed on phones, where 19 answers is a long scroll; open on wider screens, where the
-  // whole list reads comfortably. Without JS every answer stays reachable behind its question.
-  if (window.matchMedia('(min-width: 1024px)').matches) {
-    document.querySelectorAll<HTMLDetailsElement>('details.faq').forEach((d) => (d.open = true));
-  }
-</script>

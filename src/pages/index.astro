@@ -5,11 +5,11 @@ import Section from '../components/site/Section.astro';
 import Grid from '../components/site/Grid.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
-import hero from '../assets/photos/gallery/g-44.jpg';
-import storyPhoto from '../assets/photos/gallery/g-15.jpg';
+import hero from '../assets/photos/hero.jpg';
+import storyPhoto from '../assets/photos/gallery/g-21.jpg';
 import moment1 from '../assets/photos/gallery/g-30.jpg';
-import moment2 from '../assets/photos/gallery/g-19.jpg';
-import moment3 from '../assets/photos/gallery/g-46.jpg';
+import moment2 from '../assets/photos/gallery/g-41.jpg';
+import moment3 from '../assets/photos/gallery/g-45.jpg';
 
 export const prerender = true;
 
@@ -21,6 +21,9 @@ const heroScrim =
   'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 0%, transparent) 35%, color-mix(in srgb, var(--color-surface) 55%, transparent) 70%, color-mix(in srgb, var(--color-surface) 85%, transparent) 100%);';
 const navScrim =
   'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 45%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);';
+// Variation B only: the names sit over the busy top of the photo, so it gets its own ground.
+const heroTopScrim =
+  'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 78%, transparent) 0%, color-mix(in srgb, var(--color-surface) 55%, transparent) 55%, color-mix(in srgb, var(--color-surface) 0%, transparent) 100%);';
 const orientation = [
   { label: 'The Weekend', detail: 'Friday 13 to Sunday 15 November 2026' },
   { label: 'The Place', detail: 'Tshikwalo Game Lodge, Dinokeng Game Reserve' },
@@ -29,7 +32,7 @@ const orientation = [
 
 const moments = [
   { src: moment1, alt: 'Pieter and Joanique holding hands in a doorway, framed by white walls with a parquet floor beneath them.' },
-  { src: moment2, alt: 'Black and white photograph of Pieter and Joanique in a close embrace, foreheads almost touching, beside framed prints.' },
+  { src: moment2, alt: 'Black and white photograph of Pieter and Joanique kissing, her hair over her shoulder, beside framed prints.' },
   { src: moment3, alt: 'Pieter dipping Joanique in a dance in front of a teal gallery wall, her heel kicked up behind her.' },
 ];
 ---
@@ -38,42 +41,66 @@ const moments = [
   <!-- Sticky overlay nav: a sibling of the hero, not a child, because the hero clips overflow -->
   <Nav variant="overlay" mode="olive" />
 
-  <!-- HERO · olive (g-44), full bleed under the overlay nav — kept exactly as the couple want it -->
-  <Section mode="olive" class="relative m-0 h-[84vh] min-h-[600px] w-full overflow-hidden">
+  <!-- HERO · olive (IMG_9093), full bleed under the overlay nav — kept exactly as the couple want it.
+       The couple sit bottom-left of a portrait frame, so from md the photo is oversized and shifted so they
+       sit to the left of the names rather than behind them. On mobile the photo is anchored to the foot and
+       enlarged (172%) so the couple rise above the names instead of sitting behind them.
+       Variation B (?hero=b, mobile only): names/date/venue move to the top in the launch font, RSVP stays at the
+       foot, and the photo returns to a full-height fit since the middle of the frame is clear. -->
+  <Section mode="olive" class="relative m-0 h-[84svh] min-h-[600px] w-full overflow-hidden md:h-[100svh]">
     <Image
       src={hero}
       alt="Pieter and Joanique"
-      widths={[640, 1024, 1600, 2400]}
-      sizes="100vw"
+      widths={[640, 1024, 1600, 2400, 3000]}
+      sizes="(min-width: 768px) 125vw, 100vw"
+      quality={85}
       loading="eager"
       fetchpriority="high"
-      class="absolute inset-0 block h-full w-full object-cover"
+      class="absolute inset-x-0 bottom-0 block h-[172%] w-full object-cover object-[35%_100%] max-md:hero-b:inset-0 max-md:hero-b:h-full max-md:hero-b:object-[40%_80%] md:inset-0 md:-left-[22%] md:h-full md:w-[125%] md:max-w-none md:object-[50%_79%]"
     />
     <div class="pointer-events-none absolute inset-0" style={heroScrim}></div>
     <div class="pointer-events-none absolute left-0 right-0 top-0 h-[26cqw] min-h-[120px]" style={navScrim}></div>
-    <div class="pointer-events-none absolute bottom-0 left-0 right-0 px-[6cqw] pb-[6cqw] pt-[8cqw] text-center">
-      <h1 class="mb-[0.5em] font-display font-medium leading-[1.05] tracking-[0.02em] text-ink text-[clamp(2.2rem,9cqw,5rem)]">
-        PIETER &amp; JOANIQUE
+    <div class="pointer-events-none absolute left-0 right-0 top-0 hidden h-[58%] max-md:hero-b:block" style={heroTopScrim}></div>
+    <div class="pointer-events-none absolute bottom-0 left-0 right-0 px-5 pb-7 pt-[8cqw] text-center md:px-[6cqw] md:pb-[6cqw] max-md:hero-b:top-0 max-md:hero-b:flex max-md:hero-b:flex-col max-md:hero-b:pt-24">
+      <!-- Names stacked on three lines: statement / script ampersand / statement. Pieter first, always. -->
+      <!-- text-indent equals the tracking so the last letter's trailing space doesn't pull the word off-centre. -->
+      <!-- Variation B on mobile: the same three spans flow onto one line in the launch face (Cormorant). -->
+      <h1 class="mb-5 flex flex-col items-center gap-y-[0.05em] text-ink md:mb-7 max-md:hero-b:flex-row max-md:hero-b:justify-center max-md:hero-b:gap-x-[0.28em]">
+        <span class="font-statement font-medium uppercase leading-none tracking-[0.12em] [text-indent:0.12em] text-[clamp(2rem,8cqw,4.25rem)] max-md:hero-b:font-display max-md:hero-b:tracking-[0.02em] max-md:hero-b:[text-indent:0] max-md:hero-b:text-[clamp(1.6rem,7.4cqw,2.4rem)]">Pieter</span>
+        <span class="font-script leading-none text-[clamp(2.1rem,8cqw,4.25rem)] max-md:hero-b:font-display max-md:hero-b:font-medium max-md:hero-b:text-[clamp(1.6rem,7.4cqw,2.4rem)]">&amp;</span>
+        <span class="font-statement font-medium uppercase leading-none tracking-[0.12em] [text-indent:0.12em] text-[clamp(2rem,8cqw,4.25rem)] max-md:hero-b:font-display max-md:hero-b:tracking-[0.02em] max-md:hero-b:[text-indent:0] max-md:hero-b:text-[clamp(1.6rem,7.4cqw,2.4rem)]">Joanique</span>
       </h1>
-      <p class="mb-[0.35em] font-body tracking-[0.04em] text-ink text-[clamp(1rem,2.4cqw,1.25rem)]">Saturday, 14 November 2026</p>
-      <p class="mb-[1.6em] whitespace-nowrap font-body tracking-[0.04em] text-ink text-[clamp(0.95rem,2.2cqw,1.15rem)]">
-        Tshikwalo Game Lodge, Dinokeng Game Reserve
+      <!-- Date as an invitation line: tracked caps between two short hairlines. -->
+      <p class="mb-3 flex items-center justify-center gap-x-3 whitespace-nowrap font-body font-medium uppercase tracking-[0.14em] [text-indent:0.14em] text-ink text-[clamp(0.75rem,2cqw,0.95rem)] md:mb-4 md:gap-x-4 md:tracking-[0.18em] md:[text-indent:0.18em]">
+        <span aria-hidden="true" class="h-px w-6 flex-none bg-ink md:w-12"></span>
+        Saturday, 14 November 2026
+        <span aria-hidden="true" class="h-px w-6 flex-none bg-ink md:w-12"></span>
       </p>
+      <p class="mb-7 font-body tracking-[0.04em] text-ink text-[clamp(0.95rem,2.2cqw,1.15rem)] md:mb-9 md:whitespace-nowrap">
+        Tshikwalo Game Lodge,<br class="md:hidden" /> Dinokeng Game Reserve
+      </p>
+      <!-- One primary CTA, hairline-bordered rather than a filled slab — the nav already carries a second RSVP. -->
       <a
         href="/rsvp"
-        class="pointer-events-auto mx-auto flex min-h-[64px] w-full max-w-[520px] flex-col items-center justify-center gap-[0.15em] bg-ink px-[1.5em] py-[1em] text-surface transition-opacity hover:opacity-85"
+        class="pointer-events-auto mx-auto flex min-h-[64px] w-full max-w-[320px] flex-col items-center justify-center gap-[0.15em] border border-ink px-[1.5em] py-[0.9em] text-ink transition-colors hover:bg-ink hover:text-surface max-md:hero-b:mt-auto"
       >
-        <span class="font-body font-medium uppercase tracking-[0.18em] text-[clamp(1rem,2.6cqw,1.25rem)]">RSVP</span>
+        <span class="font-body font-medium uppercase tracking-[0.18em] [text-indent:0.18em] text-[clamp(1rem,2.6cqw,1.15rem)]">RSVP</span>
         <span class="font-body text-[0.78rem] tracking-[0.05em]">Kindly respond by 28 September 2026</span>
       </a>
     </div>
   </Section>
 
-  <!-- A NOTE FROM US · linen, centred in columns 4–9, with generous space before the orientation strip -->
-  <Section mode="linen" data-reveal class="pt-16 pb-24 md:pt-20 md:pb-32 lg:pt-24 lg:pb-40">
-    <Grid class="border-t border-rule pt-14 lg:pt-20">
+  <!-- INVITATION + A NOTE FROM US · linen, centred in columns 4–9, with generous space before the orientation strip.
+       The lockup is two lines read as one: the script "Married" is set ~1.6× the statement line (Pinyon's x-height is
+       small) and pulled upward with a negative em margin so it scales with the clamp. -->
+  <Section mode="linen" data-reveal class="pt-12 pb-16 md:pt-20 md:pb-32 lg:pt-24 lg:pb-40">
+    <Grid class="border-t border-rule pt-12 md:pt-14 lg:pt-20">
       <div class="text-center lg:col-start-4 lg:col-span-6">
-        <div class="eyebrow mb-8">A Note From Us</div>
+        <div class="eyebrow mb-8">Wedding Invitation</div>
+        <p class="mb-10 flex flex-col items-center text-ink md:mb-12">
+          <span class="font-statement font-medium uppercase leading-none tracking-[0.18em] [text-indent:0.18em] text-[clamp(1.75rem,6.5cqw,3rem)]">We're Getting</span>
+          <span class="-mt-[0.16em] font-script leading-none text-[clamp(2.8rem,10.4cqw,4.8rem)]">Married</span>
+        </p>
         <p class="mx-auto mb-8 max-w-[52ch] font-display text-lead text-ink">
           We are truly grateful to have you celebrate our special day with us. Each of you was intentionally invited, and we
           look forward to seeing you all. We cannot wait to build lasting memories and have you be part of them.
@@ -84,11 +111,11 @@ const moments = [
   </Section>
 
   <!-- ORIENTATION · linen, three columns divided by hairlines -->
-  <Section mode="linen" data-reveal class="pb-16 md:pb-20 lg:pb-24">
+  <Section mode="linen" data-reveal class="pb-14 md:pb-20 lg:pb-24">
     <Grid class="border-t border-rule">
       {
         orientation.map((o, i) => (
-          <div class:list={['py-7 lg:col-span-4 lg:py-10 lg:pr-8', i > 0 && 'border-t border-rule lg:border-t-0 lg:border-l lg:pl-8']}>
+          <div class:list={['py-6 md:py-7 lg:col-span-4 lg:py-10 lg:pr-8', i > 0 && 'border-t border-rule lg:border-t-0 lg:border-l lg:pl-8']}>
             <div class="eyebrow mb-3">{o.label}</div>
             <p class="font-display text-title text-ink">{o.detail}</p>
           </div>
@@ -97,18 +124,18 @@ const moments = [
     </Grid>
   </Section>
 
-  <!-- OUR STORY TEASER · burlap — the one warm interlude. Mirrors the hero: text 1–5, photo 7–12. -->
-  <Section mode="burlap" data-reveal class="py-16 md:py-20 lg:py-24">
-    <Grid class="gap-y-10">
-      <div class="order-2 lg:order-1 lg:col-span-5 lg:self-center lg:pt-24">
+  <!-- OUR STORY TEASER · burlap — the one warm interlude. Mirrors the hero: text 1–5, photo 7–12 (from sm). -->
+  <Section mode="burlap" data-reveal class="py-14 md:py-20 lg:py-24">
+    <Grid class="gap-y-8 sm:grid-cols-12 sm:gap-x-6 lg:gap-y-10">
+      <div class="order-2 sm:order-1 sm:col-span-5 sm:self-center lg:pt-24">
         <div class="eyebrow mb-6">Our Story</div>
         <p class="mb-8 max-w-[22ch] font-display italic font-medium text-quote text-ink">Officially, it was just coffee.</p>
         <a href="/our-story" class="nav-link inline-flex text-ink underline underline-offset-[0.3em] hover:opacity-75">Read our story →</a>
       </div>
-      <div class="relative order-1 aspect-[4/5] overflow-hidden lg:order-2 lg:col-start-7 lg:col-span-6">
+      <div class="relative order-1 aspect-[4/5] overflow-hidden sm:order-2 sm:col-start-7 sm:col-span-6">
         <Image
           src={storyPhoto}
-          alt="Pieter and Joanique smiling at the camera, her hand on his chest, in front of framed artworks on a green gallery wall."
+          alt="Joanique turning to smile at Pieter, who sits watching her, in front of a wall of framed prints in the green gallery."
           widths={[640, 1024, 1600]}
           sizes="(min-width: 1024px) 50vw, 100vw"
           class="absolute inset-0 h-full w-full object-cover"
@@ -117,18 +144,23 @@ const moments = [
     </Grid>
   </Section>
 
-  <!-- A FEW MOMENTS · linen, three equal portraits on one baseline -->
-  <Section mode="linen" data-reveal class="py-16 md:py-20 lg:py-24">
-    <Grid class="gap-y-6">
-      <div class="mb-2 flex items-baseline justify-between lg:col-span-12">
+  <!-- A FEW MOMENTS · linen, three equal portraits on one baseline. On a phone
+       the three become a swipeable strip with the next frame peeking in from
+       the right edge, instead of three full-width portraits stacked. -->
+  <Section mode="linen" data-reveal class="py-14 md:py-20 lg:py-24">
+    <Grid class="gap-y-5 lg:gap-y-6">
+      <div class="flex items-baseline justify-between gap-x-4 lg:col-span-12 lg:mb-2">
         <div class="eyebrow">A Few Moments So Far</div>
-        <a href="/gallery" class="nav-link text-ink underline underline-offset-[0.3em] hover:opacity-75">See the gallery →</a>
+        <a href="/gallery" class="nav-link whitespace-nowrap text-ink underline underline-offset-[0.3em] hover:opacity-75">
+          <span class="sm:hidden">Gallery →</span>
+          <span class="hidden sm:inline">See the gallery →</span>
+        </a>
       </div>
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:col-span-12 lg:gap-6">
+      <div class="scroll-strip -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 scroll-px-5 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-5 sm:overflow-visible sm:px-0 lg:col-span-12 lg:gap-6">
         {
           moments.map((m) => (
-            <div class="relative aspect-[4/5] overflow-hidden">
-              <Image src={m.src} alt={m.alt} widths={[480, 800, 1200]} sizes="(min-width: 640px) 33vw, 100vw" class="absolute inset-0 h-full w-full object-cover" />
+            <div class="relative aspect-[4/5] w-[76%] flex-none snap-start overflow-hidden sm:w-auto">
+              <Image src={m.src} alt={m.alt} widths={[480, 800, 1200]} sizes="(min-width: 640px) 33vw, 76vw" class="absolute inset-0 h-full w-full object-cover" />
             </div>
           ))
         }

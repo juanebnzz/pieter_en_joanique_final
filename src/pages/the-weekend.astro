@@ -5,27 +5,52 @@ import Base from '../layouts/Base.astro';
 import Section from '../components/site/Section.astro';
 import Grid from '../components/site/Grid.astro';
 import Editorial from '../components/site/Editorial.astro';
+import DetailRows from '../components/site/DetailRows.astro';
 import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 import introPhoto from '../assets/photos/gallery/g-16.jpg';
 import fridayPhoto from '../assets/photos/gallery/g-22.jpg';
-import saturdayPhoto from '../assets/photos/gallery/g-18.jpg';
-import sundayPhoto from '../assets/photos/gallery/g-03.jpg';
-import { BANK_DETAILS, GIFT_DETAILS, PAYMENT_DEADLINE } from '../lib/pricing';
+import saturdayPhoto from '../assets/photos/gallery/g-05.jpg';
+import {
+  BANK_DETAILS,
+  CHILD_PER_NIGHT_CENTS,
+  CONSERVATION_FEE_CENTS,
+  PAYMENT_DEADLINE,
+  RSVP_DEADLINE,
+  STAY_OPTIONS,
+  formatRand,
+} from '../lib/pricing';
 
 export const prerender = true;
 
 type Row = { time: string; event: string; ceremony?: boolean };
-// Each day is a split: the day kicker hangs beside its timeline and a portrait
-// sits in the outer columns, alternating sides so the page zigzags. Every
-// frame here is unique to this page.
-const days: { kicker: string; photo: ImageMetadata; alt: string; position: string; rows: Row[]; note: string | null }[] = [
+// Each day is a split: the day heading hangs beside its timeline and a portrait
+// sits in the outer columns, alternating sides so the page zigzags. Sunday is
+// a coda — two rows, no portrait. On a phone the portrait leads the day at
+// full width (cropped to 4/3 so two of them don't swallow the screen), then
+// the heading, then the timeline, so each day has a clean visual start.
+// `phonePosition` is the crop focus for that landscape frame. Every frame
+// here is unique to this page.
+const days: {
+  day: string;
+  date: string;
+  photo: ImageMetadata | null;
+  alt: string;
+  position: string;
+  phonePosition: string;
+  photoLeft: boolean;
+  rows: Row[];
+  note: string | null;
+}[] = [
   {
-    kicker: 'Friday · 13 November',
+    day: 'Friday',
+    date: '13 November',
     photo: fridayPhoto,
     alt: 'Pieter and Joanique walking away hand in hand along a green gallery wall of framed prints.',
     position: '50% 50%',
+    phonePosition: '50% 92%',
+    photoLeft: false,
     rows: [
       { time: '14:00', event: 'Guests arrive' },
       { time: '18:00', event: 'Bonfire and burger night' },
@@ -33,10 +58,13 @@ const days: { kicker: string; photo: ImageMetadata; alt: string; position: strin
     note: 'Friday night accommodation at Tshikwalo Game Lodge',
   },
   {
-    kicker: 'Saturday · 14 November',
+    day: 'Saturday',
+    date: '14 November',
     photo: saturdayPhoto,
-    alt: 'Pieter dipping Joanique in a dance in the green gallery, her hair swinging.',
-    position: '50% 55%',
+    alt: 'Pieter and Joanique dancing hand in hand between two colourful paintings, her dress swinging.',
+    position: '50% 50%',
+    phonePosition: '50% 40%',
+    photoLeft: true,
     rows: [
       { time: '08:00', event: 'Breakfast at the lodge restaurant, for Friday guests' },
       { time: '11:00', event: 'Saturday guests arrive' },
@@ -48,10 +76,13 @@ const days: { kicker: string; photo: ImageMetadata; alt: string; position: strin
     note: 'Saturday night accommodation at Tshikwalo Game Lodge',
   },
   {
-    kicker: 'Sunday · 15 November',
-    photo: sundayPhoto,
-    alt: 'Black and white photograph of Pieter and Joanique walking away down a white gallery corridor, hand in hand.',
-    position: '50% 45%',
+    day: 'Sunday',
+    date: '15 November',
+    photo: null,
+    alt: '',
+    position: '',
+    phonePosition: '',
+    photoLeft: false,
     rows: [
       { time: '08:00', event: 'Breakfast for all guests' },
       { time: '10:00', event: 'Checkout' },
@@ -60,38 +91,37 @@ const days: { kicker: string; photo: ImageMetadata; alt: string; position: strin
   },
 ];
 
-const throughout = [
-  'A complimentary game drive for guests staying from Friday',
-  'The on-site restaurant is open all weekend for snacks and refreshments',
-  'A cash bar is available throughout',
-  'Bring swimwear for the pool',
-  'After the reception, the boma and bonfire stay open',
+const stay = [
+  ['Check-in', 'Friday from 14:00'],
+  ['Check-in', 'Saturday from 11:00'],
+  ['Check-out', 'Sunday at 10:00'],
 ];
 
-const costs = [
-  {
-    title: 'Friday and Saturday — R2 100 per person',
-    detail:
-      'Friday dinner, Friday accommodation, Saturday breakfast, all wedding events, Saturday accommodation, Sunday breakfast, complimentary game drive.',
-  },
-  { title: 'Saturday only — R965 per person', detail: 'All wedding events, Saturday accommodation, Sunday breakfast.' },
-  { title: 'Children', detail: 'Under 2 free. Ages 2 to 12, R270 per child per night.' },
-  {
-    title: 'Conservation fee — R100 per guest, paid at the gate',
-    detail:
-      'Dinokeng Game Reserve charges every guest a R100 conservation fee. You pay it at the reserve gate when you arrive. It is not part of your accommodation payment and does not go to Pieter and Joanique.',
-  },
-];
-
+// One list for everything practical — each fact once.
 const goodToKnow = [
-  'The venue is reached by a dirt road, suitable for all vehicles. Secure parking is provided.',
-  'No outside food or drinks are permitted.',
-  'A cash bar and the Tshikwalo "The Roots" restaurant are open all weekend.',
-  'Dinokeng Game Reserve charges a R100 conservation fee per guest, paid at the gate on arrival.',
+  'A complimentary game drive for guests staying from Friday',
+  'A cash bar and the Tshikwalo "The Roots" restaurant are open all weekend',
+  'After the reception, the boma and bonfire stay open',
+  'Bring swimwear for the pool',
+  'No outside food or drinks are permitted',
+  'The venue is reached by a dirt road, suitable for all vehicles. Secure parking is provided',
+];
+
+const perPerson = (cents: number) => `${formatRand(cents)} per person`;
+const costs = [
+  { title: 'Friday and Saturday', price: perPerson(STAY_OPTIONS.friday_saturday.adultCents), detail: STAY_OPTIONS.friday_saturday.smallPrint },
+  { title: 'Saturday only', price: perPerson(STAY_OPTIONS.saturday.adultCents), detail: STAY_OPTIONS.saturday.smallPrint },
+  { title: 'Children 2 to 12', price: `${formatRand(CHILD_PER_NIGHT_CENTS)} per child per night`, detail: 'Children under 2 stay free.' },
+  {
+    title: 'Conservation fee',
+    price: `${formatRand(CONSERVATION_FEE_CENTS)} per family`,
+    detail: "Dinokeng Game Reserve's fee, charged once per household. It is included in your payment to us, so there is nothing to settle at the gate.",
+  },
 ];
 
 const body = 'max-w-[64ch] font-display text-lead text-ink';
 const listRow = 'border-t border-rule py-4 max-w-[64ch] font-display text-lead text-ink';
+const timeCell = 'font-body font-medium text-small lg:w-[8.5em] lg:flex-none';
 ---
 
 <Base title="The Weekend — Pieter & Joanique">
@@ -100,140 +130,152 @@ const listRow = 'border-t border-rule py-4 max-w-[64ch] font-display text-lead t
   <PageIntro
     kicker="The Weekend"
     title="Friday 13 to Sunday 15 November 2026"
-    lead="Join us for a weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of Pieter and Joanique's marriage."
+    lead="Join us for a weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of our marriage."
     photo={introPhoto}
     alt="Joanique pulling Pieter along by the hand across the green gallery, both laughing."
     position="50% 45%"
-  />
+  >
+    <p class="mt-6 max-w-[44ch] font-display italic text-lead text-ink">The ceremony is on Saturday at 15:00. Please be seated from 14:30.</p>
+  </PageIntro>
 
   {
-    days.map((d, i) => {
-      const photoLeft = i % 2 === 1;
-      return (
-        <Section mode="linen" data-reveal class="py-12 md:py-14 lg:py-16">
-          <Grid class="gap-y-8 border-t border-rule pt-10 lg:pt-14">
-            <div class:list={['eyebrow mb-2 lg:mb-0', photoLeft ? 'lg:col-start-6 lg:col-span-2' : 'lg:col-start-2 lg:col-span-2']}>{d.kicker}</div>
-            <div class:list={['order-3 lg:order-none', photoLeft ? 'lg:col-start-8 lg:col-span-5' : 'lg:col-start-4 lg:col-span-5']}>
-              {d.rows.map((r) => (
-                <div class="flex flex-wrap gap-x-6 gap-y-1 border-t border-rule py-4 first:border-t-0 first:pt-0">
-                  <div class="w-[8.5em] flex-none font-body font-medium text-small text-ink">{r.time}</div>
-                  <div class="flex-[1_1_200px] font-display text-lead text-ink">
-                    {r.event}
-                    {r.ceremony && (
-                      <span>
-                        {' '}
-                        —{' '}
-                        <a
-                          href="/pieter-joanique-ceremony.ics"
-                          download="Pieter-Joanique-Ceremony.ics"
-                          class="font-body font-medium text-small text-ink underline underline-offset-[0.15em] hover:opacity-75"
-                        >
-                          Add to calendar →
-                        </a>
-                      </span>
-                    )}
+    days.map((d) => (
+      <Section mode="linen" data-reveal class="py-10 md:py-14 lg:py-16">
+        <Grid class="gap-y-6 border-t border-rule pt-8 sm:grid-cols-12 sm:gap-x-6 md:pt-10 lg:gap-y-8 lg:pt-14">
+          {d.photo && (
+            <div
+              class:list={[
+                'relative aspect-[4/3] overflow-hidden sm:aspect-[4/5] lg:row-start-1',
+                d.photoLeft
+                  ? 'sm:row-start-2 sm:col-start-1 sm:col-span-4'
+                  : 'sm:row-start-2 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3',
+              ]}
+            >
+              <Image
+                src={d.photo}
+                alt={d.alt}
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 1680px) 420px, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw"
+                class="absolute inset-0 h-full w-full object-cover [object-position:var(--phone)] sm:[object-position:var(--desk)]"
+                style={`--phone:${d.phonePosition};--desk:${d.position};`}
+              />
+            </div>
+          )}
+          <h2
+            class:list={[
+              'm-0 sm:row-start-1 sm:col-span-12',
+              d.photoLeft ? 'lg:col-start-6 lg:col-span-2' : 'lg:col-start-2 lg:col-span-2',
+            ]}
+          >
+            <span class="block font-display font-medium text-title text-ink">{d.day}</span>
+            <span class="eyebrow mt-2 block">{d.date}</span>
+          </h2>
+          <div
+            class:list={[
+              'sm:row-start-2 lg:row-start-1',
+              d.photoLeft ? 'sm:col-start-6 sm:col-span-7 lg:col-start-8 lg:col-span-5' : 'sm:col-start-1 sm:col-span-7 lg:col-start-4 lg:col-span-5',
+            ]}
+          >
+            {d.rows.map((r) =>
+              r.ceremony ? (
+                <div class="flex flex-col gap-y-1 border-t border-rule py-5 lg:flex-row lg:flex-wrap lg:gap-x-6">
+                  <div class:list={[timeCell, 'text-accent lg:pt-[0.35em]']}>{r.time}</div>
+                  <div class="lg:flex-[1_1_200px]">
+                    <div class="font-display font-medium text-title text-ink">{r.event}</div>
+                    <a
+                      href="/pieter-joanique-ceremony.ics"
+                      download="Pieter-Joanique-Ceremony.ics"
+                      class="mt-2 inline-flex min-h-[44px] items-center font-body font-medium text-small text-ink underline underline-offset-[0.15em] hover:opacity-75 sm:min-h-0"
+                    >
+                      Add to calendar →
+                    </a>
                   </div>
                 </div>
-              ))}
-              {d.note && <p class="mt-6 font-display italic text-lead text-ink">{d.note}</p>}
-            </div>
-            <div
-              class:list={['relative order-2 aspect-[4/5] overflow-hidden lg:order-none lg:row-start-1', photoLeft ? 'lg:col-start-1 lg:col-span-4' : 'lg:col-start-10 lg:col-span-3']}
-            >
-              <Image src={d.photo} alt={d.alt} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 33vw, 100vw" class="absolute inset-0 h-full w-full object-cover" style={`object-position:${d.position};`} />
-            </div>
-          </Grid>
-        </Section>
-      );
-    })
+              ) : (
+                <div class="flex flex-col gap-y-1 border-t border-rule py-4 first:border-t-0 first:pt-0 lg:flex-row lg:flex-wrap lg:gap-x-6">
+                  <div class:list={[timeCell, 'text-ink']}>{r.time}</div>
+                  <div class="font-display text-lead text-ink lg:flex-[1_1_200px]">{r.event}</div>
+                </div>
+              ),
+            )}
+            {d.note && <p class="mt-5 font-display italic text-lead text-ink lg:mt-6">{d.note}</p>}
+          </div>
+        </Grid>
+      </Section>
+    ))
   }
 
-  <Editorial kicker="Throughout The Weekend">
-    {throughout.map((t) => <div class={listRow}>{t}</div>)}
-  </Editorial>
-
-  <Editorial kicker="Staying With Us">
+  <Editorial kicker="Staying With Us" reveal={false}>
     <p class:list={['mb-6', body]}>
       Saturday night accommodation is compulsory, as we are booking out the entire venue. If you have other arrangements,
       please contact us directly and we will make the necessary adjustments.
     </p>
     {
-      [
-        ['Check-in', 'Friday from 14:00'],
-        ['Check-out', 'Sunday at 10:00'],
-      ].map(([k, v]) => (
-        <div class="flex gap-6 border-t border-rule py-4">
-          <div class="w-[8.5em] flex-none font-body font-medium text-small text-ink">{k}</div>
+      stay.map(([k, v]) => (
+        <div class="flex items-baseline gap-5 border-t border-rule py-4 sm:gap-6">
+          <div class="w-[6.5em] flex-none font-body font-medium text-small text-ink sm:w-[8.5em]">{k}</div>
           <div class="font-display text-lead text-ink">{v}</div>
         </div>
       ))
     }
   </Editorial>
 
-  <!-- COSTS + HOW TO PAY · burlap — the page's one interlude, so the money information stands apart -->
-  <Editorial kicker="What It Costs" mode="burlap" id="payment">
-    {
-      costs.map((c) => (
-        <div class="max-w-[64ch] border-t border-rule py-5">
-          <p class="mb-2 font-display font-medium text-title text-ink">{c.title}</p>
-          <p class="font-body text-body text-ink">{c.detail}</p>
-        </div>
-      ))
-    }
-    <div class="mt-12">
-      <div class="eyebrow mb-5">How To Pay</div>
-      <p class:list={['mb-6', body]}>
-        Accommodation is paid by EFT, directly to Pieter and Joanique, by {PAYMENT_DEADLINE}. Please use your initials and
-        surname as the reference.
-      </p>
-      <dl class="m-0 max-w-[64ch]">
-        {
-          BANK_DETAILS.map((r) => (
-            <div class="flex justify-between gap-4 border-t border-rule py-3">
-              <dt class="font-body font-medium text-small text-ink">{r.label}</dt>
-              <dd class="m-0 text-right font-body text-body text-ink">{r.value}</dd>
-            </div>
-          ))
-        }
-      </dl>
-    </div>
-  </Editorial>
-
-  <Editorial kicker="A Gift">
-    <p class:list={['mb-6', body]}>
-      Having you with us is the greatest gift we could ask for. If you would like to bless us with something extra, the same
-      account applies — with a different reference so it is kept apart from your accommodation payment.
-    </p>
-    <dl class="m-0 max-w-[64ch]">
-      {
-        GIFT_DETAILS.map((r) => (
-          <div class="flex justify-between gap-4 border-t border-rule py-3">
-            <dt class="font-body font-medium text-small text-ink">{r.label}</dt>
-            <dd class="m-0 text-right font-body text-body text-ink">{r.value}</dd>
-          </div>
-        ))
-      }
-    </dl>
-  </Editorial>
-
-  <Editorial kicker="Good To Know">
+  <Editorial kicker="Good To Know" reveal={false}>
     {goodToKnow.map((t) => <div class={listRow}>{t}</div>)}
   </Editorial>
 
-  <Editorial kicker="What To Wear">
+  <!-- COSTS + HOW TO PAY · burlap — the page's one interlude, so the money information stands apart -->
+  <Editorial kicker="What It Costs" mode="burlap" id="payment" reveal={false}>
+    {
+      costs.map((c) => (
+        <div class="max-w-[64ch] border-t border-rule py-5">
+          <div class="flex flex-col gap-y-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-6">
+            <h3 class="m-0 font-display font-medium text-title text-ink">{c.title}</h3>
+            <p class="m-0 whitespace-nowrap font-body font-medium text-body text-ink">{c.price}</p>
+          </div>
+          <p class="mt-2 max-w-[56ch] font-body text-body text-ink">{c.detail}</p>
+        </div>
+      ))
+    }
+    <p class="mt-6 max-w-[64ch] font-display italic text-lead text-ink">
+      Your household's total is worked out for you on the{' '}
+      <a href="/rsvp" class="underline underline-offset-[0.2em] hover:opacity-75">RSVP form</a>.
+    </p>
+
+    <div class="mt-12">
+      <h3 class="eyebrow m-0 mb-5">How To Pay</h3>
+      <p class:list={['mb-6', body]}>
+        Accommodation is paid by EFT, directly to us. Please use your initials and surname as the reference.
+      </p>
+      <DetailRows rows={[{ label: 'Pay by', value: PAYMENT_DEADLINE }, ...BANK_DETAILS]} />
+    </div>
+  </Editorial>
+
+  <Editorial kicker="What To Wear" reveal={false}>
     <p class={body}>
       The dress code is semi-formal. We are keeping things earth-toned and summery to suit the bush setting, so please avoid
       black, white, red and purple where possible.
     </p>
   </Editorial>
 
-  <Editorial kicker="Finding Us" class="pb-20 lg:pb-28">
+  <!-- TODO(content): written address, driving times from Pretoria / Johannesburg, and which Dinokeng gate to use — to come from Pieter and Joanique. -->
+  <Editorial kicker="Finding Us" reveal={false}>
     <a
       href="https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99"
       target="_blank"
       rel="noopener"
       class="font-display italic text-title text-ink underline underline-offset-[0.2em] hover:opacity-75"
       >Tshikwalo Game Lodge, Dinokeng Game Reserve →</a
+    >
+  </Editorial>
+
+  <!-- CLOSING ASK · the page ends on the one thing we need from a guest -->
+  <Editorial kicker="RSVP" reveal={false} class="pb-20 lg:pb-28">
+    <p class="m-0 max-w-[24ch] font-display font-medium text-title text-ink">Kindly respond by {RSVP_DEADLINE}.</p>
+    <a
+      href="/rsvp"
+      class="mt-8 flex min-h-[56px] w-full max-w-[360px] items-center justify-center bg-ink px-6 font-body font-medium text-[0.85rem] uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-85"
+      >RSVP now</a
     >
   </Editorial>
 

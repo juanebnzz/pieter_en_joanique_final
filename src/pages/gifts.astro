@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Editorial from '../components/site/Editorial.astro';
+import DetailRows from '../components/site/DetailRows.astro';
+import PageIntro from '../components/site/PageIntro.astro';
+import Nav from '../components/site/Nav.astro';
+import Footer from '../components/site/Footer.astro';
+import photo from '../assets/photos/gallery/g-44.jpg';
+import { GIFT_DETAILS } from '../lib/pricing';
+
+export const prerender = true;
+
+// A quiet page, reached from the footer, the FAQ and the RSVP form rather
+// than the main nav. Gift details are kept here, apart from the accommodation
+// payment, so the two are never confused.
+---
+
+<Base title="A Gift — Pieter & Joanique" description="If you would like to give Pieter and Joanique a gift, the details are here.">
+  <Nav />
+
+  <PageIntro
+    kicker="A Gift"
+    title="Having you with us is the greatest gift."
+    lead="If you would like to bless us with something extra, you are more than welcome to use the details below. Thank you for being part of our lives and for sharing this new chapter with us."
+    photo={photo}
+    alt="Black and white photograph of Pieter and Joanique kissing on a gallery bench, framed prints soft behind them."
+    position="50% 40%"
+  />
+
+  <Editorial kicker="Gift Details" reveal={false} class="pb-20 lg:pb-28">
+    <p class="mb-6 max-w-[64ch] font-display text-lead text-ink">
+      Gifts go by EFT to the account below. Please use the gift reference so it is kept apart from any accommodation payment.
+    </p>
+    <DetailRows rows={GIFT_DETAILS} />
+  </Editorial>
+
+  <Footer />
+</Base>

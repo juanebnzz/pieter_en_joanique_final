@@ -2,6 +2,9 @@
 
 @config "../../tailwind.config.mjs";
 
+/* Hero variation B (client review) — set on <html> by the inline script in Base.astro. */
+@custom-variant hero-b (&:where([data-hero="b"], [data-hero="b"] *));
+
 /* ---------------------------------------------------------------------------
    TOKEN LAYER — the only place a colour literal may appear.
 
@@ -54,6 +57,9 @@
 @theme static {
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Jost', system-ui, sans-serif;
+  /* Wedding voice — the hero names and the invitation lockup only. */
+  --font-statement: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --font-script: 'Pinyon Script', 'Snell Roundhand', 'Brush Script MT', cursive;
 
   /* Type scale — a 1.25 (major third) modular scale from 1rem, fluid at the
      top end so display sizes track the viewport between 390 and 1440px.
@@ -110,6 +116,13 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+}
+
+/* Horizontal snap strips (phone-only image rows): no visible scrollbar. */
+@utility scroll-strip {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar { display: none; }
 }
 
 /* Scroll reveal: elements become visible when scrolled into view. Fails open —

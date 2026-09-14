@@ -4,7 +4,6 @@ import { rsvpSchema, type RsvpInput } from '../../lib/rsvp-schema';
 import {
   BANK_DETAILS,
   CONSERVATION_FEE_LABEL,
-  GIFT_DETAILS,
   PAYMENT_DEADLINE,
   STAY_OPTIONS,
   formatRand,
@@ -14,7 +13,7 @@ import {
 
 /**
  * RSVP form, per the Claude Design reference. Two flows: attending (household,
- * nights, children, running total, dietary, payment + gift details) or
+ * nights, children, running total, dietary, payment details) or
  * declining (a note). Posts to /api/rsvp; the server recomputes the total.
  */
 type Attendance = 'attending' | 'declining' | null;
@@ -43,9 +42,9 @@ function DetailRows({ rows }: { rows: { label: string; value: string }[] }) {
   return (
     <>
       {rows.map((r) => (
-        <div key={r.label} className="flex justify-between gap-[1em] border-t border-rule py-[0.8em]">
+        <div key={r.label} className="flex flex-wrap items-baseline justify-between gap-x-[1em] gap-y-[0.2em] border-t border-rule py-[0.8em]">
           <span className="font-body font-medium text-[0.85rem] text-ink">{r.label}</span>
-          <span className="text-right font-body text-[0.95rem] text-ink">{r.value}</span>
+          <span className="ml-auto text-right font-body text-[0.95rem] text-ink">{r.value}</span>
         </div>
       ))}
     </>
@@ -134,8 +133,8 @@ export default function RsvpForm() {
         </p>
         {sentAttending && (
           <p className="mx-auto max-w-[34em] font-display leading-[1.6] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">
-            Your accommodation total is <strong className="text-ink">{formatRand(total.totalCents)}</strong>, payable by
-            EFT by {PAYMENT_DEADLINE}. Use your initials and surname as the reference.
+            Your total is <strong className="text-ink">{formatRand(total.totalCents)}</strong>, payable by EFT by{' '}
+            {PAYMENT_DEADLINE}. Use your initials and surname as the reference.
           </p>
         )}
         <p className="mt-[1.6em] font-body text-[0.85rem] text-ink">
@@ -302,7 +301,7 @@ export default function RsvpForm() {
               <span className="whitespace-nowrap font-display font-medium text-[1.5rem] text-ink">{formatRand(total.totalCents)}</span>
             </div>
             <p className="mt-[1em] font-body text-[0.85rem] text-ink">
-              Dinokeng Game Reserve charges a conservation fee of {CONSERVATION_FEE_LABEL}, paid at the reserve gate when you arrive. It is not part of this total.
+              Includes the Dinokeng Game Reserve conservation fee of {CONSERVATION_FEE_LABEL}, charged once per household.
             </p>
           </Section>
 
@@ -318,13 +317,14 @@ export default function RsvpForm() {
           </Section>
 
           <Section title="A Gift">
-            <p className="mb-[1.4em] font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">
-              Having you celebrate our special day with us is truly the greatest gift we could ask for. If you would like to
-              bless us with something extra, you are more than welcome to use the details below. Thank you for being part
-              of our lives and sharing this beautiful new chapter with us.
+            <p className="font-display leading-[1.65] text-ink text-[clamp(1.05rem,2.4cqw,1.2rem)]">
+              Having you with us is the greatest gift we could ask for. If you would like to give something extra, the
+              details are on{' '}
+              <a href="/gifts" className="underline underline-offset-[0.2em] hover:opacity-75">
+                our gifts page
+              </a>
+              .
             </p>
-            <DetailRows rows={GIFT_DETAILS} />
-            <p className="mt-[1.2em] font-body text-[0.85rem] text-ink">This is separate from your accommodation payment.</p>
           </Section>
 
           <section className="fade-in pb-[6em]">
@@ -335,7 +335,7 @@ export default function RsvpForm() {
           </section>
 
           {/* STICKY TOTAL BAR */}
-          <div className="fixed bottom-0 left-0 right-0 z-[15] box-border flex items-baseline justify-between border-t border-ink bg-surface px-[6cqw] pt-[0.8em] pb-[calc(0.8em+env(safe-area-inset-bottom,0px))]">
+          <div className="fixed bottom-0 left-0 right-0 z-[15] box-border flex items-baseline justify-between border-t border-ink bg-surface px-5 pt-[0.8em] pb-[calc(0.8em+env(safe-area-inset-bottom,0px))] md:px-10 lg:px-20">
             <span className="font-body font-medium text-[0.78rem] uppercase tracking-[0.1em] text-ink">Total</span>
             <span className="font-display font-medium text-[1.4rem] text-ink">{formatRand(total.totalCents)}</span>
           </div>

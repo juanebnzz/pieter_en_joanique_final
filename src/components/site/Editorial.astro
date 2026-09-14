@@ -14,14 +14,16 @@ interface Props {
   id?: string;
   /** Hairline above the content (default). The first section after a page intro can drop it. */
   rule?: boolean;
+  /** Scroll-reveal fade (default). Reference sections a guest scans — prices, banking — read better without it. */
+  reveal?: boolean;
   class?: string;
 }
-const { kicker, mode = 'linen', id, rule = true, class: className } = Astro.props;
+const { kicker, mode = 'linen', id, rule = true, reveal = true, class: className } = Astro.props;
 ---
 
-<Section mode={mode} id={id} data-reveal class:list={['py-12 md:py-14 lg:py-16 scroll-mt-8', className]}>
-  <Grid class:list={[rule && 'border-t border-rule pt-10 lg:pt-14']}>
-    <div class="eyebrow mb-6 lg:col-start-2 lg:col-span-1 lg:mb-0 lg:pr-4">{kicker}</div>
+<Section mode={mode} id={id} data-reveal={reveal || undefined} class:list={['py-8 md:py-14 lg:py-16 scroll-mt-8', className]}>
+  <Grid class:list={[rule && 'border-t border-rule pt-8 md:pt-10 lg:pt-14']}>
+    <h2 class="eyebrow m-0 mb-6 lg:col-start-2 lg:col-span-1 lg:mb-0 lg:pr-4">{kicker}</h2>
     <div class="lg:col-start-3 lg:col-span-7">
       <slot />
     </div>

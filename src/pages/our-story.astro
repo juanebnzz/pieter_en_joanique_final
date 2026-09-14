@@ -17,7 +17,7 @@ import bandPhoto from '../assets/photos/gallery/g-11.jpg';
 export const prerender = true;
 
 // Chapters are asymmetric splits that alternate image side so the page
-// zigzags. The "01 · date" kicker is the spine. `body` is the couple's own
+// zigzags — a 5/7 split from sm, 6/5 with the text offset from lg. The "01 · date" kicker is the spine. `body` is the couple's own
 // telling, in short paragraphs; it is meant to be read, and to be kept.
 const chapters: { label: string; oversized: string; body: string[]; src: ImageMetadata; alt: string; position: string; bandAfter: boolean }[] = [
   {
@@ -107,15 +107,25 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
       const photoLeft = i % 2 === 0;
       return (
         <>
-          <Section mode="linen" data-reveal="lift" class="py-12 md:py-14 lg:py-16">
-            <Grid class="gap-y-8 border-t border-rule pt-10 lg:pt-14">
-              <div class:list={['relative aspect-[4/5] overflow-hidden lg:row-start-1', photoLeft ? 'lg:col-start-1 lg:col-span-6' : 'lg:col-start-7 lg:col-span-6']}>
+          <Section mode="linen" data-reveal="lift" class="py-10 md:py-14 lg:py-16">
+            <Grid class="gap-y-6 border-t border-rule pt-8 sm:grid-cols-12 sm:gap-x-6 md:pt-10 lg:gap-y-8 lg:pt-14">
+              <div
+                class:list={[
+                  'relative aspect-[4/5] overflow-hidden sm:row-start-1 sm:aspect-[2/3]',
+                  photoLeft ? 'sm:col-start-1 sm:col-span-5 lg:col-span-6' : 'sm:col-start-8 sm:col-span-5 lg:col-start-7 lg:col-span-6',
+                ]}
+              >
                 <Image src={c.src} alt={c.alt} widths={[640, 1024, 1600]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" style={`object-position:${c.position};`} />
               </div>
               {/* The text block sits below the image top — the offset is what keeps it from reading as a template. */}
-              <div class:list={['lg:row-start-1 lg:self-start lg:pt-24', photoLeft ? 'lg:col-start-8 lg:col-span-5' : 'lg:col-start-1 lg:col-span-5']}>
-                <div class="eyebrow mb-6">{c.label}</div>
-                <p class="mb-8 max-w-[24ch] font-display italic font-medium text-quote text-ink">{c.oversized}</p>
+              <div
+                class:list={[
+                  'sm:row-start-1 sm:self-start sm:pt-6 md:pt-10 lg:pt-24',
+                  photoLeft ? 'sm:col-start-7 sm:col-span-6 lg:col-start-8 lg:col-span-5' : 'sm:col-start-1 sm:col-span-6 lg:col-span-5',
+                ]}
+              >
+                <div class="eyebrow mb-5 lg:mb-6">{c.label}</div>
+                <p class="mb-6 max-w-[24ch] font-display italic font-medium text-quote text-ink lg:mb-8">{c.oversized}</p>
                 {c.body.map((para) => (
                   <p class="mb-5 max-w-[60ch] font-display text-lead text-ink last:mb-0">{para}</p>
                 ))}
@@ -131,7 +141,7 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
                 <div class="pointer-events-none absolute inset-0 hidden lg:block" style="background:linear-gradient(to top, color-mix(in srgb, var(--color-surface) 75%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 65%);" />
               </div>
               {/* Below lg the line sits beneath the photo; from lg it overlays the empty floor at right. */}
-              <div class="py-10 lg:absolute lg:inset-x-0 lg:bottom-0 lg:py-0">
+              <div class="py-8 md:py-10 lg:absolute lg:inset-x-0 lg:bottom-0 lg:py-0">
                 <Grid class="lg:pb-16">
                   <p class="max-w-[26ch] font-display italic text-quote text-ink lg:col-start-8 lg:col-span-5">
                     Through every laugh, every adventure, every challenge and every ordinary moment in between, Jeremiah 29:11 has been a constant reminder that God has a plan for their lives.
@@ -146,9 +156,9 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
   }
 
   <!-- CLOSING · burlap — the one interlude, and the line stands alone -->
-  <Section mode="burlap" data-reveal="lift" class="py-20 md:py-24 lg:py-32">
+  <Section mode="burlap" data-reveal="lift" class="py-16 md:py-24 lg:py-32">
     <Grid>
-      <p class="mb-10 max-w-[60ch] font-display text-lead text-ink lg:col-start-3 lg:col-span-8">
+      <p class="mb-8 max-w-[60ch] font-display text-lead text-ink lg:col-start-3 lg:col-span-8 lg:mb-10">
         And now, after all the coffees, dates, adventures, laughter and memories, Pieter and Joanique find themselves standing
         on the doorstep of the next chapter of their story, one that they never could have planned for themselves, but one
         that God had been writing all along.

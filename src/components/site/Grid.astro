@@ -7,7 +7,8 @@
  * the margins grow beyond that.
  *
  * Children place themselves with lg:col-start-* / lg:col-span-*. Below lg
- * everything stacks in one column.
+ * it is a one-column grid — still a grid, so order-* and gap-y-* work on
+ * phones (block flow would ignore both).
  */
 import type { HTMLTag, Polymorphic } from 'astro/types';
 
@@ -20,7 +21,7 @@ const { as: Tag = 'div', grid = true, class: className, ...rest } = Astro.props;
 ---
 
 <div class="w-full px-5 md:px-10 lg:px-20">
-  <Tag class:list={['mx-auto w-full max-w-[1680px]', grid && 'lg:grid lg:grid-cols-12 lg:gap-x-6', className]} {...rest}>
+  <Tag class:list={['mx-auto w-full max-w-[1680px]', grid && 'grid grid-cols-1 lg:grid-cols-12 lg:gap-x-6', className]} {...rest}>
     <slot />
   </Tag>
 </div>

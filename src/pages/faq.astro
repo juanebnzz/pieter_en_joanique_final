@@ -8,7 +8,7 @@ import Footer from '../components/site/Footer.astro';
 
 export const prerender = true;
 
-const faqs = [
+const faqs: { q: string; a: string; link?: { label: string; href: string } }[] = [
   {
     q: 'Can I bring a plus-one?',
     a: 'We have carefully planned our guest list, but if you would like to bring someone, please reach out to us directly. We would be happy to chat about it.',
@@ -16,13 +16,13 @@ const faqs = [
   { q: 'Are children welcome?', a: 'Yes. Children under 2 stay free, and children aged 2 to 12 are R270 per child per night.' },
   {
     q: 'Is there a conservation fee?',
-    a: 'Yes. Dinokeng Game Reserve charges a conservation fee of R100 per guest, which you pay at the reserve gate when you arrive. It is separate from your accommodation payment and does not go to Pieter and Joanique.',
+    a: 'Yes. Dinokeng Game Reserve charges a conservation fee of R100 per family. It is included in your total, so you pay it with your accommodation rather than at the gate.',
   },
   {
     q: 'Is Saturday night compulsory?',
     a: 'Yes, up to full capacity, as we are booking out the entire venue with accommodation on site. If you have other arrangements, please contact us directly.',
   },
-  { q: 'What time is check-in and check-out?', a: 'Check-in from 14:00 on Friday. Check-out at 10:00 on Sunday.' },
+  { q: 'What time is check-in and check-out?', a: 'Check-in from 14:00 on Friday, or from 11:00 on Saturday. Check-out at 10:00 on Sunday.' },
   {
     q: 'How do I pay?',
     a: 'Accommodation is paid directly to Pieter and Joanique by EFT, by 16 October 2026. The banking details are on The Weekend page, beside the prices, and on the RSVP page. Use your initials and surname as the reference.',
@@ -32,6 +32,11 @@ const faqs = [
     a: 'No outside food or drinks are permitted. A cash bar and the on-site restaurant are available all weekend.',
   },
   { q: 'What is the road like?', a: 'The venue is accessed by a dirt road that is suitable for all vehicles. Secure parking is provided.' },
+  {
+    q: 'Can we give a gift?',
+    a: 'Having you with us is the greatest gift. If you would like to give something extra, the details are on our gifts page.',
+    link: { label: 'Gift details →', href: '/gifts' },
+  },
   { q: 'Who do I contact with questions?', a: 'Pieter Kruger — 083 798 0144 — pieterkruger2911@gmail.com' },
 ];
 ---
@@ -49,6 +54,11 @@ const faqs = [
             <div data-reveal class="max-w-[64ch] border-b border-rule py-6">
               <p class="mb-2 font-display font-medium text-title text-ink">{f.q}</p>
               <p class="font-body text-body text-ink">{f.a}</p>
+              {f.link && (
+                <a href={f.link.href} class="mt-3 inline-block font-body font-medium text-small text-ink underline underline-offset-[0.15em] hover:opacity-75">
+                  {f.link.label}
+                </a>
+              )}
             </div>
           ))
         }

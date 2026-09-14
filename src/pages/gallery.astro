@@ -10,7 +10,7 @@ import Footer from "../components/site/Footer.astro";
 
 export const prerender = true;
 
-// Sixteen frames, none of which appear on another page (index, Our Story,
+// Seventeen frames, none of which appear on another page (index, Our Story,
 // The Weekend, RSVP, Gifts and the Interlude band all draw from the same
 // folder — check before adding one here). Roughly in shoot order; one black
 // and white frame in every block so the monochrome is spread evenly rather
@@ -32,6 +32,7 @@ import g04 from "../assets/photos/gallery/g-04.jpg";
 import g36 from "../assets/photos/gallery/g-36.jpg";
 import g41 from "../assets/photos/gallery/g-41.jpg";
 import g42 from "../assets/photos/gallery/g-42.jpg";
+import g02 from "../assets/photos/gallery/g-02.jpg";
 
 const gallery: { src: ImageMetadata; alt: string }[] = [
   // three
@@ -96,7 +97,7 @@ const gallery: { src: ImageMetadata; alt: string }[] = [
     src: g36,
     alt: "Pieter kissing Joanique's cheek as they sit together on a bench in a white gallery.",
   },
-  // pair
+  // three
   {
     src: g41,
     alt: "Black and white photograph of Pieter and Joanique nose to nose in an embrace against a wall of framed drawings.",
@@ -104,6 +105,10 @@ const gallery: { src: ImageMetadata; alt: string }[] = [
   {
     src: g42,
     alt: "Pieter grinning, hands in his pockets, in a black shirt against a teal gallery wall lined with framed drawings.",
+  },
+  {
+    src: g02,
+    alt: "Pieter and Joanique walking hand in hand away from the camera through a white gallery hung with colourful paintings.",
   },
 ];
 const photos = gallery.map((g) => g.src);
@@ -118,7 +123,7 @@ const fullSrcs = full.map((f) => f.src);
 // Layout: rows of three portraits, an offset pair, and one landscape frame.
 // Below sm the block wrappers dissolve (display: contents) and every frame
 // flows into one two-column grid, the landscape frame spanning both columns —
-// a phone gets a proper contact-sheet rather than sixteen stacked portraits.
+// a phone gets a proper contact-sheet rather than seventeen stacked portraits.
 type Block = { kind: "three" | "pair" | "wide"; i: number[] };
 const blocks: Block[] = [
   { kind: "three", i: [0, 1, 2] },
@@ -127,7 +132,7 @@ const blocks: Block[] = [
   { kind: "wide", i: [8] },
   { kind: "pair", i: [9, 10] },
   { kind: "three", i: [11, 12, 13] },
-  { kind: "pair", i: [14, 15] },
+  { kind: "three", i: [14, 15, 16] },
 ];
 
 const img =

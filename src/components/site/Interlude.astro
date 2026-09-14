@@ -1,0 +1,109 @@
+---
+/**
+ * A full-bleed photograph with a line written over it — the moment from the
+ * Our Story page, made reusable. Three ingredients: the photo, a scrim that
+ * fades it toward the section's own surface colour, and a display line set in
+ * the photo's quiet ground. Kept to one per page so it stays an event.
+ *
+ * Below lg the line sits at the TOP of the frame under a top-down scrim (the
+ * couple almost always occupy the lower half of a portrait crop, so the top is
+ * where the quiet is); from lg it drops to the foot, left or right per `align`.
+ *
+ * Classical touches, all on by default: a hairline frame inset from the edges
+ * like an invitation card, a short rule before the kicker, and a wash of the
+ * surface colour over the photo so the gallery's teal and red walls sit inside
+ * the palette instead of on top of it.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Section from './Section.astro';
+import Grid from './Grid.astro';
+
+interface Props {
+  photo: ImageMetadata;
+  alt?: string;
+  /** object-position; the subject is rarely centred. */
+  position?: string;
+  mode?: 'linen' | 'burlap' | 'cinnamon' | 'olive';
+  kicker?: string;
+  /** Element for the kicker — h2 when it is the section's heading in the page's outline. */
+  kickerAs?: 'div' | 'h2';
+  quote: string;
+  link?: { href: string; label: string; external?: boolean };
+  /** Which side the line sits on from lg. */
+  align?: 'left' | 'right';
+  /** Mobile frame ratio; 2/3 shows a portrait photo whole, 4/5 crops it. */
+  ratio?: '2/3' | '4/5';
+  tint?: boolean;
+  frame?: boolean;
+  class?: string;
+}
+
+const {
+  photo,
+  alt = '',
+  position = '50% 50%',
+  mode = 'olive',
+  kicker,
+  kickerAs: KickerTag = 'div',
+  quote,
+  link,
+  align = 'right',
+  ratio = '2/3',
+  tint = true,
+  frame = true,
+  class: className,
+} = Astro.props;
+
+// Scrims resolve toward the section surface so the text always sits on its own mode's ground.
+const scrimTop =
+  'background:linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 86%, transparent) 0%, color-mix(in srgb, var(--color-surface) 62%, transparent) 40%, color-mix(in srgb, var(--color-surface) 0%, transparent) 74%);';
+const scrimBottom =
+  'background:linear-gradient(to top, color-mix(in srgb, var(--color-surface) 78%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 62%);';
+const wash = 'background:var(--color-surface); opacity:0.28; mix-blend-mode:multiply;';
+const hairline = 'border-color:color-mix(in srgb, var(--color-ink) 55%, transparent);';
+---
+
+<Section mode={mode} data-reveal="lift" class:list={['relative w-full overflow-hidden', className]}>
+  <div
+    class:list={[
+      'relative flex w-full flex-col justify-start lg:justify-end',
+      ratio === '2/3' ? 'aspect-[2/3]' : 'aspect-[4/5]',
+      'sm:aspect-[3/4] lg:aspect-[16/9] lg:max-h-[760px]',
+    ]}
+  >
+    <Image src={photo} alt={alt} widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" style={`object-position:${position};`} />
+    {tint && <div class="pointer-events-none absolute inset-0" style={wash} />}
+    <div class="pointer-events-none absolute inset-0 lg:hidden" style={scrimTop}></div>
+    <div class="pointer-events-none absolute inset-0 hidden lg:block" style={scrimBottom}></div>
+    {frame && <div class="pointer-events-none absolute inset-2.5 border md:inset-5 lg:inset-10" style={hairline} />}
+
+    <div class="relative pt-8 pb-10 md:pt-10 lg:pt-0 lg:pb-16">
+      <Grid>
+        <div class:list={['lg:col-span-5', align === 'right' ? 'lg:col-start-8' : 'lg:col-start-1']}>
+          {
+            kicker && (
+              <KickerTag class="eyebrow mb-4 flex items-center gap-x-3 lg:mb-5">
+                <span aria-hidden="true" class="h-px w-6 flex-none bg-ink" />
+                {kicker}
+              </KickerTag>
+            )
+          }
+          <p class="max-w-[26ch] font-display italic text-title text-ink lg:text-quote">{quote}</p>
+          {
+            link && (
+              <a
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener' : undefined}
+                class="nav-link mt-4 inline-flex text-ink underline underline-offset-[0.3em] hover:opacity-75 lg:mt-6"
+              >
+                {link.label}
+              </a>
+            )
+          }
+        </div>
+      </Grid>
+    </div>
+  </div>
+</Section>

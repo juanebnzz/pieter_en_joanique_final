@@ -7,6 +7,7 @@ import Grid from '../components/site/Grid.astro';
 import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
+import Interlude from '../components/site/Interlude.astro';
 import ch1 from '../assets/photos/gallery/g-37.jpg';
 import ch2 from '../assets/photos/gallery/g-02.jpg';
 import ch3 from '../assets/photos/gallery/g-04.jpg';
@@ -133,22 +134,17 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
             </Grid>
           </Section>
 
-          {/* INTERSTITIAL · olive, full bleed; anchored to the bottom of the aerial frame so the couple stay in shot, with the line over the empty floor at right */}
+          {/* INTERSTITIAL · olive, full bleed. On desktop the line sits over the empty floor at right; on a phone it
+              sits at the top of the frame over the wall, above the couple. */}
           {c.bandAfter && (
-            <Section mode="olive" data-reveal="lift" class="relative w-full overflow-hidden">
-              <div class="relative aspect-[4/5] w-full md:aspect-[3/2] lg:aspect-[16/9] lg:max-h-[760px]">
-                <Image src={bandPhoto} alt="" widths={[800, 1400, 2400]} sizes="100vw" class="absolute inset-0 h-full w-full object-cover" style="object-position:50% 90%;" />
-                <div class="pointer-events-none absolute inset-0 hidden lg:block" style="background:linear-gradient(to top, color-mix(in srgb, var(--color-surface) 75%, transparent) 0%, color-mix(in srgb, var(--color-surface) 0%, transparent) 65%);" />
-              </div>
-              {/* Below lg the line sits beneath the photo; from lg it overlays the empty floor at right. */}
-              <div class="py-8 md:py-10 lg:absolute lg:inset-x-0 lg:bottom-0 lg:py-0">
-                <Grid class="lg:pb-16">
-                  <p class="max-w-[26ch] font-display italic text-quote text-ink lg:col-start-8 lg:col-span-5">
-                    Through every laugh, every adventure, every challenge and every ordinary moment in between, Jeremiah 29:11 has been a constant reminder that God has a plan for their lives.
-                  </p>
-                </Grid>
-              </div>
-            </Section>
+            <Interlude
+              photo={bandPhoto}
+              position="50% 90%"
+              mode="olive"
+              kicker="Jeremiah 29:11"
+              quote="Through every laugh, every adventure, every challenge and every ordinary moment in between, Jeremiah 29:11 has been a constant reminder that God has a plan for their lives."
+              align="right"
+            />
           )}
         </>
       );

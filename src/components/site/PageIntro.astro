@@ -21,15 +21,21 @@ interface Props {
   ratio?: string;
   /** object-position, when the subject sits off centre. */
   position?: string;
+  /** Push the text block below the image top and centre it (default). Set false to top-align the column with the photo instead. */
+  offset?: boolean;
 }
-const { kicker, title, lead, photo, alt = '', ratio = '4/5', position = '50% 40%' } = Astro.props;
+const { kicker, title, lead, photo, alt = '', ratio = '4/5', position = '50% 40%', offset = true } = Astro.props;
+// A "\n" in the title sets a deliberate line break, so a date never wraps by accident.
+const titleLines = title.split('\n');
 ---
 
 <Section mode="linen" class="pt-8 pb-10 md:pt-10 md:pb-14 lg:pt-14 lg:pb-16">
   <Grid class="gap-y-8 sm:grid-cols-12 sm:gap-x-6 lg:gap-y-10">
-    <div class:list={[photo ? 'sm:col-span-7 sm:self-center sm:pt-6 lg:col-span-6 lg:pt-16' : 'sm:col-span-10 lg:col-span-8']}>
+    <div class:list={[photo ? 'sm:col-span-7 lg:col-span-6' : 'sm:col-span-10 lg:col-span-8', photo && (offset ? 'sm:self-center sm:pt-6 lg:pt-16' : 'sm:self-start sm:pt-2')]}>
       <div class="eyebrow mb-6">{kicker}</div>
-      <h1 class="font-display font-medium text-display text-ink">{title}</h1>
+      <h1 class="font-display font-medium text-display text-ink">
+        {titleLines.length > 1 ? titleLines.map((l) => <span class="block">{l}</span>) : title}
+      </h1>
       {lead && <p class="mt-6 max-w-[44ch] font-display text-lead text-ink lg:mt-8">{lead}</p>}
       <slot />
     </div>

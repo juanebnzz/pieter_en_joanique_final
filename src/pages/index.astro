@@ -5,8 +5,9 @@ import Section from '../components/site/Section.astro';
 import Grid from '../components/site/Grid.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
+import Interlude from '../components/site/Interlude.astro';
 import hero from '../assets/photos/hero.jpg';
-import storyPhoto from '../assets/photos/gallery/g-21.jpg';
+import storyPhoto from '../assets/photos/gallery/g-39.jpg';
 import moment1 from '../assets/photos/gallery/g-30.jpg';
 import moment2 from '../assets/photos/gallery/g-41.jpg';
 import moment3 from '../assets/photos/gallery/g-45.jpg';
@@ -29,6 +30,8 @@ const orientation = [
   { label: 'The Place', detail: 'Tshikwalo Game Lodge, Dinokeng Game Reserve' },
   { label: 'RSVP by', detail: '28 September 2026' },
 ];
+
+const storyAlt = 'Black and white photograph of Pieter and Joanique standing close, looking at a single framed print on a wide white gallery wall.';
 
 const moments = [
   { src: moment1, alt: 'Pieter and Joanique holding hands in a doorway, framed by white walls with a parquet floor beneath them.' },
@@ -124,8 +127,21 @@ const moments = [
     </Grid>
   </Section>
 
-  <!-- OUR STORY TEASER · burlap — the one warm interlude. Mirrors the hero: text 1–5, photo 7–12 (from sm). -->
-  <Section mode="burlap" data-reveal class="py-14 md:py-20 lg:py-24">
+  <!-- OUR STORY TEASER · burlap — the one warm interlude. On a phone it is the Our Story band: the line written
+       over the photo, at the top of the frame above the couple. From sm it mirrors the hero instead: text 1–5,
+       photo 7–12. Two renders of the same photo; the hidden one is lazy and never requested. -->
+  <Interlude
+    class="sm:hidden"
+    photo={storyPhoto}
+    alt={storyAlt}
+    position="50% 75%"
+    ratio="4/5"
+    mode="burlap"
+    kicker="Our Story"
+    quote="Officially, it was just coffee."
+    link={{ href: '/our-story', label: 'Read our story →' }}
+  />
+  <Section mode="burlap" data-reveal class="hidden py-14 sm:block md:py-20 lg:py-24">
     <Grid class="gap-y-8 sm:grid-cols-12 sm:gap-x-6 lg:gap-y-10">
       <div class="order-2 sm:order-1 sm:col-span-5 sm:self-center lg:pt-24">
         <div class="eyebrow mb-6">Our Story</div>
@@ -133,13 +149,7 @@ const moments = [
         <a href="/our-story" class="nav-link inline-flex text-ink underline underline-offset-[0.3em] hover:opacity-75">Read our story →</a>
       </div>
       <div class="relative order-1 aspect-[4/5] overflow-hidden sm:order-2 sm:col-start-7 sm:col-span-6">
-        <Image
-          src={storyPhoto}
-          alt="Joanique turning to smile at Pieter, who sits watching her, in front of a wall of framed prints in the green gallery."
-          widths={[640, 1024, 1600]}
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          class="absolute inset-0 h-full w-full object-cover"
-        />
+        <Image src={storyPhoto} alt={storyAlt} widths={[640, 1024, 1600]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" />
       </div>
     </Grid>
   </Section>

@@ -10,19 +10,19 @@ export const STAY_OPTIONS: Record<
   { label: string; adultCents: number; nights: number; smallPrint: string; priceLabel: string }
 > = {
   friday_saturday: {
-    label: 'Friday & Saturday Nights',
-    priceLabel: 'R2 100 pp',
+    label: 'Friday & Saturday nights',
+    priceLabel: 'R2 100 per person',
     adultCents: 210_000,
     nights: 2,
     smallPrint:
-      'Friday bonfire dinner, two nights of accommodation, breakfast on Saturday and Sunday, all the wedding events, and the complimentary three-hour game drive with snacks.',
+      "Two nights at the lodge. Includes Friday's bonfire dinner, breakfast on Saturday and Sunday, all the wedding events, and the complimentary three-hour game drive with snacks.",
   },
   saturday: {
-    label: 'Saturday Night Only',
-    priceLabel: 'R965 pp',
+    label: 'Saturday night only',
+    priceLabel: 'R965 per person',
     adultCents: 96_500,
     nights: 1,
-    smallPrint: 'All the wedding events, Saturday night accommodation and Sunday breakfast. The game drive is not included, but can be added for R450 per person.',
+    smallPrint: 'One night at the lodge. Includes all the wedding events, Saturday night\'s accommodation and Sunday breakfast. The game drive can be added for R450 per person.',
   },
 };
 

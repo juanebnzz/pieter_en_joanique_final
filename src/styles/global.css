@@ -54,7 +54,7 @@
 @theme static {
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Jost', system-ui, sans-serif;
-  /* Wedding voice — the hero names and the invitation lockup only. */
+  /* Wedding voice — The Weekend's day names and prices only. */
   --font-statement: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
   --font-script: 'Pinyon Script', 'Snell Roundhand', 'Brush Script MT', cursive;
 

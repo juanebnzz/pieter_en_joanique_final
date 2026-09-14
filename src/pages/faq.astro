@@ -23,7 +23,7 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   // Written for the oldest guest in the room: no "plus-one", "EFT" and "cash bar" spelled out, every
   // step in order, and a phone number wherever a form or a link might be a hurdle.
   {
-    q: 'When do I need to RSVP by?',
+    q: 'When do I need to RSVP?',
     a: `Please let us know by ${RSVP_DEADLINE}, using the form on the RSVP page. It only takes a minute: you tell us whether you are coming, who is coming with you and which nights you are staying, and the form works out your total for you.`,
     links: [{ label: 'Go to the RSVP form →', href: '/rsvp' }],
   },
@@ -46,16 +46,16 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'Do I have to stay at the venue, or can I stay somewhere else?',
-    a: 'Saturday night at Tshikwalo is part of the invitation. The lodge is inside the Dinokeng Game Reserve, and the reserve gates close in the evening, so there is no driving out after the reception. Besides, the reception runs late and there is breakfast together on Sunday morning, so we would love you to stay over with us. If that is tricky for you, give Pieter a call and we will find a way.',
+    a: 'Saturday night at Tshikwalo is part of the invitation. The lodge is inside the Dinokeng Game Reserve and the reserve gates close in the evening, so there is no driving out after the reception. The reception also runs late, and we have breakfast together on Sunday morning, so we would love you to stay over with us. If that is tricky for you, give Pieter a call and we will find a way.',
     links: [{ label: 'Call Pieter →', href: 'tel:+27837980144' }],
   },
   {
     q: 'What time is check-in and check-out?',
-    a: 'Check-in from 14:00 (2 pm) on Friday, or from 11:00 (11 am) on Saturday. Check-out at 10:00 (10 am) on Sunday, after breakfast.',
+    a: 'Check-in from 14:00 on Friday, or from 11:00 on Saturday. Check-out at 10:00 on Sunday, after breakfast.',
   },
   {
     q: 'What time is the ceremony?',
-    a: 'The ceremony is on Saturday at 15:00 (3 pm). Please be seated by 14:30 (2:30 pm). Canapés follow at 16:00 (4 pm), the reception dinner starts at 18:00 (6 pm), and the last dance is at 23:30 (11:30 pm).',
+    a: 'The ceremony is on Saturday at 15:00. Please be seated by 14:30. Canapés follow at 16:00, the reception dinner starts at 18:00, and the last dance is at 23:30.',
     links: [{ label: 'See the full programme →', href: '/the-weekend' }],
   },
   {
@@ -64,12 +64,12 @@ const faqs: { q: string; a: string; links?: Link[] }[] = [
   },
   {
     q: 'What does the price include?',
-    a: `Friday and Saturday guests get Friday dinner at the bonfire, two nights of accommodation, breakfast on both mornings, all the wedding events and the complimentary three-hour game drive. Saturday-only guests get the wedding events, Saturday night accommodation and Sunday breakfast; the game drive can be added for ${formatRand(GAME_DRIVE_CENTS)} per person. Drinks at the bar are for your own account.`,
+    a: `If you stay both nights, Friday and Saturday, your price includes Friday's bonfire dinner, two nights of accommodation, breakfast on both mornings, all the wedding events and the complimentary three-hour game drive. If you stay Saturday night only, it includes all the wedding events, Saturday night's accommodation and Sunday breakfast, and the game drive can be added for ${formatRand(GAME_DRIVE_CENTS)} per person. Drinks at the bar are for your own account.`,
     links: [{ label: 'See the prices →', href: '/the-weekend#payment' }],
   },
   {
     q: 'Is there a game drive?',
-    a: `Yes. The lodge runs a three-hour game drive through the reserve, with snacks along the way. It is complimentary if you stay the whole weekend, Friday and Saturday. If you only stay on Saturday you are welcome to join it, at ${formatRand(GAME_DRIVE_CENTS)} per person, arranged separately from your accommodation.`,
+    a: `Yes. The lodge runs a three-hour game drive through the reserve, with snacks along the way. It is complimentary if you stay both nights, Friday and Saturday. If you stay Saturday night only, you are welcome to join it at ${formatRand(GAME_DRIVE_CENTS)} per person, arranged separately from your accommodation.`,
   },
   {
     q: 'Is there a conservation fee?',

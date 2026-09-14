@@ -4,14 +4,14 @@ import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
 import Section from '../components/site/Section.astro';
 import Grid from '../components/site/Grid.astro';
-import Editorial from '../components/site/Editorial.astro';
 import DetailRows from '../components/site/DetailRows.astro';
 import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 import introPhoto from '../assets/photos/gallery/g-16.jpg';
 import fridayPhoto from '../assets/photos/gallery/g-22.jpg';
-import saturdayPhoto from '../assets/photos/gallery/g-05.jpg';
+import lodgePhoto from '../assets/photos/gallery/g-34.jpg';
+import venueDrawing from '../assets/illustrations/ceremony-venue.png';
 import {
   BANK_DETAILS,
   CHILD_PER_NIGHT_CENTS,
@@ -24,24 +24,33 @@ import {
 
 export const prerender = true;
 
+/*
+ * Five movements: intro → the days → one wide photograph → the practicals as
+ * a spec-sheet grid → everything money in one burlap block that ends on the
+ * RSVP button. Lead-size serif is reserved for the intro and the ceremony;
+ * every utilitarian fact sits at body size, and hairlines separate blocks,
+ * not facts.
+ */
+
 type Row = { time: string; event: string; ceremony?: boolean };
-// Each day is a split: the day heading hangs beside its timeline and a portrait
-// sits in the outer columns, alternating sides so the page zigzags. Sunday is
-// a coda — two rows, no portrait. On a phone the portrait leads the day at
-// full width (cropped to 4/3 so two of them don't swallow the screen), then
-// the heading, then the timeline, so each day has a clean visual start.
-// `phonePosition` is the crop focus for that landscape frame. Every frame
-// here is unique to this page.
+// Each day is a split: the day heading hangs beside its timeline and a picture
+// sits in the outer columns, alternating sides so the page zigzags. Friday's is
+// a photograph; Saturday's is the ceremony pavilion, drawn in ink, sitting
+// beside the Ceremony row — the picture for that day, at the same scale as
+// the photograph. Sunday is a coda: two rows, no picture. On a phone the
+// picture leads the day at full width, then the heading, then the timeline.
+// `phonePosition` is the crop focus for the photograph's 4/3 phone frame.
 const days: {
   day: string;
   date: string;
   photo: ImageMetadata | null;
+  drawing?: boolean;
+  caption?: string;
   alt: string;
   position: string;
   phonePosition: string;
   photoLeft: boolean;
   rows: Row[];
-  note: string | null;
 }[] = [
   {
     day: 'Friday',
@@ -55,25 +64,25 @@ const days: {
       { time: '14:00', event: 'Guests arrive' },
       { time: '18:00', event: 'Bonfire and burger night' },
     ],
-    note: 'Friday night accommodation at Tshikwalo Game Lodge',
   },
   {
     day: 'Saturday',
     date: '14 November',
-    photo: saturdayPhoto,
-    alt: 'Pieter and Joanique dancing hand in hand between two colourful paintings, her dress swinging.',
-    position: '50% 50%',
-    phonePosition: '50% 40%',
+    photo: venueDrawing,
+    drawing: true,
+    caption: 'Where we say I do',
+    alt: 'Line drawing of the ceremony pavilion: a pitched timber roof on brick pillars, with an arched doorway between tall windows.',
+    position: '',
+    phonePosition: '',
     photoLeft: true,
     rows: [
-      { time: '08:00', event: 'Breakfast at the lodge restaurant, for Friday guests' },
+      { time: '08:00', event: 'Breakfast, for Friday guests' },
       { time: '11:00', event: 'Saturday guests arrive' },
       { time: '14:30 for 15:00', event: 'Ceremony', ceremony: true },
       { time: '16:00', event: 'Canapés' },
       { time: '18:00', event: 'Reception' },
       { time: '23:30', event: 'Last dance' },
     ],
-    note: 'Saturday night accommodation at Tshikwalo Game Lodge',
   },
   {
     day: 'Sunday',
@@ -87,62 +96,77 @@ const days: {
       { time: '08:00', event: 'Breakfast for all guests' },
       { time: '10:00', event: 'Checkout' },
     ],
-    note: null,
   },
 ];
 
-const stay = [
-  ['Check-in', 'Friday from 14:00'],
-  ['Check-in', 'Saturday from 11:00'],
-  ['Check-out', 'Sunday at 10:00'],
-];
-
-// One list for everything practical — each fact once.
-const goodToKnow = [
-  'A complimentary game drive for guests staying from Friday',
-  'A cash bar and the Tshikwalo "The Roots" restaurant are open all weekend',
-  'After the reception, the boma and bonfire stay open',
-  'Bring swimwear for the pool',
-  'No outside food or drinks are permitted',
-  'The venue is reached by a dirt road, suitable for all vehicles. Secure parking is provided',
-];
-
-const perPerson = (cents: number) => `${formatRand(cents)} per person`;
-const costs = [
-  { title: 'Friday and Saturday', price: perPerson(STAY_OPTIONS.friday_saturday.adultCents), detail: STAY_OPTIONS.friday_saturday.smallPrint },
-  { title: 'Saturday only', price: perPerson(STAY_OPTIONS.saturday.adultCents), detail: STAY_OPTIONS.saturday.smallPrint },
-  { title: 'Children 2 to 12', price: `${formatRand(CHILD_PER_NIGHT_CENTS)} per child per night`, detail: 'Children under 2 stay free.' },
+// The practicals — six cells, each a label and a line or two. Every fact once.
+const practicals = [
   {
-    title: 'Conservation fee',
-    price: `${formatRand(CONSERVATION_FEE_CENTS)} per family`,
-    detail: "Dinokeng Game Reserve's fee, charged once per household. It is included in your payment to us, so there is nothing to settle at the gate.",
+    label: 'Check-in',
+    text: 'Friday from 14:00, or Saturday from 11:00. Saturday night is compulsory — we are booking out the whole lodge, so if you have other arrangements please talk to us.',
+  },
+  { label: 'Check-out', text: 'Sunday at 10:00, after breakfast.' },
+  {
+    label: 'Dress code',
+    text: 'Semi-formal, earth-toned and summery to suit the bush. Please avoid black, white, red and purple where possible.',
+  },
+  {
+    label: 'Food & drink',
+    text: 'A cash bar and The Roots restaurant are open all weekend. No outside food or drinks, please.',
+  },
+  { label: 'Getting there', text: 'The last stretch is a dirt road, fine for any car. Secure parking at the lodge.' },
+  {
+    label: 'In between',
+    text: 'A complimentary game drive for Friday guests, the pool (bring swimwear), and the boma and bonfire stay open after the reception.',
   },
 ];
 
-const body = 'max-w-[64ch] font-display text-lead text-ink';
-const listRow = 'border-t border-rule py-4 max-w-[64ch] font-display text-lead text-ink';
+const tiers = [
+  { title: 'Friday & Saturday', stayLabel: 'Two nights', ...STAY_OPTIONS.friday_saturday },
+  { title: 'Saturday only', stayLabel: 'One night', ...STAY_OPTIONS.saturday },
+];
+
+const kicker = 'eyebrow m-0 mb-6 lg:col-start-2 lg:col-span-2 lg:mb-0 lg:pr-6';
+const content = 'lg:col-start-4 lg:col-span-8';
 const timeCell = 'font-body font-medium text-small lg:w-[8.5em] lg:flex-none';
 ---
 
 <Base title="The Weekend — Pieter & Joanique">
   <Nav />
 
+  <!-- 1 · INTRO · text and photograph share a top edge; the date is set on two deliberate lines -->
   <PageIntro
     kicker="The Weekend"
-    title="Friday 13 to Sunday 15 November 2026"
+    title={'Friday 13 — Sunday 15\nNovember 2026'}
     lead="Join us for a weekend away in the beautiful Dinokeng Game Reserve, as we celebrate the beginning of our marriage."
     photo={introPhoto}
     alt="Joanique pulling Pieter along by the hand across the green gallery, both laughing."
+    ratio="5/6"
     position="50% 45%"
+    offset={false}
   >
-    <p class="mt-6 max-w-[44ch] font-display italic text-lead text-ink">The ceremony is on Saturday at 15:00. Please be seated from 14:30.</p>
+    <p class="mt-6 max-w-[44ch] font-display italic text-lead text-ink">
+      The ceremony is on Saturday at 15:00.<br class="hidden sm:block" /> Please be seated from 14:30.
+    </p>
   </PageIntro>
 
+  <!-- 2 · THE DAYS -->
   {
     days.map((d) => (
-      <Section mode="linen" data-reveal class="py-10 md:py-14 lg:py-16">
-        <Grid class="gap-y-6 border-t border-rule pt-8 sm:grid-cols-12 sm:gap-x-6 md:pt-10 lg:gap-y-8 lg:pt-14">
-          {d.photo && (
+      <Section mode="linen" data-reveal class="py-8 md:py-10 lg:py-12">
+        <Grid class="gap-y-6 border-t border-rule pt-8 sm:grid-cols-12 sm:gap-x-6 md:pt-10 lg:gap-y-8 lg:pt-12">
+          {d.photo && d.drawing && (
+            <figure
+              class:list={[
+                'm-0 sm:self-center lg:row-start-1',
+                d.photoLeft ? 'sm:row-start-2 sm:col-start-1 sm:col-span-4' : 'sm:row-start-2 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3',
+              ]}
+            >
+              <Image src={d.photo} alt={d.alt} widths={[480, 800, 1200]} sizes="(min-width: 1680px) 540px, (min-width: 640px) 33vw, 100vw" class="h-auto w-full" />
+              {d.caption && <figcaption class="eyebrow mt-4">{d.caption}</figcaption>}
+            </figure>
+          )}
+          {d.photo && !d.drawing && (
             <div
               class:list={[
                 'relative aspect-[4/3] overflow-hidden sm:aspect-[4/5] lg:row-start-1',
@@ -198,86 +222,116 @@ const timeCell = 'font-body font-medium text-small lg:w-[8.5em] lg:flex-none';
                 </div>
               ),
             )}
-            {d.note && <p class="mt-5 font-display italic text-lead text-ink lg:mt-6">{d.note}</p>}
           </div>
         </Grid>
       </Section>
     ))
   }
 
-  <Editorial kicker="Staying With Us" reveal={false}>
-    <p class:list={['mb-6', body]}>
-      Saturday night accommodation is compulsory, as we are booking out the entire venue. If you have other arrangements,
-      please contact us directly and we will make the necessary adjustments.
-    </p>
-    {
-      stay.map(([k, v]) => (
-        <div class="flex items-baseline gap-5 border-t border-rule py-4 sm:gap-6">
-          <div class="w-[6.5em] flex-none font-body font-medium text-small text-ink sm:w-[8.5em]">{k}</div>
-          <div class="font-display text-lead text-ink">{v}</div>
-        </div>
-      ))
-    }
-  </Editorial>
-
-  <Editorial kicker="Good To Know" reveal={false}>
-    {goodToKnow.map((t) => <div class={listRow}>{t}</div>)}
-  </Editorial>
-
-  <!-- COSTS + HOW TO PAY · burlap — the page's one interlude, so the money information stands apart -->
-  <Editorial kicker="What It Costs" mode="burlap" id="payment" reveal={false}>
-    {
-      costs.map((c) => (
-        <div class="max-w-[64ch] border-t border-rule py-5">
-          <div class="flex flex-col gap-y-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-6">
-            <h3 class="m-0 font-display font-medium text-title text-ink">{c.title}</h3>
-            <p class="m-0 whitespace-nowrap font-body font-medium text-body text-ink">{c.price}</p>
-          </div>
-          <p class="mt-2 max-w-[56ch] font-body text-body text-ink">{c.detail}</p>
-        </div>
-      ))
-    }
-    <p class="mt-6 max-w-[64ch] font-display italic text-lead text-ink">
-      Your household's total is worked out for you on the{' '}
-      <a href="/rsvp" class="underline underline-offset-[0.2em] hover:opacity-75">RSVP form</a>.
-    </p>
-
-    <div class="mt-12">
-      <h3 class="eyebrow m-0 mb-5">How To Pay</h3>
-      <p class:list={['mb-6', body]}>
-        Accommodation is paid by EFT, directly to us. Please use your initials and surname as the reference.
-      </p>
-      <DetailRows rows={[{ label: 'Pay by', value: PAYMENT_DEADLINE }, ...BANK_DETAILS]} />
+  <!-- 3 · BREATH · the page's one wide photograph, and where the lodge is -->
+  <Section mode="linen" data-reveal class="pt-6 md:pt-8 lg:pt-10">
+    <div class="relative aspect-[3/2] w-full overflow-hidden sm:aspect-[21/9]">
+      <Image
+        src={lodgePhoto}
+        alt="Black and white photograph of Pieter and Joanique walking towards each other across a wide gallery floor."
+        widths={[800, 1280, 1920, 2560]}
+        sizes="100vw"
+        class="absolute inset-0 h-full w-full object-cover object-[50%_60%]"
+      />
     </div>
-  </Editorial>
+    <Grid class="pt-6 md:pt-8">
+      <h2 class={kicker}>Finding Us</h2>
+      <div class={content}>
+        <a
+          href="https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99"
+          target="_blank"
+          rel="noopener"
+          class="font-display italic text-title text-ink underline underline-offset-[0.2em] hover:opacity-75"
+          >Tshikwalo Game Lodge, Dinokeng Game Reserve →</a
+        >
+      </div>
+    </Grid>
+  </Section>
 
-  <Editorial kicker="What To Wear" reveal={false}>
-    <p class={body}>
-      The dress code is semi-formal. We are keeping things earth-toned and summery to suit the bush setting, so please avoid
-      black, white, red and purple where possible.
-    </p>
-  </Editorial>
+  <!-- 4 · THE PRACTICALS · spec-sheet grid, no hairlines between facts -->
+  <Section mode="linen" class="py-12 md:py-14 lg:py-16">
+    <Grid class="border-t border-rule pt-8 md:pt-10 lg:pt-12">
+      <h2 class={kicker}>The Practicals</h2>
+      <dl class:list={['m-0 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-10', content]}>
+        {
+          practicals.map((p) => (
+            <div class="max-w-[34ch]">
+              <dt class="mb-2 font-body font-medium text-small text-ink">{p.label}</dt>
+              <dd class="m-0 font-display text-[1.15rem] leading-[1.55] text-ink">{p.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </Grid>
+  </Section>
 
-  <!-- TODO(content): written address, driving times from Pretoria / Johannesburg, and which Dinokeng gate to use — to come from Pieter and Joanique. -->
-  <Editorial kicker="Finding Us" reveal={false}>
-    <a
-      href="https://maps.app.goo.gl/VG91Q6UzcwRK1Pd99"
-      target="_blank"
-      rel="noopener"
-      class="font-display italic text-title text-ink underline underline-offset-[0.2em] hover:opacity-75"
-      >Tshikwalo Game Lodge, Dinokeng Game Reserve →</a
-    >
-  </Editorial>
+  <!-- 5 · MONEY · one burlap block: tiers, small print, banking (collapsed), the ask -->
+  <Section mode="burlap" id="payment" class="scroll-mt-8 py-12 md:py-14 lg:py-16">
+    <Grid>
+      <h2 class={kicker}>What It Costs</h2>
+      <div class={content}>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+          {
+            tiers.map((t) => (
+              <div class="border border-rule p-5 sm:p-6 lg:p-8">
+                <p class="eyebrow m-0 mb-4">{t.stayLabel}</p>
+                <h3 class="m-0 font-display font-medium text-title text-ink">{t.title}</h3>
+                <p class="m-0 mt-3 font-display text-display leading-none text-ink">
+                  {formatRand(t.adultCents)}
+                  <span class="ml-1 font-body font-medium text-small text-ink">per person</span>
+                </p>
+                <p class="m-0 mt-5 max-w-[34ch] font-body text-small leading-[1.6] text-ink">{t.smallPrint}</p>
+              </div>
+            ))
+          }
+        </div>
 
-  <!-- CLOSING ASK · the page ends on the one thing we need from a guest -->
-  <Editorial kicker="RSVP" reveal={false} class="pb-20 lg:pb-28">
-    <p class="m-0 max-w-[24ch] font-display font-medium text-title text-ink">Kindly respond by {RSVP_DEADLINE}.</p>
-    <a
-      href="/rsvp"
-      class="mt-8 flex min-h-[56px] w-full max-w-[360px] items-center justify-center bg-ink px-6 font-body font-medium text-[0.85rem] uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-85"
-      >RSVP now</a
-    >
-  </Editorial>
+        <p class="mt-6 max-w-[64ch] font-body text-body text-ink">
+          Children under 2 stay free; ages 2 to 12 are {formatRand(CHILD_PER_NIGHT_CENTS)} per child per night. Every household's
+          total includes the {formatRand(CONSERVATION_FEE_CENTS)} Dinokeng conservation fee, so there is nothing to pay at the gate.
+          Your total is worked out for you on the RSVP form.
+        </p>
+
+        <details id="banking" class="group mt-8 scroll-mt-8 border-t border-b border-rule">
+          <summary class="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-4 py-3 font-display font-medium text-title text-ink [&::-webkit-details-marker]:hidden">
+            Banking details
+            <span aria-hidden="true" class="font-display text-[1.6rem] leading-none transition-transform duration-300 group-open:rotate-45">+</span>
+          </summary>
+          <div class="pb-6">
+            <p class="mb-4 max-w-[64ch] font-body text-body text-ink">
+              Accommodation is paid by EFT, directly to us, by {PAYMENT_DEADLINE}. Please use your initials and surname as the
+              reference.
+            </p>
+            <DetailRows rows={BANK_DETAILS} />
+          </div>
+        </details>
+
+        <div class="mt-10 flex flex-col gap-y-5 sm:flex-row sm:items-center sm:justify-between sm:gap-x-8">
+          <p class="m-0 max-w-[24ch] font-display font-medium text-title text-ink">Kindly respond by {RSVP_DEADLINE}.</p>
+          <a
+            href="/rsvp"
+            class="flex min-h-[56px] w-full flex-none items-center justify-center bg-ink px-8 font-body font-medium text-[0.85rem] uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-85 sm:w-auto"
+            >RSVP now</a
+          >
+        </div>
+      </div>
+    </Grid>
+  </Section>
 
   <Footer />
 </Base>
+
+<script>
+  // Deep links to the money block (#payment from the RSVP page, #banking) open the banking disclosure.
+  const banking = document.querySelector<HTMLDetailsElement>('#banking');
+  const openIfLinked = () => {
+    if (banking && /^#(payment|banking)$/.test(location.hash)) banking.open = true;
+  };
+  openIfLinked();
+  window.addEventListener('hashchange', openIfLinked);
+</script>

@@ -6,7 +6,7 @@ import PageIntro from '../components/site/PageIntro.astro';
 import Nav from '../components/site/Nav.astro';
 import Footer from '../components/site/Footer.astro';
 import RsvpForm from '../components/site/RsvpForm';
-import banner from '../assets/photos/gallery/g-33.jpg';
+import banner from '../assets/photos/gallery/g-22.jpg';
 import { RSVP_DEADLINE } from '../lib/pricing';
 
 export const prerender = true;
@@ -17,13 +17,17 @@ export const prerender = true;
 
   <PageIntro
     kicker="RSVP"
-    title="Kindly respond by 28 September"
-    lead={`We would love to know whether you can join us. Please reply by ${RSVP_DEADLINE}.`}
+    title={'Will you\njoin us?'}
+    lead="We would love to know whether you can be there, and which nights you are staying. Your household's total is worked out for you as you go."
     photo={banner}
-    alt="Black and white close-up of Pieter and Joanique's hands reaching for each other, her engagement ring catching the light."
-    ratio="3/2"
+    alt="Pieter and Joanique walking away hand in hand along a green gallery wall of framed prints."
+    ratio="5/6"
     position="50% 50%"
-  />
+    anchor
+    detail="Saturday 14 November 2026"
+  >
+    <p slot="foot" class="m-0 max-w-[44ch] font-display italic text-lead text-ink">Kindly respond by {RSVP_DEADLINE}.</p>
+  </PageIntro>
 
   <!-- FORM · linen, columns 3–9 -->
   <Section mode="linen" class="pb-20 lg:pb-28">

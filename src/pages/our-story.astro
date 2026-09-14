@@ -14,6 +14,7 @@ import ch3 from '../assets/photos/gallery/g-04.jpg';
 import ch4 from '../assets/photos/gallery/g-32.jpg';
 import ch5 from '../assets/photos/gallery/g-25.jpg';
 import bandPhoto from '../assets/photos/gallery/g-11.jpg';
+import introPhoto from '../assets/photos/gallery/g-21.jpg';
 
 export const prerender = true;
 
@@ -101,7 +102,19 @@ const chapters: { label: string; oversized: string; body: string[]; src: ImageMe
 <Base title="Our Story · Pieter & Joanique">
   <Nav />
 
-  <PageIntro kicker="Our Story" title="How it happened" />
+  <PageIntro
+    kicker="Our Story"
+    title={'How it\nhappened'}
+    lead="Five chapters, in our own words."
+    photo={introPhoto}
+    alt="Joanique looking back over her shoulder at Pieter, smiling, in front of a green gallery wall of framed prints."
+    ratio="5/6"
+    position="50% 30%"
+    anchor
+    detail="Since 25 June 2024"
+  >
+    <p slot="foot" class="m-0 max-w-[44ch] font-display italic text-lead text-ink">It started with a sleeve, one chilly evening in June.</p>
+  </PageIntro>
 
   {
     chapters.map((c, i) => {

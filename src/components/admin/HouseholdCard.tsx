@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { api, rands, RSVP_LABEL, STAY_LABEL, type HouseholdRow } from './api';
+import ConfirmDialog from './ConfirmDialog';
 import type { RsvpStatus } from '../../lib/supabase';
 
 // Status is carried by the label text; chips are hairline-ruled, never filled.
@@ -19,6 +20,12 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  // What the confirm dialog is asking about; null when closed.
+  const [pending, setPending] = useState<
+    | { kind: 'payment'; id: string; amount: number }
+    | { kind: 'household' }
+    | null
+  >(null);
 
   async function run(fn: () => Promise<unknown>) {
     setBusy(true);
@@ -30,6 +37,7 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
       setErr(e instanceof Error ? e.message : 'Failed');
     } finally {
       setBusy(false);
+      setPending(null);
     }
   }
 
@@ -42,7 +50,6 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
         name: f.get('name'),
         email: f.get('email') || null,
         phone: f.get('phone') || null,
-        invite_code: f.get('invite_code') || null,
         max_guests: Number(f.get('max_guests') || 1),
         rsvp_status: f.get('rsvp_status') as RsvpStatus,
         stay: stay ? stay : null,
@@ -139,7 +146,6 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
             <input name="name" defaultValue={h.name ?? ''} className={`${input} sm:col-span-3`} />
             <input name="email" defaultValue={h.email ?? ''} placeholder="Email" className={input} />
             <input name="phone" defaultValue={h.phone ?? ''} placeholder="Phone" className={input} />
-            <input name="invite_code" defaultValue={h.invite_code ?? ''} placeholder="Invite code" className={input} />
             <select name="rsvp_status" defaultValue={h.rsvp_status!} className={input}>
               <option value="pending">No reply yet</option>
               <option value="attending">Attending</option>
@@ -184,7 +190,7 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
                       {p.method && <span className="text-ink"> · {p.method}</span>}
                       {p.reference && <span className="text-ink"> · {p.reference}</span>}
                     </span>
-                    <button disabled={busy} onClick={() => confirm('Remove this payment?') && run(() => api.deletePayment(p.id))} className="text-xs text-accent">
+                    <button disabled={busy} onClick={() => setPending({ kind: 'payment', id: p.id, amount: p.amount_cents })} className="text-xs text-accent">
                       Remove
                     </button>
                   </li>
@@ -216,13 +222,34 @@ export default function HouseholdCard({ household: h, onChanged }: { household: 
           <div className="flex justify-end">
             <button
               disabled={busy}
-              onClick={() => confirm(`Delete "${h.name}" and all their guests and payments?`) && run(() => api.deleteHousehold(h.id))}
+              onClick={() => setPending({ kind: 'household' })}
               className="font-body text-xs text-accent"
             >
               Delete household
             </button>
           </div>
         </div>
+      )}
+
+      {pending?.kind === 'payment' && (
+        <ConfirmDialog
+          title={`Remove the ${rands(pending.amount)} payment?`}
+          body={`It will come off what ${h.name} has paid, and the balance owing will go back up.`}
+          confirmLabel="Remove payment"
+          busy={busy}
+          onConfirm={() => run(() => api.deletePayment(pending.id))}
+          onCancel={() => setPending(null)}
+        />
+      )}
+      {pending?.kind === 'household' && (
+        <ConfirmDialog
+          title={`Delete ${h.name}?`}
+          body="Their guests, RSVP and every recorded payment go with them. This cannot be undone."
+          confirmLabel="Delete household"
+          busy={busy}
+          onConfirm={() => run(() => api.deleteHousehold(h.id))}
+          onCancel={() => setPending(null)}
+        />
       )}
     </div>
   );

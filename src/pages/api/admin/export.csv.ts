@@ -17,7 +17,7 @@ export const GET: APIRoute = async () => {
   ]);
 
   const header = [
-    'Household', 'Invite code', 'Email', 'Phone', 'RSVP', 'Responded at', 'Nights', 'Children', 'Household dietary',
+    'Household', 'Email', 'Phone', 'RSVP', 'Responded at', 'Nights', 'Children', 'Household dietary',
     'Guest', 'Child', 'Attending', 'Dietary',
     'Amount due (R)', 'of which conservation fee (R)', 'Paid (R)', 'Outstanding (R)', 'Conservation fee owing (R)', 'Payment status', 'Message', 'Notes',
   ];
@@ -26,7 +26,7 @@ export const GET: APIRoute = async () => {
   for (const h of households ?? []) {
     const hg = (guests ?? []).filter((g) => g.household_id === h.id);
     const base = [
-      h.name, h.invite_code, h.email, h.phone, h.rsvp_status, h.responded_at,
+      h.name, h.email, h.phone, h.rsvp_status, h.responded_at,
       h.stay === 'friday_saturday' ? 'Fri + Sat' : h.stay === 'saturday' ? 'Sat only' : '', h.children_count, h.dietary,
     ];
     const money = [

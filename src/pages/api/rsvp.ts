@@ -71,15 +71,24 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
   if (householdId) {
     const { error: upErr } = await db.from('households').update(fields).eq('id', householdId);
-    if (upErr) return error('Could not save your RSVP', 500);
+    if (upErr) {
+      console.error('[rsvp] household update failed', upErr);
+      return error('Could not save your RSVP', 500);
+    }
   } else {
     const { data, error: insErr } = await db.from('households').insert(fields).select('id').single();
-    if (insErr || !data) return error('Could not save your RSVP', 500);
+    if (insErr || !data) {
+      console.error('[rsvp] household insert failed', insErr);
+      return error('Could not save your RSVP', 500);
+    }
     householdId = data.id;
   }
 
   const { error: delErr } = await db.from('guests').delete().eq('household_id', householdId);
-  if (delErr) return error('Could not save your guests', 500);
+  if (delErr) {
+    console.error('[rsvp] guest delete failed', delErr);
+    return error('Could not save your guests', 500);
+  }
 
   if (input.attending) {
     const { error: gErr } = await db.from('guests').insert(
@@ -90,7 +99,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         attending: true,
       })),
     );
-    if (gErr) return error('Could not save your guests', 500);
+    if (gErr) {
+      console.error('[rsvp] guest insert failed', gErr);
+      return error('Could not save your guests', 500);
+    }
   }
 
   await db.from('rsvp_submissions').insert({

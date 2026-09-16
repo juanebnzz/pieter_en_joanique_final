@@ -62,7 +62,7 @@ export default function AdminDashboard() {
         if (payFilter !== 'unpaid' && payFilter !== 'fee_owing' && h.payment_status !== payFilter) return false;
       }
       if (!q) return true;
-      const hay = [h.name, h.email, h.phone, h.invite_code, h.notes, h.dietary, ...h.guests.map((g) => g.full_name)]
+      const hay = [h.name, h.email, h.phone, h.notes, h.dietary, ...h.guests.map((g) => g.full_name)]
         .filter(Boolean)
         .join(' ')
         .toLowerCase();

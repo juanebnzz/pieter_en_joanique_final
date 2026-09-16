@@ -10,7 +10,6 @@ const createSchema = z
     name: z.string().trim().min(1).max(120),
     email: z.email().trim().max(200).optional().or(z.literal('')),
     phone: z.string().trim().max(40).optional().or(z.literal('')),
-    invite_code: z.string().trim().max(40).optional().or(z.literal('')),
     max_guests: z.number().int().min(1).max(20).default(2),
     amount_due_cents: z.number().int().min(0).default(0),
     conservation_fee_cents: z.number().int().min(0).default(0),
@@ -33,7 +32,6 @@ export const POST: APIRoute = async ({ request }) => {
       name: d.name,
       email: d.email ? d.email.toLowerCase() : null,
       phone: d.phone || null,
-      invite_code: d.invite_code ? d.invite_code.toUpperCase() : null,
       max_guests: d.max_guests,
       amount_due_cents: d.amount_due_cents,
       conservation_fee_cents: d.conservation_fee_cents,
@@ -42,6 +40,6 @@ export const POST: APIRoute = async ({ request }) => {
     .select('*')
     .single();
 
-  if (err) return error(err.code === '23505' ? 'That invite code is already in use' : 'Could not create household', 400);
+  if (err) return error('Could not create household', 400);
   return json(data, { status: 201 });
 };

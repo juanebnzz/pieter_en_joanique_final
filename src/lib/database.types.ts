@@ -70,7 +70,6 @@ export type Database = {
           created_at: string
           email: string | null
           id: string
-          invite_code: string | null
           max_guests: number
           message: string | null
           name: string
@@ -90,7 +89,6 @@ export type Database = {
           created_at?: string
           email?: string | null
           id?: string
-          invite_code?: string | null
           max_guests?: number
           message?: string | null
           name: string
@@ -110,7 +108,6 @@ export type Database = {
           created_at?: string
           email?: string | null
           id?: string
-          invite_code?: string | null
           max_guests?: number
           message?: string | null
           name?: string
@@ -262,7 +259,6 @@ export type Database = {
           email: string | null
           guest_count: number | null
           id: string | null
-          invite_code: string | null
           max_guests: number | null
           message: string | null
           name: string | null

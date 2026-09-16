@@ -18,7 +18,6 @@ create type public.payment_status as enum ('unpaid', 'partial', 'paid');
 create table public.households (
   id uuid primary key default gen_random_uuid(),
   name text not null,                                  -- "Familie Botha", "Jan & Sara"
-  invite_code text unique,                             -- optional pre-issued code printed on the invite
   email text,
   phone text,
   max_guests integer not null default 2 check (max_guests >= 1),

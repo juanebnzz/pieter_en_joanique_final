@@ -18,7 +18,6 @@ export default function AddHouseholdForm({ onDone, onCancel }: { onDone: () => v
         name: f.get('name'),
         email: f.get('email') || '',
         phone: f.get('phone') || '',
-        invite_code: f.get('invite_code') || '',
         max_guests: Number(f.get('max_guests') || 2),
         amount_due_cents: Math.round(Number(f.get('amount_due') || 0) * 100),
         conservation_fee_cents: Math.round(Number(f.get('conservation_fee') || 0) * 100),
@@ -37,7 +36,6 @@ export default function AddHouseholdForm({ onDone, onCancel }: { onDone: () => v
       <input name="name" required placeholder="Household name *" className={`${input} sm:col-span-3`} />
       <input name="email" type="email" placeholder="Email" className={input} />
       <input name="phone" placeholder="Phone" className={input} />
-      <input name="invite_code" placeholder="Invite code" className={input} />
       <input name="max_guests" type="number" min={1} defaultValue={2} placeholder="Max guests" className={input} />
       <input name="amount_due" type="number" min={0} step="0.01" placeholder="Amount due (R)" className={input} />
       <input name="conservation_fee" type="number" min={0} step="0.01" placeholder="of which conservation fee (R)" title="Part of the amount due, not on top of it" className={input} />
